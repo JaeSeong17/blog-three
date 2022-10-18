@@ -1655,7 +1655,7 @@
     "@react-spring/rafz" "~9.5.5"
     "@react-spring/types" "~9.5.5"
 
-"@react-spring/three@^9.3.1":
+"@react-spring/three@^9.3.1", "@react-spring/three@^9.5.5":
   version "9.5.5"
   resolved "https://registry.yarnpkg.com/@react-spring/three/-/three-9.5.5.tgz#c6fbee977007d1980406db20a28ac3f5dc2ce153"
   integrity sha512-9kTIaSceqFIl5EIrdwM7Z53o5I+9BGNVzbp4oZZYMao+GMAWOosnlQdDG5GeqNsIqfW9fZCEquGqagfKAxftcA==
@@ -3139,6 +3139,11 @@ camelize@^1.0.0:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/camelize/-/camelize-1.0.1.tgz#89b7e16884056331a35d6b5ad064332c91daa6c3"
   integrity sha512-dU+Tx2fsypxTgtLoE36npi3UqcjSSMNYfkqgmoEhtZrraP5VWq0K7FkWVTYa8eMPtnU/G2txVsfdCJTn9uzpuQ==
+
+camera-controls@^1.37.3:
+  version "1.37.3"
+  resolved "https://registry.yarnpkg.com/camera-controls/-/camera-controls-1.37.3.tgz#62ab6c2c378c67f15a58e1499e6197bd8a90bf4a"
+  integrity sha512-6r9SRuIVWD48G3ppHHsP2M5Tfjz1yvmq1/jpTpd9qdqExp5ecwmHY9iQrCEXU5CdBuPPeVt0QMHYi2GKPVIHkQ==
 
 caniuse-api@^3.0.0:
   version "3.0.0"
