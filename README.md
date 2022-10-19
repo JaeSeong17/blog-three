@@ -2,12 +2,18 @@
 개인 블로그를 직접 만들어 봅니다. react, three.js 활용을 목표로 합니다.
 
 ## three.js 기록
-이 문서 내용은 Pmndrs.docs를 기반으로 작성되었습니다
+이 문서 내용은 Pmndrs.docs, threejs, gsap를 기반으로 작성되었습니다
 
 https://docs.pmnd.rs/
 
 - react에서는 react-three/fiber를 사용해야함
 - react-three/fiber와 react-three/drei를 활용
+
+#### canvas
+- canvas 내의 mesh component 렌더링과 useEffect의 마운트 시점이 동기가 아니다 -> canvas 외부에서 useEffect시 canvas 내부 컴포넌트를 타겟팅한 ref가 undefined로 출력됨
+- canvas 내의 컴포넌트에서 useRef hook을 다루면 정상 작동함
+
+- canvas 내 mesh들을 group으로 묶을 수 있다
 
 #### useFrame
 - fiber hook 의 하나로 fiber render loop의 모든 프레임 상에서 코드를 실행한다
@@ -18,9 +24,8 @@ https://docs.pmnd.rs/
 
 - 각 mesh에 이벤트 핸들러를 설정할 수 있음 -> https://docs.pmnd.rs/react-three-fiber/tutorials/events-and-interaction
 
--
 
-##### react spring
+##### react spring, gsap
 - mesh의 움직임을 좀더 부드럽게 만들어보자
 
 ##### drei
