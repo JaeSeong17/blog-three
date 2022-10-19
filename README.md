@@ -27,10 +27,12 @@ https://docs.pmnd.rs/
 
 ##### react spring, gsap
 - mesh의 움직임을 좀더 부드럽게 만들어보자
+- 3d object 의 scale은 width, height, depth 방향을 개별적으로 설정할 수 있다.
+
+- react spring 은 animated component에만 적용이 가능하다 ex)animated.mesh
 
 ##### drei
 - fiber 라이브러리를 좀더 풍부하게 (셰이더, 카메라 등)
-
 
 
 
