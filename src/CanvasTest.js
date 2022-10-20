@@ -1,17 +1,24 @@
 import { useRef, useState, useEffect, forwardRef } from "react";
 import { Canvas, useFrame, useThree} from "@react-three/fiber";
-import { MeshReflectorMaterial, Environment, Lightformer, useScroll, ScrollControls } from "@react-three/drei";
+import { MeshReflectorMaterial, Environment, Lightformer, useScroll, ScrollControls, PerspectiveCamera } from "@react-three/drei";
 import styled from "styled-components";
 import * as THREE from 'three';
 import { useSpring, animated, config } from "@react-spring/three";
 import gsap from "gsap";
 import CustomEase from "gsap/CustomEase";
+import {setFocusIn, setFocusOut, setIndex} from './modules/controller';
+import { useDispatch, useSelector } from 'react-redux';
+import { isVisible } from "@testing-library/user-event/dist/utils";
+
 
 // CameraControls.install({ THREE })
 
 const Wrapper = styled.div`
   width: 100vw;
   height: 100vh;
+  ::-webkit-scrollbar{
+    display: none;
+  }
 `;
 
 const Box = forwardRef(({position, focused}, ref) => {
@@ -21,9 +28,10 @@ const Box = forwardRef(({position, focused}, ref) => {
     const [clicked, click] = useState(false)
     // Subscribe this component to the render-loop, rotate the mesh every frame
 
+    const threeColor = new THREE.Color()
     const { scale, color } = useSpring({
       scale: focused ? [1,1,1.5] : [1,1,1],
-      color: focused ? new THREE.Color('rgba(255, 0, 0, 1)') : new THREE.Color('rgba(255, 77, 77, 1)'),
+      color: focused ? threeColor.set('rgba(255, 0, 0, 1)') : threeColor.set('rgba(255, 77, 77, 1)'),
       config: config.wobbly
     });
   
@@ -44,9 +52,16 @@ function BoxContainer() {
   const data = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30]
   const boxesRef = useRef([]);
   const boxesPos = []
-  const conRef = useRef();
+  const conRef = useRef()
   const scroll = useScroll()
-  const [focused, focus] = useState(0)
+  const [clicked, click] = useState(false)
+  const camera = useThree((state) => state.camera)
+
+  //redux test
+  const dispatch = useDispatch();
+
+  const index = useSelector(state => state.controller.index)
+  const focused = useSelector(state => state.controller.focus)
 
   gsap.registerPlugin(CustomEase);
   useEffect(() => {
@@ -60,19 +75,35 @@ function BoxContainer() {
       duration: 1,
       stagger: 0.1 
     })
-  })
+  },[])
+
+  useEffect(() => {
+    gsap.to(boxesRef[index].position, {
+      z: focused ? 8: 0,
+      duration: 0.5
+    })
+    console.log(camera)
+  }, [focused])
   
-  const vec = new THREE.Vector3();
   useFrame(() => {
-    conRef.current.position.x = scroll.offset * (data.length-1) * 1.5;
-    const index = parseInt((scroll.offset < 0.0001 ? 0 : scroll.offset )* data.length)
-    focus(index)
-    // if (scroll.offset * data.length === )
+    if (!focused){
+      conRef.current.position.x = scroll.offset * (data.length-1) * 1.5;
+      dispatch(setIndex(parseInt((scroll.offset < 0.0001 ? 0 : scroll.offset )* data.length)))
+    }
+
   })
   return (
-    <group ref={conRef}>
+    <group ref={conRef} onClick={(e) => {
+        dispatch(setFocusIn())
+        e.stopPropagation()
+      }} >
       {data.map((i,idx) => (
-        <Box ref={el=>boxesRef[idx]=el} key={i} index={idx} position={[idx*-1.5, 0, -4]} focused={focused===idx}/>
+        <Box 
+          ref={el=>boxesRef[idx]=el} 
+          key={i} 
+          index={idx} 
+          position={[idx*-1.5, 0, -4]} 
+          focused={index===idx} />
       ))}
     </group>
   )
@@ -80,8 +111,9 @@ function BoxContainer() {
 
 function Plane() {
   const color = new THREE.Color('rgba(255, 255, 255, 1)');
+  const dispatch = useDispatch();
   return (
-    <mesh position={[0,0,-1]}>
+    <mesh position={[0,0,-1]} onClick={(e) => dispatch(setFocusOut())}>
       <planeGeometry args={[1000, 1000]}/>
       <MeshReflectorMaterial
         color={color}
@@ -104,9 +136,10 @@ function Plane() {
 }
 
 function CanvasTest() {
-  const [zoom, setZoom] = useState(false)
-  const [focus, setFocus] = useState({})
   const color = new THREE.Color('rgba(220, 220, 220, 1)');
+  const lightColor = new THREE.Color('rgba(200, 200, 200, 1)')
+  const focus = useSelector(state => state.controller.focus)
+
   return(
       <Wrapper>
         <Canvas shadows camera={{ 
@@ -119,19 +152,19 @@ function CanvasTest() {
             <color attach="background" args={[color]} />
             <ambientLight intensity={0.5} />
             {/* <directionalLight castShadow intensity={2} position={[10, 6, 6]} shadow-mapSize={[1024, 1024]}/> */}
-            <pointLight position={[-10, -10, -10]} color="red" intensity={3} />
+            {/* <pointLight position={[-10, -10, -10]} color={lightColor} intensity={3} /> */}
             <spotLight position={[50, 50, -30]} castShadow />
-            <directionalLight position={[0, -5, 0]} color="red" intensity={2} />
-            <ScrollControls distance={3}>
+            <directionalLight position={[0, -5, 0]} color={lightColor} intensity={2} />
+            <ScrollControls style={{display:!focus}} enabled={!focus} distance={3}>
               <BoxContainer/>
             </ScrollControls>
             <Plane />
             <Environment resolution={32}>
               <Lightformer position={[10, 10, 10]} scale={10} intensity={4} />
-              <Lightformer position={[10, 0, -10]} scale={10} color="red" intensity={6} />
+              <Lightformer position={[10, 0, -10]} scale={10} color={lightColor} intensity={6} />
               <Lightformer position={[-10, -10, -10]} scale={10} intensity={4} />
             </Environment>
-
+            
         </Canvas>
       </Wrapper>
     )

@@ -1,5 +1,6 @@
 # Blog - THREE
 개인 블로그를 직접 만들어 봅니다. react, three.js 활용을 목표로 합니다.
+상태관리 redux -> reduxjs/toolkit 시도합니다.
 
 ## three.js 기록
 이 문서 내용은 Pmndrs.docs, threejs, gsap를 기반으로 작성되었습니다
@@ -14,6 +15,7 @@ https://docs.pmnd.rs/
 - canvas 내의 컴포넌트에서 useRef hook을 다루면 정상 작동함
 
 - canvas 내 mesh들을 group으로 묶을 수 있다
+- object의 eventlistener 설정시 보는 시점에 따라 이벤트 버블링이 발생할 수 있다 (영역이 겹치면 여러개의 이벤트 발생) -> e.stopPropagation
 
 #### useFrame
 - fiber hook 의 하나로 fiber render loop의 모든 프레임 상에서 코드를 실행한다
@@ -34,6 +36,9 @@ https://docs.pmnd.rs/
 ##### drei
 - fiber 라이브러리를 좀더 풍부하게 (셰이더, 카메라 등)
 
+- scroll.offset으로 현재 스크롤 위치 값을 받을 수 있음
+- scroll.offset은 0 ~ 1 값으로 표현되며 처음과 끝 지점에서 매우 작은 수로 지수표기법(1.0e+5)으로 표현되므로 총 길이값을 곱해서 인덱스 표기시 처음과 끝에서 별도 처리 필요 
+- scroll.fixed 해당 화면을 스크롤에서 고정시킬 수는 있으나 스크롤 자체가 lock이 되는 것이 아니기 때문에 탈출시 jump 현상이 발생할 수 있다.
 
 
 #### useFrame의 효율적인 작업을 위한 코드 작성법
