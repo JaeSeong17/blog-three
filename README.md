@@ -17,6 +17,21 @@ https://docs.pmnd.rs/
 - canvas 내 mesh들을 group으로 묶을 수 있다
 - object의 eventlistener 설정시 보는 시점에 따라 이벤트 버블링이 발생할 수 있다 (영역이 겹치면 여러개의 이벤트 발생) -> e.stopPropagation
 
+##### camera movement
+- useThree로 canvas 내 props에 접근 가능 (drei 문서 hook 참조)
+- camera는 position과 projection 두 요소 존재 (위치와 방향)
+- lookAt함수로 보는 방향 설정 가능, lerp와 함께 사용하면 보는 방향을 부드럽게 전환할 수 있다.
+``` C
+const lookAtPos = new THREE.Vector3();
+useFrame((state) => {
+  lookAtPos.lerp(vec.set(x, y, z), .01)
+  state.camera.lookAt(lookAtPos)
+})
+```
+단 lookAtPos 변수를 함수 컴포넌트 내에 선언하면 리랜더링시 초기화 시켜버리기 때문에 화면 전환시마다 0,0,0에서 시작해버리는 문제 발생한다.
+
+
+
 #### useFrame
 - fiber hook 의 하나로 fiber render loop의 모든 프레임 상에서 코드를 실행한다
 - fiber hook은 반드시 <Canvas /> 내에서만 호출 할 수 있다.

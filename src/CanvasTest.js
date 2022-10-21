@@ -6,7 +6,7 @@ import * as THREE from 'three';
 import { useSpring, animated, config } from "@react-spring/three";
 import gsap from "gsap";
 import CustomEase from "gsap/CustomEase";
-import {setFocusIn, setFocusOut, setIndex} from './modules/controller';
+import { setFocusIn, setFocusOut, setIndex, setClickable } from './modules/controller';
 import { useDispatch, useSelector } from 'react-redux';
 import { isVisible } from "@testing-library/user-event/dist/utils";
 
@@ -62,6 +62,7 @@ function BoxContainer() {
 
   const index = useSelector(state => state.controller.index)
   const focused = useSelector(state => state.controller.focus)
+  const clickable = useSelector(state => state.controller.clickable)
 
   gsap.registerPlugin(CustomEase);
   useEffect(() => {
@@ -82,20 +83,28 @@ function BoxContainer() {
       z: focused ? 8: 0,
       duration: 0.5
     })
-    console.log(camera)
+    if (!focused){
+      scroll.offset = index / (data.length-1)
+    }
   }, [focused])
   
   useFrame(() => {
     if (!focused){
-      conRef.current.position.x = scroll.offset * (data.length-1) * 1.5;
+      camera.position.x = 12 - (scroll.offset * (data.length-1) * 1.5);
       dispatch(setIndex(parseInt((scroll.offset < 0.0001 ? 0 : scroll.offset )* data.length)))
+      dispatch(setClickable(scroll.delta < 0.001))
+      console.log(scroll)
     }
 
   })
   return (
-    <group ref={conRef} onClick={(e) => {
-        dispatch(setFocusIn())
-        e.stopPropagation()
+    <group 
+      ref={conRef} 
+      onClick={(e) => {
+        if (clickable){
+          dispatch(setFocusIn())
+          e.stopPropagation()
+        }
       }} >
       {data.map((i,idx) => (
         <Box 
@@ -147,7 +156,7 @@ function CanvasTest() {
               castShadow: true,
               up: [0, 0, 1]
               }}>
-            {/* <primitive object={new THREE.AxesHelper(10)} /> */}
+            <primitive object={new THREE.AxesHelper(10)} />
             <fog attach="fog" args={[color, 10, 60]} />
             <color attach="background" args={[color]} />
             <ambientLight intensity={0.5} />
@@ -155,7 +164,7 @@ function CanvasTest() {
             {/* <pointLight position={[-10, -10, -10]} color={lightColor} intensity={3} /> */}
             <spotLight position={[50, 50, -30]} castShadow />
             <directionalLight position={[0, -5, 0]} color={lightColor} intensity={2} />
-            <ScrollControls style={{display:!focus}} enabled={!focus} distance={3}>
+            <ScrollControls  enabled={!focus} distance={3}>
               <BoxContainer/>
             </ScrollControls>
             <Plane />

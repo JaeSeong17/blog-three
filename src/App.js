@@ -1,7 +1,7 @@
-import CanvasTest from "./CanvasTest";
+import MainCanvas from "./components/canvas/MainCanvas";
 
 function App() {
-  return <CanvasTest />
+  return <MainCanvas /> 
 }
 
 export default App;
