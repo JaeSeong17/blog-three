@@ -1,11 +1,10 @@
 import styled from "styled-components";
 import * as THREE from 'three';
-import { Canvas, useFrame, useThree} from "@react-three/fiber";
-import { Environment, Lightformer, OrbitControls } from "@react-three/drei";
+import { Canvas, useFrame} from "@react-three/fiber";
+import { OrbitControls } from "@react-three/drei";
 import Plane from "../common/Plane";
 import BoxContainer from "../container/BoxContainer";
-import { useSelector } from "react-redux";
-import { useEffect, useRef } from "react";
+import { useRef } from "react";
 
 
 const Wrapper = styled.div`
@@ -13,35 +12,40 @@ const Wrapper = styled.div`
     height: 100vh;
 `;
 
+function Light() {
+  const ref = useRef()
+  useFrame((_) => (ref.current.rotation.x = _.clock.elapsedTime))
+  return (
+    <group ref={ref}>
+      <rectAreaLight width={15} height={100} position={[30, 30, 20]} intensity={4} onUpdate={(self) => self.lookAt(0, 0, 0)} />
+    </group>
+  )
+}
+
 function MainCanvas() {
-    const backColor = new THREE.Color('rgba(220, 220, 220, 1)');
-    const lightColor = new THREE.Color('rgba(255, 255, 255, 1)')
-    const focus = useSelector(state => state.controller.focus)
+    const backColor = new THREE.Color('#fcfafa').convertSRGBToLinear();
+    const lightColor = new THREE.Color('rgba(240, 40, 40, 1)').convertSRGBToLinear()
     const camRef = useRef();
 
     return(
         <Wrapper>
           <Canvas camera={{ 
-                position: [10, 10, 5],
+                position: [15, 5, 20],
                 castShadow: true,
                 up: [0, 0, 1]
                 }}>
-              {/* <primitive object={new THREE.AxesHelper(10)} /> */}
-              <fog attach="fog" args={[backColor, 20, 70]} />
+              <primitive object={new THREE.AxesHelper(10)} />
+              <fog attach="fog" args={[backColor, 20, 60]} />
               <color attach="background" args={[backColor]} />
               <ambientLight intensity={0.25} />
               <directionalLight castShadow intensity={0.2} position={[10, 6, 6]} shadow-mapSize={[1024, 1024]}/>
-              <pointLight position={[10, 10, 10]} color={lightColor} intensity={1} castShadow/>
-              {/* <spotLight position={[10, 0, 5]} angle={0.5} penumbra={0.4} intensity={1.5} /> */}
-              {/* <directionalLight position={[0, -5, 0]} color={lightColor} intensity={2} /> */}
+              <pointLight position={[10, 10, 10]} color={lightColor} intensity={0.7} castShadow/>
+              <pointLight position={[-10, -10, 10]} color={lightColor} intensity={0.3} castShadow/>
+              {/* <spotLight position={[15, 0, 20]} angle={0.4} penumbra={0.6} intensity={1} /> */}
 
               <BoxContainer/>
               <Plane />
-              {/* <Environment resolution={32}>
-                <Lightformer position={[10, 10, 10]} scale={10} intensity={4} />
-                <Lightformer position={[10, 0, -10]} scale={10} color={lightColor} intensity={6} />
-                <Lightformer position={[10, 10, 10]} scale={10} intensity={4} />
-              </Environment> */}
+              <Light />
               {/* <OrbitControls ref={camRef}/> */}
           </Canvas>
         </Wrapper>

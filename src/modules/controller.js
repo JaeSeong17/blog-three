@@ -5,8 +5,8 @@ const controller = createSlice({
     initialState: {
         cameraAngle: [12,12,12],
         focus: false,
-        index: 0,
-        clickable: true
+        index: -1,
+        clickable: false
     },
     reducers: {
         setCameraAngle(state, action) {
@@ -22,7 +22,7 @@ const controller = createSlice({
             state.index = action.payload
         },
         setClickable(state, action) {
-            state.clickable = action.payload
+            state.clickable = true
         }
     }
 })

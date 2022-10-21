@@ -10,6 +10,13 @@ https://docs.pmnd.rs/
 - react에서는 react-three/fiber를 사용해야함
 - react-three/fiber와 react-three/drei를 활용
 
+#### react
+- useRef와 forwardRef를 동시에 사용하고 싶을 때에는 useImperativeHandle를 사용하자
+``` C
+const innerRef = useRef();
+useImperativeHandle(fowardRef, () => innerRef.current);
+```
+
 #### canvas
 - canvas 내의 mesh component 렌더링과 useEffect의 마운트 시점이 동기가 아니다 -> canvas 외부에서 useEffect시 canvas 내부 컴포넌트를 타겟팅한 ref가 undefined로 출력됨
 - canvas 내의 컴포넌트에서 useRef hook을 다루면 정상 작동함
@@ -30,8 +37,6 @@ useFrame((state) => {
 ```
 단 lookAtPos 변수를 함수 컴포넌트 내에 선언하면 리랜더링시 초기화 시켜버리기 때문에 화면 전환시마다 0,0,0에서 시작해버리는 문제 발생한다.
 
-
-
 #### useFrame
 - fiber hook 의 하나로 fiber render loop의 모든 프레임 상에서 코드를 실행한다
 - fiber hook은 반드시 <Canvas /> 내에서만 호출 할 수 있다.
@@ -42,11 +47,15 @@ useFrame((state) => {
 - 각 mesh에 이벤트 핸들러를 설정할 수 있음 -> https://docs.pmnd.rs/react-three-fiber/tutorials/events-and-interaction
 
 
-##### react spring, gsap
+##### react spring
 - mesh의 움직임을 좀더 부드럽게 만들어보자
 - 3d object 의 scale은 width, height, depth 방향을 개별적으로 설정할 수 있다.
-
 - react spring 은 animated component에만 적용이 가능하다 ex)animated.mesh
+
+##### gsap
+- timeline api로 동기/비동기 처리 가능 (promise)
+- addEventListener 방식이 제대로 동작하지 않는 문제 - useRef 할당 시점(렌더링 이후인듯 처음에 undefined로 출력됨)
+- mesh에 연결하고 싶을 떄 그냥 mesh 자체의 event linstner에 할당 하자 - https://docs.pmnd.rs/react-three-fiber/tutorials/events-and-interaction
 
 ##### drei
 - fiber 라이브러리를 좀더 풍부하게 (셰이더, 카메라 등)
