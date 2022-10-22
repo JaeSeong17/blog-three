@@ -3,8 +3,9 @@ import * as THREE from 'three';
 import { Canvas, useFrame} from "@react-three/fiber";
 import { OrbitControls } from "@react-three/drei";
 import Plane from "../common/Plane";
-import BoxContainer from "../container/BoxContainer";
-import { useRef } from "react";
+import { useEffect, useRef } from "react";
+
+import MainScene from "../Scene/MainScene";
 
 
 const Wrapper = styled.div`
@@ -25,7 +26,10 @@ function Light() {
 function MainCanvas() {
     const backColor = new THREE.Color('#fcfafa').convertSRGBToLinear();
     const lightColor = new THREE.Color('rgba(240, 40, 40, 1)').convertSRGBToLinear()
-    const camRef = useRef();
+    const data = [...require("../../static/data.json")]
+    const brdRef = useRef(null)
+    const scrRef = useRef(null)
+
 
     return(
         <Wrapper>
@@ -34,7 +38,7 @@ function MainCanvas() {
                 castShadow: true,
                 up: [0, 0, 1]
                 }}>
-              <primitive object={new THREE.AxesHelper(10)} />
+              {/* <primitive object={new THREE.AxesHelper(10)} /> */}
               <fog attach="fog" args={[backColor, 20, 60]} />
               <color attach="background" args={[backColor]} />
               <ambientLight intensity={0.25} />
@@ -42,10 +46,9 @@ function MainCanvas() {
               <pointLight position={[10, 10, 10]} color={lightColor} intensity={0.7} castShadow/>
               <pointLight position={[-10, -10, 10]} color={lightColor} intensity={0.3} castShadow/>
               {/* <spotLight position={[15, 0, 20]} angle={0.4} penumbra={0.6} intensity={1} /> */}
-
-              <BoxContainer/>
+              <MainScene />
               <Plane />
-              <Light />
+              {/* <Light /> */}
               {/* <OrbitControls ref={camRef}/> */}
           </Canvas>
         </Wrapper>

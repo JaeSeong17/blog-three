@@ -2,19 +2,11 @@ import * as THREE from 'three';
 import { useSpring, config, animated } from '@react-spring/three';
 import { forwardRef, useRef, useImperativeHandle, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { setFocusIn, setFocusOut, setIndex } from '../../modules/controller';
+import { setFocusIn, setFocusOut, setIndex, setCamAngle, setCamPos } from '../../modules/controller';
 import { useGLTF } from '@react-three/drei';
 import gsap from 'gsap';
 
-const material = new THREE.MeshPhysicalMaterial({
-  roughness: 0,
-  metalness: 0.8,
-  emissive: new THREE.Color('#ff0000').convertSRGBToLinear(),
-  clearcoat: 1,
-  clearcoatRoughness: 0,
-})
-
-const Box = forwardRef(({position, index}, ref) => {
+const Keycap = forwardRef(({position, index}, ref) => {
     const dispatch = useDispatch();
     const focused = useSelector(state => state.controller.focus)
     const current = useSelector(state => state.controller.index)
@@ -34,21 +26,30 @@ const Box = forwardRef(({position, index}, ref) => {
       <animated.mesh receiveShadow castShadow
         ref={innerRef}
         position={position}
-        material={material}
         scale={1.2}
         onClick={(e) => {
+          e.stopPropagation()
           if (index === current){
-            focused ? dispatch(setFocusOut()) : dispatch(setFocusIn())
+            if(focused){
+              dispatch(setFocusOut())
+              dispatch(setCamAngle({x:0, y: 3, z:0}))
+              dispatch(setCamPos({x:15, y: 5, z:20}))
+            }else {
+              dispatch(setFocusIn())
+              dispatch(setCamAngle({x:0, y: 12, z:5}))
+              dispatch(setCamPos({x:10, y: 12, z:4}))
+            }
           } else {
             dispatch(setFocusIn())
             dispatch(setIndex(index))
+            dispatch(setCamAngle({x:0, y: 12, z:5}))
+            dispatch(setCamPos({x:10, y: 12, z:4}))
           }
           clickAnime.to(innerRef.current.position, {
             z: 0.5,
             repeat: 1,
             yoyo: true,
-            duration: 0.1,
-            
+            duration: 0.05
           })
         }}
         rotation={[Math.PI/2,0,0]}
@@ -66,4 +67,4 @@ const Box = forwardRef(({position, index}, ref) => {
     )
 })
 
-export default Box;
+export default Keycap;

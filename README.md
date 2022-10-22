@@ -24,6 +24,9 @@ useImperativeHandle(fowardRef, () => innerRef.current);
 - canvas 내 mesh들을 group으로 묶을 수 있다
 - object의 eventlistener 설정시 보는 시점에 따라 이벤트 버블링이 발생할 수 있다 (영역이 겹치면 여러개의 이벤트 발생) -> e.stopPropagation
 
+- canavs내에서 Html element를 사용할 수 있음 : <Html>
+- <참고!> canvas내에서 redux store에 접근시 오류 발생 (아마도 캔버스 내의 html은 dom tree 상 canvas 하위 계층에 렌더링 되는것 같지 않아 보임, 확실한 이유는 조사 필요) 
+
 ##### camera movement
 - useThree로 canvas 내 props에 접근 가능 (drei 문서 hook 참조)
 - camera는 position과 projection 두 요소 존재 (위치와 방향)
@@ -56,6 +59,7 @@ useFrame((state) => {
 - timeline api로 동기/비동기 처리 가능 (promise)
 - addEventListener 방식이 제대로 동작하지 않는 문제 - useRef 할당 시점(렌더링 이후인듯 처음에 undefined로 출력됨)
 - mesh에 연결하고 싶을 떄 그냥 mesh 자체의 event linstner에 할당 하자 - https://docs.pmnd.rs/react-three-fiber/tutorials/events-and-interaction
+- 이벤트 연속 발생시 이전 이벤트와 겹치는 현상 발생 -> immediateRender props으로 즉시 완료 후 새 이벤트 실행
 
 ##### drei
 - fiber 라이브러리를 좀더 풍부하게 (셰이더, 카메라 등)

@@ -1,11 +1,21 @@
 import { MeshReflectorMaterial } from "@react-three/drei";
+import { useDispatch } from "react-redux";
 import * as THREE from 'three';
-
+import {setFocusOut, setCamAngle, setCamPos} from '../../modules/controller'
 
 function Plane() {
     const color = new THREE.Color('rgba(240, 240, 240, 1)').convertSRGBToLinear()
+    const dispatch = useDispatch()
     return (
-      <mesh position={[0,0,0]} receiveShadow>
+      <mesh 
+        position={[0,0,0]} 
+        receiveShadow
+        onClick={(e)=>{
+          e.stopPropagation()
+          dispatch(setFocusOut())
+          dispatch(setCamAngle({x:0, y: 3, z:0}))
+          dispatch(setCamPos({x:15, y: 5, z:20}))
+        }}>
         <planeGeometry args={[1000, 1000]}/>
         <MeshReflectorMaterial
           metalness={0.9}
