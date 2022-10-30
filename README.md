@@ -41,6 +41,8 @@ useFrame((state) => {
 단 lookAtPos 변수를 함수 컴포넌트 내에 선언하면 리랜더링시 초기화 시켜버리기 때문에 화면 전환시마다 0,0,0에서 시작해버리는 문제 발생한다.
 
 #### useFrame
+- 2022.10.30 useFrame 사용시 해당 탭 이외 탭에서 성능 저하 발생, 여러탭 동시 사용시 사용성 저하 발생을 고려해야 한다. (크롬 브라우저, useFrame 사용과 유튜브 동시 재생시 유튜브 멈춤 현상 발생)
+
 - fiber hook 의 하나로 fiber render loop의 모든 프레임 상에서 코드를 실행한다
 - fiber hook은 반드시 <Canvas /> 내에서만 호출 할 수 있다.
 
@@ -48,7 +50,6 @@ useFrame((state) => {
 - useRef로 mesh에 접근하여 값을 직접 바꿔주는게 효율적
 
 - 각 mesh에 이벤트 핸들러를 설정할 수 있음 -> https://docs.pmnd.rs/react-three-fiber/tutorials/events-and-interaction
-
 
 ##### react spring
 - mesh의 움직임을 좀더 부드럽게 만들어보자
