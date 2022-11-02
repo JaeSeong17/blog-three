@@ -14,16 +14,15 @@ const HtmlWrapper = styled.div`
 `
 
 const Screen = forwardRef(({data}, ref) => {
-    const index = 2
-    const focus = useSelector(state => state.controller.focus)
+    const screenOn = useSelector(state => state.controller.screen);
     const editorRef = useRef(null);
     
     useEffect(() => {
         gsap.to(editorRef.current, {
-            autoAlpha: focus ? 1 : 0,
-            duration: 1,
+            autoAlpha: screenOn ? 1 : 0,
+            duration: 1
         })
-    }, [focus])
+    }, [screenOn])
 
     return (
         <group position={[0, 40, 12]}>
@@ -36,7 +35,6 @@ const Screen = forwardRef(({data}, ref) => {
                     distanceFactor={10}
                     rotation-x={Math.PI/2}
                     position={[0, -0.51, 0]}
-                    
                     >
                     <HtmlWrapper ref={editorRef}>
                         <Editor/>

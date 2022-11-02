@@ -1,9 +1,12 @@
 import { Text } from "@react-three/drei";
 import { useEffect, useRef } from "react";
 import gsap from "gsap";
+import { useDispatch } from "react-redux";
+import {setCamAngle, setCamPos, setConnectOn} from "../../modules/controller";
 
 const BoardPanel = ({position, data}) => {
     const ref = useRef();
+    const dispatch = useDispatch();
     const anime = gsap.timeline()
     function clickEventTrigger() {
         anime.to(ref.current.position, {
@@ -20,6 +23,7 @@ const BoardPanel = ({position, data}) => {
             onClick={(e) => {
                 e.stopPropagation()
                 clickEventTrigger()
+                dispatch(setConnectOn())
             }}>
             <mesh>
                 <boxGeometry args={[0.2, 4, 1.5]}/>

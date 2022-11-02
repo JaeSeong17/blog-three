@@ -36,14 +36,14 @@ const Keycap = forwardRef(({position, index}, ref) => {
               dispatch(setCamPos({x:15, y: 5, z:20}))
             }else {
               dispatch(setFocusIn())
-              dispatch(setCamAngle({x:0, y: 12, z:5}))
-              dispatch(setCamPos({x:10, y: 12, z:4}))
+              dispatch(setCamAngle({x:0, y: 16, z:5}))
+              dispatch(setCamPos({x:10, y: 12, z:5}))
             }
           } else {
             dispatch(setFocusIn())
             dispatch(setIndex(index))
-            dispatch(setCamAngle({x:0, y: 12, z:5}))
-            dispatch(setCamPos({x:10, y: 12, z:4}))
+            dispatch(setCamAngle({x:0, y: 16, z:5}))
+            dispatch(setCamPos({x:10, y: 12, z:5}))
           }
           clickAnime.to(innerRef.current.position, {
             z: 0.5,

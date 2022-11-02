@@ -3,9 +3,11 @@ import { createSlice } from '@reduxjs/toolkit'
 const controller = createSlice({
     name: 'controller',
     initialState: {
-        camAngle: {x:0, y:3, z:0},
-        camPos: {x:15, y:5, z:20},
+        camAngle: {x:0, y:0, z:2},
+        camPos: {x:0, y:-30, z:3},
         focus: false,
+        screen: false,
+        connect: false,
         index: -1,
         clickable: false
     },
@@ -28,6 +30,18 @@ const controller = createSlice({
         setFocusOut(state, action) {
             state.focus = false
         },
+        setScreenOn(state, action) {
+            state.screen = true
+        },
+        setScreenOff(state, action) {
+            state.screen = false
+        },
+        setConnectOn(state, action) {
+            state.connect = true
+        },
+        setConnectOff(state, action) {
+            state.connect = false
+        },
         setIndex(state, action) {
             state.index = action.payload
         },
@@ -42,6 +56,10 @@ export const {
     setCamPos,
     setFocusIn,
     setFocusOut, 
+    setScreenOn,
+    setScreenOff,
+    setConnectOn,
+    setConnectOff,
     setIndex,
     setClickable
 } = controller.actions

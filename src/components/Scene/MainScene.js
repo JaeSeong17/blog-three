@@ -1,6 +1,8 @@
 import KeyContainer from "../container/KeyContainer";
 import Board from "../common/Board";
 import Screen from "../common/Screen";
+import ConnectBoxes from "../common/ConnectBoxes";
+import DataTower from "../common/DataTower";
 import { useEffect, useRef } from "react";
 import { useFrame, useThree } from "@react-three/fiber";
 import gsap from "gsap";
@@ -16,20 +18,19 @@ const MainScene = () => {
     const scrRef = useRef(null)
     const camAngle = useSelector(state => state.controller.camAngle)
     const camPos = useSelector(state => state.controller.camPos)
-    const focus = useSelector(state => state.controller.focus)
-    const index = useSelector(state => state.controller.index)
-    const dispatch = useDispatch()
 
     useFrame((state) => {
-        state.camera.position.lerp(vec.set(camPos.x, camPos.y, camPos.z), .05)
-        lookAtPos.lerp(vec.set(camAngle.x, camAngle.y, camAngle.z), .05)
+        state.camera.position.lerp(vec.set(camPos.x, camPos.y, camPos.z), .04)
+        lookAtPos.lerp(vec.set(camAngle.x, camAngle.y, camAngle.z), .04)
         state.camera.lookAt(lookAtPos)
     })
 
     return (
         <scene>
-            <KeyContainer data={data}/>
+            <DataTower />
+            <KeyContainer/>
             <Board ref={brdRef} data={data}/>
+            <ConnectBoxes/>
             <Screen ref={scrRef} data={data}/>
         </scene>
     )

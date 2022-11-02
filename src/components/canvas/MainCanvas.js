@@ -34,7 +34,7 @@ function MainCanvas() {
     return(
         <Wrapper>
           <Canvas camera={{ 
-                position: [15, 5, 20],
+                position: [0, -33, 3],
                 castShadow: true,
                 up: [0, 0, 1]
                 }}>
@@ -49,7 +49,7 @@ function MainCanvas() {
               <MainScene />
               <Plane />
               {/* <Light /> */}
-              {/* <OrbitControls ref={camRef}/> */}
+              {/* <OrbitControls /> */}
           </Canvas>
         </Wrapper>
       )

@@ -1,15 +1,23 @@
-import { forwardRef } from "react";
+import { forwardRef, useEffect, useRef, useImperativeHandle } from "react";
+import { useSelector } from "react-redux";
 import { boxGeometry, meshStandardMaterial } from "three";
 import BoardPanel from "./BoardPanel";
+import gsap from "gsap";
 
 const Board = forwardRef(({data}, ref) => {
-    const boardPos = {
-        x: 0,
-        y: 10,
-        z: 5
-    }
+    const focus = useSelector(state => state.controller.focus);
+    const innerRef = useRef();
+    useImperativeHandle(ref, () => innerRef.current);
+
+    useEffect(() => {
+        gsap.to(innerRef.current.position, {
+            z: focus ? 5 : -5,
+            duration: 1
+        });
+    }, [focus])
+
     return (
-        <group ref={ref} position={[boardPos.x, boardPos.y, boardPos.z]}>
+        <group ref={innerRef} position={[0, 10, -5]}>
             <mesh>
                 <boxGeometry args={[1, 5, 11]}/>
                 <meshStandardMaterial />
