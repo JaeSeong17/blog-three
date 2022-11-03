@@ -5,16 +5,16 @@ import BoardPanel from "./BoardPanel";
 import gsap from "gsap";
 
 const Board = forwardRef(({data}, ref) => {
-    const focus = useSelector(state => state.controller.focus);
+    const target = useSelector(state => state.controller.target);
     const innerRef = useRef();
     useImperativeHandle(ref, () => innerRef.current);
 
     useEffect(() => {
         gsap.to(innerRef.current.position, {
-            z: focus ? 5 : -5,
+            z: ['board', 'connect', 'screen'].includes(target) ? 5 : -6,
             duration: 1
         });
-    }, [focus])
+    }, [target])
 
     return (
         <group ref={innerRef} position={[0, 10, -5]}>

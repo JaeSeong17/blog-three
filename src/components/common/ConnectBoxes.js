@@ -1,19 +1,17 @@
 import { useRef, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import gsap from "gsap";
-import { setCamAngle, setCamPos, setScreenOn } from "../../modules/controller";
+import { setCamAngle, setCamPos, setScreenOn, setTarget } from "../../modules/controller";
 
 const ConnectBoxes = () => {
     const boxesRef = useRef([]);
     const boxesPos = [];
-    const connectOn = useSelector(state => state.controller.connect);
+    const target = useSelector(state => state.controller.target);
     const dispatch = useDispatch();
 
     const setCamera = () => {
-        if(connectOn){
-            dispatch(setCamAngle({x:0, y: 30, z:12}))
-            dispatch(setCamPos({x:0, y: 25, z:12}))
-            dispatch(setScreenOn())
+        if(target==='connect'){
+            dispatch(setTarget('screen'))
         }
     }
 
@@ -24,11 +22,11 @@ const ConnectBoxes = () => {
         gsap.timeline()
         .to(boxesPos, {
             stagger: 0.03,
-            z: connectOn ? 0.5 : -3,
+            z: target === 'connect' || target === 'screen' ? 0 : -1.5,
             onComplete: setCamera
         })
 
-    }, [connectOn])
+    }, [target])
 
     return (
         <group position={[0, 13, 0]}>
@@ -37,7 +35,7 @@ const ConnectBoxes = () => {
                     key={index}
                     ref={el => boxesRef.current[index] = el}
                     position={[0, index, -3]}>
-                    <boxGeometry args={[0.5, 1, 3]}/>
+                    <boxGeometry args={[0.5, 1, 1]}/>
                     <meshStandardMaterial />
                 </mesh>
             ))}

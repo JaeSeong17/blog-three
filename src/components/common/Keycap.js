@@ -2,13 +2,14 @@ import * as THREE from 'three';
 import { useSpring, config, animated } from '@react-spring/three';
 import { forwardRef, useRef, useImperativeHandle, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { setFocusIn, setFocusOut, setIndex, setCamAngle, setCamPos } from '../../modules/controller';
+import { setFocusIn, setFocusOut, setIndex, setCamAngle, setCamPos, setTarget } from '../../modules/controller';
 import { useGLTF } from '@react-three/drei';
 import gsap from 'gsap';
 
 const Keycap = forwardRef(({position, index}, ref) => {
     const dispatch = useDispatch();
     const focused = useSelector(state => state.controller.focus)
+    const target = useSelector(state => state.controller.target)
     const current = useSelector(state => state.controller.index)
     const { nodes } = useGLTF('/keycap.glb')
     const innerRef = useRef();
@@ -17,7 +18,7 @@ const Keycap = forwardRef(({position, index}, ref) => {
     const threeColor = new THREE.Color()
     const { scale, color } = useSpring({
       scale: focused && index === current ? 1.1 : 1.5,
-      color: focused && index === current ? threeColor.set('rgba(255, 77, 77, 1)').convertSRGBToLinear() : threeColor.set('rgba(255, 255, 255, 1)').convertSRGBToLinear(),
+      color: target === 'board' && index === current ? threeColor.set('rgba(255, 77, 77, 1)').convertSRGBToLinear() : threeColor.set('rgba(255, 255, 255, 1)').convertSRGBToLinear(),
       config: config.wobbly
     });
 
@@ -31,19 +32,13 @@ const Keycap = forwardRef(({position, index}, ref) => {
           e.stopPropagation()
           if (index === current){
             if(focused){
-              dispatch(setFocusOut())
-              dispatch(setCamAngle({x:0, y: 3, z:0}))
-              dispatch(setCamPos({x:15, y: 5, z:20}))
+              dispatch(setTarget('key'))
             }else {
-              dispatch(setFocusIn())
-              dispatch(setCamAngle({x:0, y: 16, z:5}))
-              dispatch(setCamPos({x:10, y: 12, z:5}))
+              dispatch(setTarget('board'))
             }
           } else {
-            dispatch(setFocusIn())
             dispatch(setIndex(index))
-            dispatch(setCamAngle({x:0, y: 16, z:5}))
-            dispatch(setCamPos({x:10, y: 12, z:5}))
+            dispatch(setTarget('board'))
           }
           clickAnime.to(innerRef.current.position, {
             z: 0.5,

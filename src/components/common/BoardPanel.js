@@ -2,7 +2,7 @@ import { Text } from "@react-three/drei";
 import { useEffect, useRef } from "react";
 import gsap from "gsap";
 import { useDispatch } from "react-redux";
-import {setCamAngle, setCamPos, setConnectOn} from "../../modules/controller";
+import {setCamAngle, setCamPos, setConnectOn, setTarget} from "../../modules/controller";
 
 const BoardPanel = ({position, data}) => {
     const ref = useRef();
@@ -23,7 +23,7 @@ const BoardPanel = ({position, data}) => {
             onClick={(e) => {
                 e.stopPropagation()
                 clickEventTrigger()
-                dispatch(setConnectOn())
+                dispatch(setTarget('connect'))
             }}>
             <mesh>
                 <boxGeometry args={[0.2, 4, 1.5]}/>

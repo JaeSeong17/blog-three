@@ -1,11 +1,12 @@
 import styled from "styled-components";
 import * as THREE from 'three';
-import { Canvas, useFrame} from "@react-three/fiber";
-import { OrbitControls } from "@react-three/drei";
+import { Canvas, useFrame } from "@react-three/fiber";
+import { OrbitControls, Html, useProgress, Loader } from "@react-three/drei";
 import Plane from "../common/Plane";
 import { useEffect, useRef } from "react";
 
 import MainScene from "../Scene/MainScene";
+import { Suspense } from "react";
 
 
 const Wrapper = styled.div`
@@ -13,15 +14,14 @@ const Wrapper = styled.div`
     height: 100vh;
 `;
 
-function Light() {
-  const ref = useRef()
-  useFrame((_) => (ref.current.rotation.x = _.clock.elapsedTime))
-  return (
-    <group ref={ref}>
-      <rectAreaLight width={15} height={100} position={[30, 30, 20]} intensity={4} onUpdate={(self) => self.lookAt(0, 0, 0)} />
-    </group>
-  )
-}
+// function Loader() {
+//   const { active, progress, errors, item, loaded, total } = useProgress()
+//   return <Html center>
+//     <div>
+//       {progress} % loaded
+//     </div>
+//     </Html>
+// }
 
 function MainCanvas() {
     const backColor = new THREE.Color('#fcfafa').convertSRGBToLinear();
@@ -46,11 +46,13 @@ function MainCanvas() {
               <pointLight position={[10, 10, 10]} color={lightColor} intensity={0.7} castShadow/>
               <pointLight position={[-10, -10, 10]} color={lightColor} intensity={0.3} castShadow/>
               {/* <spotLight position={[15, 0, 20]} angle={0.4} penumbra={0.6} intensity={1} /> */}
-              <MainScene />
+              <Suspense fallback={null}>
+                <MainScene />
+              </Suspense>
               <Plane />
-              {/* <Light /> */}
               {/* <OrbitControls /> */}
           </Canvas>
+          <Loader />
         </Wrapper>
       )
   }
