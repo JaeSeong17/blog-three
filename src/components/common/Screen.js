@@ -18,7 +18,7 @@ const Screen = forwardRef(({data}, ref) => {
     const editorRef = useRef(null);
     
     useEffect(() => {
-        gsap.to(editorRef.current, {
+        gsap.to(editorRef.current,{
             autoAlpha: target === 'screen' ? 1 : 0,
             duration: 1
         })
@@ -26,7 +26,7 @@ const Screen = forwardRef(({data}, ref) => {
 
     return (
         <group position={[0, 40, 12]}>
-            <mesh >
+            <mesh>
                 <boxGeometry args={[21, 1, 20]}/>
                 <meshStandardMaterial/>
                 <Html

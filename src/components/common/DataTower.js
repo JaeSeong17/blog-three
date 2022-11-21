@@ -31,7 +31,7 @@ const DataTower = () => {
                 <mesh
                     key={index}
                     ref={el => ref.current[index] = el}
-                    position={[-4, -20-index*0.2, -4]}>
+                    position={[-4, -index*0.2, -4]}>
                     <boxGeometry args={[4, 0.2, 4]} />
                     <meshStandardMaterial />
                 </mesh>

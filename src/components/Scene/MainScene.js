@@ -10,6 +10,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { setAngle } from "../../modules/controller";
 import * as THREE from 'three'
 import StartText3d from "../common/StartText3d";
+import FrontContainer from "../container/FrontContainer";
 
 const vec = new THREE.Vector3()
 const lookAtPos = new THREE.Vector3()
@@ -20,16 +21,15 @@ const MainScene = () => {
     const camAngle = useSelector(state => state.controller.camAngle)
     const camPos = useSelector(state => state.controller.camPos)
 
-    useFrame((state) => {
-        state.camera.position.lerp(vec.set(camPos.x, camPos.y, camPos.z), .01)
-        lookAtPos.lerp(vec.set(camAngle.x, camAngle.y, camAngle.z), .01)
-        state.camera.lookAt(lookAtPos)
-    })
+    // useFrame((state) => {
+    //     state.camera.position.lerp(vec.set(camPos.x, camPos.y, camPos.z), .01)
+    //     lookAtPos.lerp(vec.set(camAngle.x, camAngle.y, camAngle.z), .01)
+    //     state.camera.lookAt(lookAtPos)
+    // })
 
     return (
         <scene>
-            <DataTower />
-            <StartText3d />
+            <FrontContainer />
             <KeyContainer/>
             <Board ref={brdRef} data={data}/>
             <ConnectBoxes/>

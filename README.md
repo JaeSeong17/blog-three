@@ -25,7 +25,7 @@ useImperativeHandle(fowardRef, () => innerRef.current);
 - object의 eventlistener 설정시 보는 시점에 따라 이벤트 버블링이 발생할 수 있다 (영역이 겹치면 여러개의 이벤트 발생) -> e.stopPropagation
 
 - canavs내에서 Html element를 사용할 수 있음 : <Html>
-- <참고!> canvas내에서 redux store에 접근시 오류 발생 (아마도 캔버스 내의 html은 dom tree 상 canvas 하위 계층에 렌더링 되는것 같지 않아 보임, 확실한 이유는 조사 필요) 
+- <참고!> canvas내에서 redux store에 접근시 오류 발생 (캔버스 내의 html은 dom tree 상 canvas 하위 계층에 렌더링 되는것 같지 않거나 상위 tree의 리덕스 스토어를 상속받지 못함, 확실한 이유는 조사 필요) 
 
 ##### camera movement
 - useThree로 canvas 내 props에 접근 가능 (drei 문서 hook 참조)
