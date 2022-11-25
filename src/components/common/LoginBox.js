@@ -1,17 +1,18 @@
 import { Html } from "@react-three/drei";
-import { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector, Provider } from "react-redux";
 import styled from "styled-components";
-import { changeField, initializeForm } from "../../modules/auth";
+import authReducer, { changeField, initializeForm, login, authSaga } from '../../modules/auth';
+import userReducer, { check, userSaga } from '../../modules/user';
 import { configureStore } from '@reduxjs/toolkit';
-import authReducer from '../../modules/auth';
 import loadingReducer from '../../modules/loading';
-import { Provider } from 'react-redux';
+import createSagaMiddleware from 'redux-saga';
+import { all } from 'redux-saga/effects';
 
 const Wrapper = styled.div`
     background-color: white;
     width: 340px;
-    height: 240px;
+    height: 290px;
     padding: 1rem;
     /* opacity: 0; */
 `;
@@ -42,6 +43,12 @@ const Button = styled.button`
     background: gray;
     cursor: pointer;
 `;
+const ErrorMessage = styled.div`
+    color: red;
+    text-align: center;
+    font-size: 0.875;
+    margin-top: 1rem;
+`;
 const Footer = styled.div`
     text-align: right;
     color: gray;
@@ -50,17 +57,32 @@ const Footer = styled.div`
     }
 `;
 
-const store = configureStore({
+
+export function* rootSaga() {
+    yield all([authSaga(), userSaga()]);
+}
+const sagaMiddleware = createSagaMiddleware();
+const authStore = configureStore({
     reducer: {
       auth: authReducer,
       loading: loadingReducer,
+      user: userReducer
     },
-    devTools: true
+    devTools: true,
+    middleware: [sagaMiddleware]
 })
+sagaMiddleware.run(rootSaga);
 
 const LoginForm = () => {
     const dispatch = useDispatch();
-    const { username, password } = useSelector(state => state.auth)
+    const { username, password, auth, authError, user } = useSelector(({ auth, user }) => ({
+        username: auth.username,
+        password: auth.password,
+        auth: auth.auth,
+        authError: auth.authError,
+        user: user.user
+    }));
+    const [error, setError] = useState(null);
 
     // 인풋 변경 이벤트 핸들러
     const onChange = e => {
@@ -76,13 +98,34 @@ const LoginForm = () => {
     // 폼 등록 이벤트 핸들러
     const onSubmit = e => {
         e.preventDefault();
+        dispatch(login({ username, password }));
         // 구현 예정
-    }
+    };
 
     // 컴포넌트 처음 렌더링 시 form 초기화
     useEffect(() => {
         dispatch(initializeForm())
-    },[dispatch])
+    }, [dispatch])
+
+    useEffect(() => {
+        if (authError) {
+            console.log('오류 발생');
+            console.log(authError);
+            setError('로그인 실패');
+            return;
+        }
+        if (auth) {
+            console.log('로그인 성공');
+            dispatch(check());
+        }
+    }, [auth, authError, dispatch])
+
+    useEffect(() => {
+        console.log('로그인 상태 확인');
+        if(user) {
+            console.log('로그인 상태 확인 성공');
+        }
+    }, [user]);
 
     return (
         <Wrapper>
@@ -101,11 +144,12 @@ const LoginForm = () => {
                     type="password"
                     onChange={onChange}
                     value={password}/>
+                {error && <ErrorMessage>{error}</ErrorMessage>}
                 <Button>확인</Button>
-                <Footer>
-                    <a>게스트이신가요?</a>
-                </Footer>
             </form>
+            <Footer>
+                <p>게스트이신가요?</p>
+            </Footer>
         </Wrapper>
     )
 }
@@ -115,7 +159,7 @@ const LoginBox = () => {
         <group position={[3, -3, 3]}>
             <mesh 
                 rotation={[-Math.PI/20,0,-Math.PI/20]}>
-                <boxGeometry args={[5, 0.2, 4]}/>
+                <boxGeometry args={[5, 0.2, 4.5]}/>
                 <meshStandardMaterial/>
                 <Html
                     transform
@@ -123,7 +167,7 @@ const LoginBox = () => {
                     distanceFactor={5}
                     rotation-x={Math.PI/2}
                     position={[0, -0.11, 0]}>
-                    <Provider store={store}>
+                    <Provider store={authStore}>
                         <LoginForm />
                     </Provider>
                 </Html>
