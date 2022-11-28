@@ -12,7 +12,7 @@ function Plane() {
         receiveShadow
         onClick={(e)=>{
           e.stopPropagation()
-          dispatch(setTarget('key'))
+          // dispatch(setTarget('key'))
         }}>
         <planeGeometry args={[1000, 1000]}/>
         <MeshReflectorMaterial

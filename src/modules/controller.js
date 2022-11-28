@@ -5,6 +5,14 @@ const camSetting = {
         angle: {x:0, y:0, z:2},
         pos: {x:0, y:-30, z:3}
     },
+    'login': {
+        angle: {x:0, y:0, z:2},
+        pos: {x:0, y:-30, z:3}
+    },
+    'loading': {
+        angle: {x:0, y:0, z:2},
+        pos: {x:0, y:-30, z:3}
+    },
     'key': {
         angle: {x:0, y: 3, z:0},
         pos: {x:15, y: 5, z:20}

@@ -48,13 +48,13 @@ function KeyContainer() {
       }
       gsap.timeline()
       .to(boxesPos, {
-        z: target !== 'start' ? 1.1 : -3,
+        z: ['start', 'login', 'loading'].includes(target) ? -3 : 1.1,
         ease: CustomEase.create("custom", "M0,0 C0.126,0.382 0.232,1.89 0.49,1.194 0.666,0.718 0.818,1.001 1,1 "),
         duration: 1,
         stagger: 0.2 
       })
       .to(textsPos, {
-        z: target !== 'start' ? 0.4 : -3,
+        z: ['start', 'login', 'loading'].includes(target) ? -3 : 0.4,
         ease: CustomEase.create("custom", "M0,0 C0.126,0.382 0.232,1.89 0.49,1.194 0.666,0.718 0.818,1.001 1,1 "),
         duration: 1,
         stagger: 0.2 

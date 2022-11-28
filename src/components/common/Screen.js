@@ -11,6 +11,7 @@ const HtmlWrapper = styled.div`
     max-height: 768px;
     overflow-y: scroll;
     overflow-x: hidden;
+    opacity: 0;
 `
 
 const Screen = forwardRef(({data}, ref) => {
@@ -18,7 +19,7 @@ const Screen = forwardRef(({data}, ref) => {
     const editorRef = useRef(null);
     
     useEffect(() => {
-        gsap.to(editorRef.current,{
+        gsap.to(editorRef.current, {
             autoAlpha: target === 'screen' ? 1 : 0,
             duration: 1
         })

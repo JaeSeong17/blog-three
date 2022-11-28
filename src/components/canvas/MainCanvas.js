@@ -50,7 +50,7 @@ function MainCanvas() {
                 <MainScene />
               </Suspense>
               <Plane />
-              <OrbitControls />
+              {/* <OrbitControls /> */}
           </Canvas>
           <Loader />
         </Wrapper>
