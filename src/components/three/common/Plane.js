@@ -1,7 +1,7 @@
 import { MeshReflectorMaterial } from "@react-three/drei";
 import { useDispatch, useSelector } from "react-redux";
 import * as THREE from 'three';
-import { setTarget } from '../../modules/controller';
+import { setTarget } from '../../../modules/controller';
 
 function Plane() {
     const color = new THREE.Color('rgba(240, 240, 240, 1)').convertSRGBToLinear()

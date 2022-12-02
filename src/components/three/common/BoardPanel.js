@@ -2,7 +2,7 @@ import { Text } from "@react-three/drei";
 import { useEffect, useRef } from "react";
 import gsap from "gsap";
 import { useDispatch } from "react-redux";
-import {setCamAngle, setCamPos, setConnectOn, setTarget} from "../../modules/controller";
+import {setCamAngle, setCamPos, setConnectOn, setTarget} from "../../../modules/controller";
 
 const BoardPanel = ({position, data}) => {
     const ref = useRef();

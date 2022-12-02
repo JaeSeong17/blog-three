@@ -2,7 +2,7 @@ import * as THREE from 'three';
 import { useSpring, config, animated } from '@react-spring/three';
 import { forwardRef, useRef, useImperativeHandle, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { setFocusIn, setFocusOut, setIndex, setCamAngle, setCamPos, setTarget } from '../../modules/controller';
+import { setFocusIn, setFocusOut, setIndex, setCamAngle, setCamPos, setTarget } from '../../../modules/controller';
 import { useGLTF } from '@react-three/drei';
 import gsap from 'gsap';
 

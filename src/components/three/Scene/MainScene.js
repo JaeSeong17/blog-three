@@ -7,7 +7,7 @@ import { useEffect, useRef } from "react";
 import { useFrame, useThree } from "@react-three/fiber";
 import gsap from "gsap";
 import { useDispatch, useSelector } from "react-redux";
-import { setAngle } from "../../modules/controller";
+import { setAngle } from "../../../modules/controller";
 import * as THREE from 'three'
 import StartText3d from "../common/StartText3d";
 import FrontContainer from "../container/FrontContainer";
@@ -15,7 +15,7 @@ import FrontContainer from "../container/FrontContainer";
 const vec = new THREE.Vector3()
 const lookAtPos = new THREE.Vector3()
 const MainScene = () => {
-    const data = [...require("../../static/data.json")]
+    const data = [...require("../../../static/data.json")]
     const brdRef = useRef(null)
     const scrRef = useRef(null)
     const camAngle = useSelector(state => state.controller.camAngle)

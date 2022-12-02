@@ -2,14 +2,14 @@ import { Html } from "@react-three/drei";
 import { useEffect, useState, useRef, forwardRef } from "react";
 import { useDispatch, useSelector, Provider } from "react-redux";
 import styled from "styled-components";
-import authReducer, { changeField, initializeForm, login, authSaga } from '../../modules/auth';
-import userReducer, { check, userSaga, tempSetUser } from '../../modules/user';
+import authReducer, { changeField, initializeForm, login, authSaga } from '../../../modules/auth';
+import userReducer, { check, userSaga, tempSetUser } from '../../../modules/user';
 import { configureStore } from '@reduxjs/toolkit';
-import loadingReducer from '../../modules/loading';
+import loadingReducer from '../../../modules/loading';
 import createSagaMiddleware from 'redux-saga';
 import { all } from 'redux-saga/effects';
 import gsap from "gsap";
-import { setTarget } from "../../modules/controller";
+import { setTarget } from "../../../modules/controller";
 
 const Wrapper = styled.div`
     background-color: white;

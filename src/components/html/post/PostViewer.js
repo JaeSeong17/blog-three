@@ -1,4 +1,6 @@
 import styled from "styled-components";
+import SubInfo from "../common/SubInfo";
+import Tags from "../common/Tags";
 
 const PostViewerBlock = styled.div`
     margin-top: 4rem;
@@ -12,30 +14,6 @@ const PostHead = styled.div`
         font-size: 3rem;
         line-height: 1.5;
         margin: 0;
-    }
-`;
-
-const SubInfo = styled.div`
-    margin-top: 1rem;
-    color: gray;
-
-    span + span:before {
-        color: gray;
-        padding: 0 0.25rem 0 0.25rem;
-        content: '\\B7';
-    }
-`;
-
-const Tags = styled.div`
-    margin-top: 0.5rem;
-    .tag {
-        display: inline-block;
-        color: red;
-        text-decoration: none;
-        margin-right: 0.5rem;
-        &:hover {
-            color: red;
-        }
     }
 `;
 
@@ -64,17 +42,12 @@ const PostViewer = ({ post, error, loading }) => {
         <PostViewerBlock>
             <PostHead>
                 <h1>{title}</h1>
-                <SubInfo>
-                    <span>
-                        <b>{user.username}</b>
-                    </span>
-                    <span>{new Date(publishedDate).toLocaleDateString()}</span>
-                </SubInfo>
-                <Tags>
-                    {tags.map((tag, i) => (
-                      <div key={i} className="tag">#{tag}</div>  
-                    ))}
-                </Tags>
+                <SubInfo
+                    username={user.username}
+                    publishedDate={publishedDate}
+                    hasMarginTop
+                />
+                <Tags tags={tags} />
             </PostHead>
             <PostContent
                 dangerouslySetInnerHTML={{ __html: body}}

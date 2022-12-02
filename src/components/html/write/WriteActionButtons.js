@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import Button from "../common/Button";
+import Button from "../../three/common/Button";
 
 const WriteActionButtonsBlock = styled.div`
     margin: 1rem 0 3rem 0;

@@ -3,7 +3,7 @@ import * as THREE from 'three';
 import { useRef, useEffect } from "react";
 import gsap from "gsap";
 import { useSelector, useDispatch } from "react-redux";
-import { setTarget } from "../../modules/controller";
+import { setTarget } from "../../../modules/controller";
 
 const material = new THREE.MeshStandardMaterial({
     color:new THREE.Color('#fafafa').convertSRGBToLinear(),

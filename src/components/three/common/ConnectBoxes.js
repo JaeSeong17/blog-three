@@ -1,7 +1,7 @@
 import { useRef, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import gsap from "gsap";
-import { setCamAngle, setCamPos, setScreenOn, setTarget } from "../../modules/controller";
+import { setCamAngle, setCamPos, setScreenOn, setTarget } from "../../../modules/controller";
 
 const ConnectBoxes = () => {
     const boxesRef = useRef([]);

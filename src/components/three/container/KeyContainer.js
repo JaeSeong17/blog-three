@@ -6,7 +6,7 @@ import { Text } from "@react-three/drei";
 import gsap from "gsap";
 import CustomEase from "gsap/CustomEase";
 import { useSelector, useDispatch } from "react-redux";
-import { setClickable, setFocusIn, setFocusOut} from "../../modules/controller";
+import { setClickable, setFocusIn, setFocusOut} from "../../../modules/controller";
 
 const data = [
   {

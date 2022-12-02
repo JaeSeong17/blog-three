@@ -26,10 +26,6 @@ const Wrapper = styled.div`
 function MainCanvas() {
     const backColor = new THREE.Color('#fcfafa').convertSRGBToLinear();
     const lightColor = new THREE.Color('rgba(240, 40, 40, 1)').convertSRGBToLinear()
-    const data = [...require("../../static/data.json")]
-    const brdRef = useRef(null)
-    const scrRef = useRef(null)
-
 
     return(
         <Wrapper>
