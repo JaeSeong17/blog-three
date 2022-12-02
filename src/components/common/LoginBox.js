@@ -3,7 +3,7 @@ import { useEffect, useState, useRef, forwardRef } from "react";
 import { useDispatch, useSelector, Provider } from "react-redux";
 import styled from "styled-components";
 import authReducer, { changeField, initializeForm, login, authSaga } from '../../modules/auth';
-import userReducer, { check, userSaga } from '../../modules/user';
+import userReducer, { check, userSaga, tempSetUser } from '../../modules/user';
 import { configureStore } from '@reduxjs/toolkit';
 import loadingReducer from '../../modules/loading';
 import createSagaMiddleware from 'redux-saga';
@@ -73,7 +73,18 @@ const authStore = configureStore({
     devTools: true,
     middleware: [sagaMiddleware]
 })
+function loadUser() {
+try {
+    const user = localStorage.getItem('user');
+    if(!user) return; // 로그인 상태가 아니면 아무 작업도 수행하지 않음
+    authStore.dispatch(tempSetUser(JSON.parse(user)));
+    authStore.dispatch(check());
+    } catch (e) {
+        console.log('localStorage is not working');
+}
+}
 sagaMiddleware.run(rootSaga);
+loadUser();
 
 const LoginForm = forwardRef(({checkLogin}, ref) => {
     const dispatch = useDispatch();
@@ -125,8 +136,14 @@ const LoginForm = forwardRef(({checkLogin}, ref) => {
     useEffect(() => {
         console.log('로그인 상태 확인');
         if(user) {
-            console.log('로그인 상태 확인 성공');
             checkLogin();
+            console.log('로그인 상태 확인 성공');
+            try {
+                localStorage.setItem('user', JSON.stringify(user));
+            } catch (e) {
+                console.log('localStroage is not workding');
+            }
+            
         }
     }, [user]);
 

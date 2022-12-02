@@ -42,6 +42,7 @@ const StartText3d = () => {
             duration: 2
         })
     }, [])
+    
     return (
         <group ref={entireRef}
             position={[0, -2, -2]}>

@@ -1,6 +1,6 @@
 import KeyContainer from "../container/KeyContainer";
 import Board from "../common/Board";
-import Screen from "../common/Screen";
+import Screen from "../write/Screen";
 import ConnectBoxes from "../common/ConnectBoxes";
 import DataTower from "../common/DataTower";
 import { useEffect, useRef } from "react";
@@ -22,8 +22,8 @@ const MainScene = () => {
     const camPos = useSelector(state => state.controller.camPos)
 
     useFrame((state) => {
-        state.camera.position.lerp(vec.set(camPos.x, camPos.y, camPos.z), .01)
-        lookAtPos.lerp(vec.set(camAngle.x, camAngle.y, camAngle.z), .01)
+        state.camera.position.lerp(vec.set(camPos.x, camPos.y, camPos.z), .015)
+        lookAtPos.lerp(vec.set(camAngle.x, camAngle.y, camAngle.z), .015)
         state.camera.lookAt(lookAtPos)
     })
 

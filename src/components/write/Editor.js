@@ -1,12 +1,10 @@
 import Quill from 'quill'
-import { useEffect } from 'react'
+import { useEffect, useRef } from 'react'
+import 'quill/dist/quill.bubble.css';
 import styled from 'styled-components'
-import { useRef } from 'react'
-import { useSelector } from 'react-redux'
-import gsap from 'gsap'
 
 const EditorBlock = styled.div`
-    padding: 5rem 1rem 5rem 1rem;
+    padding: 5rem 0 5rem 0;
     background-color: white;
 `
 
@@ -23,7 +21,7 @@ const TitleInput = styled.input`
 const QuillWrapper = styled.div`
     .ql-editor {
         padding: 0;
-        min-height: 320px;
+        min-height: 250px;
         font-size: 1.125rem;
         line-height: 1.5;
     }
@@ -32,9 +30,9 @@ const QuillWrapper = styled.div`
     }
 `
 
-const Editor = () => {
-    const quillElement = useRef(null)
-    const quillInstance = useRef(null)
+const Editor = ({ title, body, onChangeField }) => {
+    const quillElement = useRef(null);
+    const quillInstance = useRef(null);
 
     useEffect(() => {
         quillInstance.current = new Quill(quillElement.current, {
@@ -49,12 +47,28 @@ const Editor = () => {
                 ],
             },
         });
-    },[])
+
+        // quill에 test-change 이벤트 핸들러 등록
+        const quill = quillInstance.current;
+        quill.on('text-change', (delta, oldDelta, source) => {
+            if (source === 'user') {
+                onChangeField({ key: 'body', value: quill.root.innerHTML });
+            }
+        });
+    },[onChangeField]);
+
+    const onChangeTitle = e => {
+        onChangeField({ key: 'title', value: e.target.value });
+    };
 
 
     return (
-        <EditorBlock >
-            <TitleInput placeholder="제목을 입력하세요" />
+        <EditorBlock>
+            <TitleInput 
+                placeholder="제목을 입력하세요" 
+                onChange={onChangeTitle}
+                value={title}
+            />
             <QuillWrapper>
                 <div ref={quillElement} />
             </QuillWrapper>
