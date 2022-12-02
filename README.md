@@ -17,6 +17,17 @@ const innerRef = useRef();
 useImperativeHandle(fowardRef, () => innerRef.current);
 ```
 
+#### reduxjs/toolkit
+- redux와 redux-toolkit의 createAction의 prepare.payload 인자 전달 방식에 차이가 있음
+``` C
+//redux
+export const action = createAction('root/action', params => params);
+
+//redux toolkit
+export const action = createAction('root/action', (params) => ({payload: params}));
+```
+
+
 #### canvas
 - canvas 내의 mesh component 렌더링과 useEffect의 마운트 시점이 동기가 아니다 -> canvas 외부에서 useEffect시 canvas 내부 컴포넌트를 타겟팅한 ref가 undefined로 출력됨
 - canvas 내의 컴포넌트에서 useRef hook을 다루면 정상 작동함

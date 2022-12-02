@@ -1,6 +1,6 @@
 import KeyContainer from "../container/KeyContainer";
 import Board from "../common/Board";
-import Screen from "../write/Screen";
+import Screen from "../common/Screen";
 import ConnectBoxes from "../common/ConnectBoxes";
 import DataTower from "../common/DataTower";
 import { useEffect, useRef } from "react";

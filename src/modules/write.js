@@ -48,4 +48,4 @@ export const {
     writePostSuccess,
     writePostFailure
 } = write.actions;
-export  default write.reducer;
+export default write.reducer;

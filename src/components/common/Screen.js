@@ -5,19 +5,24 @@ import gsap from "gsap";
 import { forwardRef } from "react";
 import { configureStore } from '@reduxjs/toolkit';
 import writeReducer, { writeSaga } from '../../modules/write';
+import postReducer, { postSaga } from '../../modules/post';
+import loadingReducer from '../../modules/loading';
 import { all } from 'redux-saga/effects';
 import { Route, Routes } from "react-router-dom";
 import WritePage from "../../pages/WritePage";
 import { BrowserRouter } from "../../../node_modules/react-router-dom/dist/index";
 import createSagaMiddleware from 'redux-saga';
+import PostPage from "../../pages/PostPage";
 
 export function* rootSaga() {
-    yield all([writeSaga()]);
+    yield all([writeSaga(), postSaga()]);
 }
 const sagaMiddleware = createSagaMiddleware();
 const writeStore = configureStore({
     reducer: {
         write: writeReducer,
+        post: postReducer,
+        loading: loadingReducer,
     },
     devTools: true,
     middleware: [sagaMiddleware]
@@ -53,6 +58,7 @@ const Screen = forwardRef(({data}, ref) => {
                         <BrowserRouter >
                             <Routes>
                                 <Route path="/" element={<WritePage/>} />
+                                <Route path="/@:username/:postId" element={<PostPage/>}/>
                             </Routes>
                         </BrowserRouter>
                     </Provider>
