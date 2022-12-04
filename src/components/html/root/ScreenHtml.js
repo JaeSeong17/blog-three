@@ -1,0 +1,54 @@
+import { all } from 'redux-saga/effects';
+import writeReducer, { writeSaga } from '../../../modules/write';
+import postReducer, { postSaga } from '../../../modules/post';
+import loadingReducer from '../../../modules/loading';
+import createSagaMiddleware from 'redux-saga';
+import { configureStore } from '@reduxjs/toolkit';
+import { Provider } from "react-redux";
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import WritePage from "../../html/pages/WritePage";
+import PostPage from "../../html/pages/PostPage";
+import Navigator from '../pages/Navigator';
+import { useEffect, useRef } from 'react';
+
+export function* screenSaga() {
+    yield all([writeSaga(), postSaga()]);
+}
+const sagaMiddleware = createSagaMiddleware();
+const writeStore = configureStore({
+    reducer: {
+        write: writeReducer,
+        post: postReducer,
+        loading: loadingReducer,
+    },
+    devTools: true,
+    middleware: [sagaMiddleware]
+})
+sagaMiddleware.run(screenSaga);
+
+const ScreenHtml = ({currPostUsername, currPostId}) => {
+    const rootRef = useRef();
+    const writeRef = useRef();
+    const postRef = useRef();
+    useEffect(() => {
+        if (currPostUsername && currPostId){
+            console.log(rootRef, writeRef, postRef);
+            if (rootRef.current) rootRef.current.postNavigate(currPostUsername, currPostId);
+            else if (writeRef.current) writeRef.current.postNavigate(currPostUsername, currPostId);
+            else if (postRef.current) postRef.current.postNavigate(currPostUsername, currPostId);
+        }
+    }, [currPostUsername, currPostId])
+    return (
+        <Provider store={writeStore} >
+            <BrowserRouter >
+                <Routes>
+                    <Route path="/" element={<Navigator ref={rootRef}/>} />
+                    <Route path="/write" element={<WritePage ref={writeRef}/>} />
+                    <Route path="/@:username/:postId" element={<PostPage ref={postRef}/>} />
+                </Routes>
+            </BrowserRouter>
+        </Provider>
+    )
+}
+
+export default ScreenHtml;

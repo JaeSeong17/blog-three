@@ -60,7 +60,7 @@ const Footer = styled.div`
 `;
 
 
-export function* rootSaga() {
+export function* loginSaga() {
     yield all([authSaga(), userSaga()]);
 }
 const sagaMiddleware = createSagaMiddleware();
@@ -83,7 +83,7 @@ try {
         console.log('localStorage is not working');
 }
 }
-sagaMiddleware.run(rootSaga);
+sagaMiddleware.run(loginSaga);
 loadUser();
 
 const LoginForm = forwardRef(({checkLogin}, ref) => {
