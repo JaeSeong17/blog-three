@@ -10,15 +10,14 @@ import * as THREE from 'three'
 const vec = new THREE.Vector3()
 const lookAtPos = new THREE.Vector3()
 const MainScene = () => {
-    const data = [...require("../../../static/data.json")]
     const camAngle = useSelector(state => state.controller.camAngle)
     const camPos = useSelector(state => state.controller.camPos)
 
-    // useFrame((state) => {
-    //     state.camera.position.lerp(vec.set(camPos.x, camPos.y, camPos.z), .015)
-    //     lookAtPos.lerp(vec.set(camAngle.x, camAngle.y, camAngle.z), .015)
-    //     state.camera.lookAt(lookAtPos)
-    // })
+    useFrame((state) => {
+        state.camera.position.lerp(vec.set(camPos.x, camPos.y, camPos.z), .015)
+        lookAtPos.lerp(vec.set(camAngle.x, camAngle.y, camAngle.z), .015)
+        state.camera.lookAt(lookAtPos)
+    })
 
     return (
         <scene>

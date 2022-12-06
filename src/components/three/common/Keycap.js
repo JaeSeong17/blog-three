@@ -1,12 +1,13 @@
 import * as THREE from 'three';
 import { useSpring, config, animated } from '@react-spring/three';
-import { forwardRef, useRef, useImperativeHandle, useEffect } from 'react';
+import { forwardRef, useRef, useImperativeHandle } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { setFocusIn, setFocusOut, setIndex, setCamAngle, setCamPos, setTarget } from '../../../modules/controller';
+import { setIndex, setTarget } from '../../../modules/controller';
 import { useGLTF } from '@react-three/drei';
 import gsap from 'gsap';
+import { setCurrMode } from '../../../modules/posts';
 
-const Keycap = forwardRef(({position, index}, ref) => {
+const Keycap = forwardRef(({position, index, writeBtn}, ref) => {
     const dispatch = useDispatch();
     const focused = useSelector(state => state.controller.focus)
     const target = useSelector(state => state.controller.target)
@@ -30,15 +31,21 @@ const Keycap = forwardRef(({position, index}, ref) => {
         scale={1.2}
         onClick={(e) => {
           e.stopPropagation()
-          if (index === current){
-            if(focused){
-              dispatch(setTarget('key'))
-            }else {
+          if (writeBtn){
+            dispatch(setCurrMode('write'))
+            dispatch(setTarget('screen'))
+          }else {
+            dispatch(setCurrMode('post'))
+            if (index === current){
+              if(focused){
+                dispatch(setTarget('key'))
+              }else {
+                dispatch(setTarget('board'))
+              }
+            } else {
+              dispatch(setIndex(index))
               dispatch(setTarget('board'))
             }
-          } else {
-            dispatch(setIndex(index))
-            dispatch(setTarget('board'))
           }
           clickAnime.to(innerRef.current.position, {
             z: 0.5,

@@ -26,18 +26,24 @@ const writeStore = configureStore({
 })
 sagaMiddleware.run(screenSaga);
 
-const ScreenHtml = ({currPostUsername, currPostId}) => {
+const ScreenHtml = ({currPostUsername, currPostId, currMode}) => {
     const rootRef = useRef();
     const writeRef = useRef();
     const postRef = useRef();
     useEffect(() => {
         if (currPostUsername && currPostId){
-            console.log(rootRef, writeRef, postRef);
             if (rootRef.current) rootRef.current.postNavigate(currPostUsername, currPostId);
             else if (writeRef.current) writeRef.current.postNavigate(currPostUsername, currPostId);
             else if (postRef.current) postRef.current.postNavigate(currPostUsername, currPostId);
         }
     }, [currPostUsername, currPostId])
+    useEffect(() => {
+        if (currMode==='write'){
+            if (rootRef.current) rootRef.current.writeNavigate();
+            else if (writeRef.current) writeRef.current.writeNavigate();
+            else if (postRef.current) postRef.current.writeNavigate();
+        }
+    }, [currMode])
     return (
         <Provider store={writeStore} >
             <BrowserRouter >

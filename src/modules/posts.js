@@ -22,6 +22,7 @@ const posts = createSlice({
         posts: null,
         currPostUsername: null,
         currPostId: null,
+        currMode: 'root',
         error: null,
     },
     reducers: {
@@ -34,13 +35,18 @@ const posts = createSlice({
         setCurrPost: (state, { payload }) => {
             state.currPostUsername = payload.username;
             state.currPostId = payload.postId;
+        },
+        setCurrMode: (state, { payload }) => {
+            state.currMode = payload;
         }
+
     }
 });
 
 export const {
     listPostsSuccess,
     listPostsFailure,
-    setCurrPost
+    setCurrPost,
+    setCurrMode
 } = posts.actions;
 export default posts.reducer;

@@ -7,8 +7,12 @@ import { useImperativeHandle } from "react";
 const PostPage = forwardRef((props, ref) => {
     const navigate = useNavigate();
     useImperativeHandle(ref, () => ({
+        writeNavigate,
         postNavigate
     }));
+    function writeNavigate() {
+        navigate('/write');
+    };
     function postNavigate(currPostUsername, currPostId) {
         navigate(`/@${currPostUsername}/${currPostId}`);
     }

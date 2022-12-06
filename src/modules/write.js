@@ -23,7 +23,7 @@ const write = createSlice({
         initialize: (state, action) => {
             state.title = '';
             state.body = '';
-            state.tags = '';
+            state.tags = [];
         },
         changeField: (state, { payload: { key, value } }) => {
             state[key] = value;

@@ -38,7 +38,8 @@ function KeyContainer() {
     const boxesPos = []
     const textsRef = useRef([])
     const textsPos = []
-    const conRef = useRef()
+    const writeBtnRef = useRef()
+    const writeTextRef = useRef()
     gsap.registerPlugin(CustomEase)
 
     useEffect(() => {
@@ -59,11 +60,18 @@ function KeyContainer() {
         duration: 1,
         stagger: 0.2 
       })
+      .to(writeBtnRef.current.position, {
+        z: ['start', 'login', 'loading'].includes(target) ? -3 : 1.1,
+        duration: 1,
+      })
+      .to(writeTextRef.current.position, {
+        z: ['start', 'login', 'loading'].includes(target) ? -3 : 0.4,
+        duration: 1,
+      })
     }, [target])
     
     return (
-      <group 
-        ref={conRef} >
+      <group>
         {data.map((d,idx) => (
           <group key={idx}>
             <Keycap 
@@ -74,7 +82,7 @@ function KeyContainer() {
             <Text
               ref={el=>textsRef[idx]=el} 
               color="black" 
-              position={[8-(idx*4), 1.5, -2]} 
+              position={[8-(idx*4), 1.5, -3]} 
               fontSize={0.6}
               rotation={[0,Math.PI/4,Math.PI/2]}
               anchorX="left"
@@ -83,7 +91,23 @@ function KeyContainer() {
             </Text>
           </group>
         ))}
-
+        <group>
+            <Keycap
+              writeBtn
+              ref={writeBtnRef}
+              position={[12, 0, -3]} 
+              focused={false} />
+            <Text
+              ref={writeTextRef}
+              color="black" 
+              position={[12, 1.5, -2]} 
+              fontSize={0.6}
+              rotation={[0,Math.PI/4,Math.PI/2]}
+              anchorX="left"
+              >
+              Write new Post
+            </Text>
+          </group>
       </group>
     )
   }

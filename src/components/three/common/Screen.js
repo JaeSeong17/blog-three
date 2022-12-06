@@ -9,7 +9,7 @@ import { setTarget } from "../../../modules/controller";
 const Screen = () => {
     const dispatch = useDispatch();
     const target = useSelector(state => state.controller.target);
-    const { currPostUsername, currPostId } = useSelector(state => state.posts);
+    const { currPostUsername, currPostId, currMode } = useSelector(state => state.posts);
     const screenRef = useRef(null);
     
     useEffect(() => {
@@ -35,13 +35,18 @@ const Screen = () => {
                     <ScreenHtml 
                         currPostUsername={currPostUsername}
                         currPostId={currPostId}
+                        currMode={currMode}
                     />
                 </Html>
             </mesh>
             <mesh
                 position={[-13, -0.5, 9.5]}
                 onClick={(e) => {
-                    dispatch(setTarget('board'));
+                    if (currMode === 'write'){
+                        dispatch(setTarget('key'));
+                    } else if(currMode === 'post') {
+                        dispatch(setTarget('board'));
+                    }
                 }}>
                 <boxGeometry args={[3, 0.5, 1]}/>
                 <meshStandardMaterial color="red"/>

@@ -4,17 +4,18 @@ import { useImperativeHandle, forwardRef } from "react";
 const Navigator = forwardRef((props, ref) => {
     const navigate = useNavigate();
     useImperativeHandle(ref, () => ({
+        writeNavigate,
         postNavigate
     }));
-    function wirtNavigate() {
+    function writeNavigate() {
         navigate('/write');
-    }
+    };
     function postNavigate(currPostUsername, currPostId) {
         navigate(`/@${currPostUsername}/${currPostId}`);
-    }
+    };
     return (
         <div>
-            스크린 루트 페이지
+            Screen Root Page
         </div>
     )
 });

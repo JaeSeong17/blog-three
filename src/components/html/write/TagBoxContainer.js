@@ -5,6 +5,7 @@ import TagBox from "./TagBox";
 const TagBoxContainer = () => {
     const dispatch = useDispatch();
     const tags = useSelector(state => state.write.tags);
+    console.log(tags);
 
     const onChangeTags = nextTags => {
         dispatch(

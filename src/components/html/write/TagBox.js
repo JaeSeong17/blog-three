@@ -65,13 +65,14 @@ const TagItem = React.memo(({ tag, onRemove }) => (
 ));
 
 // React.memo를 사용해 tags 값이 바뀔 때만 리렌더링 되도록 처리
-const TagList = React.memo(({ tags, onRemove }) => (
-    <TagListBlock>
+const TagList = React.memo(({ tags, onRemove }) => {
+    console.log(tags);
+    return (<TagListBlock>
         {tags.map(tag => (
             <TagItem key={tag} tag={tag} onRemove={onRemove} />
         ))}
-    </TagListBlock>
-));
+    </TagListBlock>)
+});
 
 const TagBox = ({ onChangeTags, tags}) => {
     const [input, setInput] = useState('');
