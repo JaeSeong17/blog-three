@@ -13,11 +13,11 @@ const MainScene = () => {
     const camAngle = useSelector(state => state.controller.camAngle)
     const camPos = useSelector(state => state.controller.camPos)
 
-    useFrame((state) => {
-        state.camera.position.lerp(vec.set(camPos.x, camPos.y, camPos.z), .015)
-        lookAtPos.lerp(vec.set(camAngle.x, camAngle.y, camAngle.z), .015)
-        state.camera.lookAt(lookAtPos)
-    })
+    // useFrame((state) => {
+    //     state.camera.position.lerp(vec.set(camPos.x, camPos.y, camPos.z), .015)
+    //     lookAtPos.lerp(vec.set(camAngle.x, camAngle.y, camAngle.z), .015)
+    //     state.camera.lookAt(lookAtPos)
+    // })
 
     return (
         <scene>

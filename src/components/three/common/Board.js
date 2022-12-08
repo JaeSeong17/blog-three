@@ -11,7 +11,7 @@ const Board = ({ posts, loading, error }) => {
 
     useEffect(() => {
         gsap.to(boardRef.current.position, {
-            z: ['board', 'connect', 'screen'].includes(target) ? 5 : -6,
+            z: ['board', 'connect', 'screen'].includes(target) ? 10 : -6,
             duration: 1
         });
     }, [target])
@@ -21,7 +21,7 @@ const Board = ({ posts, loading, error }) => {
     }
 
     return (
-        <group ref={boardRef} position={[0, 10, -5]}>
+        <group ref={boardRef}>
             <mesh>
                 <boxGeometry args={[1, 5, 11.5]}/>
                 <meshStandardMaterial />
