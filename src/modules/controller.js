@@ -15,11 +15,11 @@ const camSetting = {
     },
     'key': {
         angle: {x:0, y: 3, z:0},
-        pos: {x:15, y: 5, z:20}
+        pos: {x:15, y: 4, z:20}
     },
     'board': {
-        angle: {x:0, y: 3, z:5},
-        pos: {x:10, y: 12, z:5}
+        angle: {x:4, y: 6, z:0},
+        pos: {x:10, y: 7, z:15}
     },
     'connect': {
         angle: {x:0, y: 16, z:5},

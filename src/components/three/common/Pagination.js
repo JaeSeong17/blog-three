@@ -2,11 +2,18 @@ import { useRef } from "react";
 import { Text } from "@react-three/drei";
 import gsap from "gsap";
 import { useDispatch, useSelector } from "react-redux";
-import { decreasePage, increasePage } from "../../../modules/posts";
+import { decreasePage, increasePage, loadWaiting } from "../../../modules/posts";
+import { forwardRef, useImperativeHandle } from "react";
 
-const Pagination = () => {
-    const { currPage, lastPage } = useSelector(state => state.posts);
+const Pagination = forwardRef(({props}, ref) => {
+    const { currPage, lastPage, tag, loading } = useSelector(({ posts, loading }) => ({
+        currPage: posts.currPage,
+        lastPage: posts.lastPage,
+        tag: posts.currTag,
+        loading: loading['posts/listPosts']
+    }));
     const dispatch = useDispatch();
+    const paginationRef = useRef();
     const leftBtnRef = useRef();
     const rightBtnRef = useRef();
     const anime = gsap.timeline();
@@ -18,8 +25,32 @@ const Pagination = () => {
             yoyo: true
         })
     }
+
+    useImperativeHandle(ref, () => ({
+        paginationOnAnime,
+        paginationOffAnime
+    }))
+
+    function paginationOnAnime() {
+        const tl = gsap.timeline()
+        .to(paginationRef.current.position, {
+            z: 2,
+            duration: 0.4
+        });
+        return tl;
+    }
+
+    function paginationOffAnime() {
+        const tl = gsap.timeline()
+        .to(paginationRef.current.position, {
+            z: 0,
+            duration: 0.4
+        });
+        return tl;
+    }
+
     return (
-        <group position={[4,0,5]}>
+        <group ref={paginationRef} position={[12,0,0]}>
             <mesh 
                 ref={leftBtnRef}
                 position={[0,-2,0]}
@@ -28,6 +59,7 @@ const Pagination = () => {
                     if (currPage > 1) {
                         clickAnimation(leftBtnRef);
                         dispatch(decreasePage());
+                        dispatch(loadWaiting());
                     }
                 }}>
                 <cylinderGeometry args={[0.7, 0.7, 0.7, 3]}/>
@@ -37,7 +69,7 @@ const Pagination = () => {
                 position={[0,0,0.4]}
                 color="black" 
                 fontSize={0.8}
-                rotation={[0,Math.PI/4,Math.PI/2]}>
+                rotation={[0,Math.PI/8,Math.PI/2]}>
                 {currPage}
             </Text>
             <mesh 
@@ -48,6 +80,7 @@ const Pagination = () => {
                     if (currPage < lastPage) {
                         clickAnimation(rightBtnRef);
                         dispatch(increasePage());
+                        dispatch(loadWaiting());
                     }
                 }}>
                 <cylinderGeometry args={[0.7, 0.7, 0.7, 3]}/>
@@ -55,7 +88,6 @@ const Pagination = () => {
             </mesh>
         </group>
     )
-
-}
+})
 
 export default Pagination;

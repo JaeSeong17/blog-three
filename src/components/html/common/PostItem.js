@@ -4,9 +4,10 @@ import Tags from "./Tags";
 
 const PostItemBlock = styled.div`
     background-color: white;
-    width: 440px;
-    height: 160px;
+    width: 480px;
+    height: 180px;
     overflow-y: hidden;
+    padding: 0 1rem 0 1rem;
 `;
 
 const PostItem = ({ post }) => {

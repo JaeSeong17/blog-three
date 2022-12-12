@@ -1,41 +1,62 @@
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
-import { listPosts } from "../../../modules/posts";
+import { listPosts, loadComplete } from "../../../modules/posts";
 import Board from "../common/Board";
 import Pagination from "../common/Pagination";
+import gsap from "gsap";
 
 const BoardContainer = () => {
+    const boardRef = useRef();
+    const paginationRef = useRef();
     const { username } = useParams();
-    // const [searchParams] = useSearchParams();
     const dispatch = useDispatch();
-    const { posts, tag, page, error, loading } = useSelector(
-        ({ posts, loading }) => ({
+    const { target, posts, tag, page, error, loading, waiting, complete } = useSelector(
+        ({ controller, posts, loading }) => ({
+            target: controller.target,
             posts: posts.posts,
             tag: posts.currTag,
             page: posts.currPage,
             error: posts.error,
+            waiting: posts.waiting,
+            complete: posts.complete,
             loading: loading['posts/listPosts']
         })
     );
 
     useEffect(() => {
-        // const tag = searchParams.get('tag');
-        // page없으면 기본값 1
-        // const page = parseInt(searchParams.get('page'), 10) || 1
+        const tl = gsap.timeline();
+        if (target === 'board'){
+            tl.add(boardRef.current.boardOnAnime())
+            .add(boardRef.current.panelOnAnime())
+            .add(paginationRef.current.paginationOnAnime(), "-=1");
+        } else if (target === 'key'){
+            tl.add(boardRef.current.panelOffAnime())
+            .add(paginationRef.current.paginationOffAnime(), "-=0.2")
+            .add(boardRef.current.boardOffAnime(), "-=0.2");
+        }
+    }, [target])
+
+    useEffect(() => {
         dispatch(listPosts({ page, username, tag }));
-        console.log( page, username, tag );
-        console.log(posts);
-    }, [dispatch, username, tag, page]);
+    }, []);
+
+    useEffect(() => {
+        console.log('check change wait, comp: ', waiting, complete);
+        if(waiting && !complete) {
+            boardRef.current.panelOffAnime();
+        } else if(waiting && complete) {
+            boardRef.current.panelOnAnime();
+        }
+    }, [waiting, complete])
 
     return (
-        <group position={[0, 10, -5]}>
+        <group position={[0, 10, -2]}>
             <Board
-                loading={loading}
-                error={error}
-                posts={posts}
+                ref={boardRef}
             />
-            <Pagination />
+            <Pagination 
+                ref={paginationRef}/>
         </group>
         
     )

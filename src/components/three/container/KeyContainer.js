@@ -1,12 +1,9 @@
 import Keycap from "../common/Keycap";
 import { useRef, useEffect } from "react";
-import * as THREE from 'three';
-import { useThree, useFrame } from "@react-three/fiber";
 import { Text } from "@react-three/drei";
 import gsap from "gsap";
 import CustomEase from "gsap/CustomEase";
 import { useSelector, useDispatch } from "react-redux";
-import { setClickable, setFocusIn, setFocusOut} from "../../../modules/controller";
 
 const data = [
   {
@@ -71,7 +68,7 @@ function KeyContainer() {
     }, [target])
     
     return (
-      <group>
+      <group position={[0,-4,0]}>
         {data.map((d,idx) => (
           <group key={idx}>
             <Keycap 

@@ -69,6 +69,33 @@ useFrame((state) => {
 
 ##### gsap
 - timeline api로 동기/비동기 처리 가능 (promise)
+- 비동기 처리시 주의: 해당 작업에 의해 컴포넌트(three object)가 리렌더링 되면서 ref 참조 문제가 발생할 수 있음
+- timeline 에서 함수화 한 각 애니메이션 단위를 연결시킬 수 있음
+```C
+function intro() {
+	var tl = gsap.timeline();
+	//...add animations here...
+	return tl;
+}
+
+function middle() {
+	var tl = gsap.timeline();
+	//...add animations here...
+	return tl;
+}
+
+function conclusion() {
+	var tl = gsap.timeline();
+	//...add animations here...
+	return tl;
+}
+
+// stitch them together in a master timeline...
+var master = gsap.timeline();
+master.add(intro())
+      .add(middle(), "+=2")     //with a gap of 2 seconds
+      .add(conclusion(), "-=1") //overlap by 1 second
+```
 - addEventListener 방식이 제대로 동작하지 않는 문제 - useRef 할당 시점(렌더링 이후인듯 처음에 undefined로 출력됨)
 - mesh에 연결하고 싶을 떄 그냥 mesh 자체의 event linstner에 할당 하자 - https://docs.pmnd.rs/react-three-fiber/tutorials/events-and-interaction
 - 이벤트 연속 발생시 이전 이벤트와 겹치는 현상 발생 -> immediateRender props으로 즉시 완료 후 새 이벤트 실행
