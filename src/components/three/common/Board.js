@@ -63,7 +63,9 @@ const Board = forwardRef(({ props }, ref) => {
             stagger: 0.1,
             duration: 1,
             onComplete: () => { 
-                dispatch(listPosts({ page, username, tag }));
+                if(waiting){
+                    dispatch(listPosts({ page, username, tag }));
+                }
             } 
         })
         return tl;

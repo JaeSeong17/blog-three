@@ -26,17 +26,18 @@ const writeStore = configureStore({
 })
 sagaMiddleware.run(screenSaga);
 
-const ScreenHtml = ({currPostUsername, currPostId, currMode}) => {
+const ScreenHtml = ({currPostUsername, currPostId, currMode, writeComplete}) => {
     const rootRef = useRef();
     const writeRef = useRef();
     const postRef = useRef();
     useEffect(() => {
-        if (currPostUsername && currPostId){
+        console.log(currPostUsername, currPostId);
+        if (currMode === 'post' && currPostUsername && currPostId){
             if (rootRef.current) rootRef.current.postNavigate(currPostUsername, currPostId);
             else if (writeRef.current) writeRef.current.postNavigate(currPostUsername, currPostId);
             else if (postRef.current) postRef.current.postNavigate(currPostUsername, currPostId);
         }
-    }, [currPostUsername, currPostId])
+    }, [currMode, currPostUsername, currPostId])
     useEffect(() => {
         if (currMode==='write'){
             if (rootRef.current) rootRef.current.writeNavigate();
@@ -44,12 +45,13 @@ const ScreenHtml = ({currPostUsername, currPostId, currMode}) => {
             else if (postRef.current) postRef.current.writeNavigate();
         }
     }, [currMode])
+
     return (
         <Provider store={writeStore} >
             <BrowserRouter >
-                <Routes>
+                <Routes> 
                     <Route path="/" element={<Navigator ref={rootRef}/>} />
-                    <Route path="/write" element={<WritePage ref={writeRef}/>} />
+                    <Route path="/write" element={<WritePage ref={writeRef} writeComplete={writeComplete}/>} />
                     <Route path="/@:username/:postId" element={<PostPage ref={postRef}/>} />
                 </Routes>
             </BrowserRouter>

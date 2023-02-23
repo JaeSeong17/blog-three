@@ -9,10 +9,10 @@ const Navigator = forwardRef((props, ref) => {
     }));
     function writeNavigate() {
         navigate('/write');
-    };
+    }
     function postNavigate(currPostUsername, currPostId) {
         navigate(`/@${currPostUsername}/${currPostId}`);
-    };
+    }
     return (
         <div>
             Screen Root Page

@@ -24,6 +24,8 @@ const write = createSlice({
             state.title = '';
             state.body = '';
             state.tags = [];
+            state.post = null;
+            state.postError = null;
         },
         changeField: (state, { payload: { key, value } }) => {
             state[key] = value;

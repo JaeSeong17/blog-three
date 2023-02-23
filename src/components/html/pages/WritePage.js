@@ -6,15 +6,16 @@ import { useImperativeHandle } from "react";
 import { useNavigate } from "../../../../node_modules/react-router-dom/dist/index";
 import { forwardRef } from "react";
 
-const WritePage = forwardRef((props, ref) => {
+const WritePage = forwardRef(({writeComplete}, ref) => {
     const navigate = useNavigate();
+
     useImperativeHandle(ref, () => ({
         writeNavigate,
         postNavigate
     }));
     function writeNavigate() {
         navigate('/write');
-    };
+    }
     function postNavigate(currPostUsername, currPostId) {
         navigate(`/@${currPostUsername}/${currPostId}`);
     }
@@ -22,7 +23,7 @@ const WritePage = forwardRef((props, ref) => {
         <HtmlWrapper>
             <EditorContainer/>
             <TagBoxContainer/>
-            <WriteActionButtonsContainer/>
+            <WriteActionButtonsContainer writeComplete={writeComplete}/>
         </HtmlWrapper>
     )
 });

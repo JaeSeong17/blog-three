@@ -26,20 +26,21 @@ const BoardContainer = () => {
 
     useEffect(() => {
         const tl = gsap.timeline();
-        if (target === 'board'){
+        if (target === 'board' && !waiting && complete){
+            console.log(posts);
             tl.add(boardRef.current.boardOnAnime())
             .add(boardRef.current.panelOnAnime())
             .add(paginationRef.current.paginationOnAnime(), "-=1");
-        } else if (target === 'key'){
+        } else if (posts && target === 'key'){
             tl.add(boardRef.current.panelOffAnime())
             .add(paginationRef.current.paginationOffAnime(), "-=0.2")
             .add(boardRef.current.boardOffAnime(), "-=0.2");
         }
-    }, [target])
+    }, [target, waiting, complete])
 
     useEffect(() => {
         dispatch(listPosts({ page, username, tag }));
-    }, []);
+    }, [tag])
 
     useEffect(() => {
         console.log('check change wait, comp: ', waiting, complete);

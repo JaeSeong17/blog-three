@@ -8,19 +8,19 @@ import { useSelector, useDispatch } from "react-redux";
 const data = [
   {
     index:1,
-    title: 'React'
+    title: 'Total'
   },
   {
     index:2,
-    title: 'JavaScript'
+    title: 'React'
   },
   {
     index:3,
-    title: 'ComputerScience'
+    title: 'JavaScript'
   },
   {
     index:4,
-    title: 'Network'
+    title: 'CS'
   },
   {
     index:5,
@@ -29,7 +29,6 @@ const data = [
 ]
 
 function KeyContainer() {
-    const dispatch = useDispatch();
     const target = useSelector(state => state.controller.target)
     const boxesRef = useRef([])
     const boxesPos = []
@@ -74,8 +73,9 @@ function KeyContainer() {
             <Keycap 
               ref={el=>boxesRef.current[idx]=el} 
               index={idx} 
-              position={[8-(idx*4), 0, -3]} 
-              focused={false} />
+              position={[8-(idx*4), 0, -3]}
+              tag={d.title}
+              />
             <Text
               ref={el=>textsRef[idx]=el} 
               color="black" 
@@ -93,7 +93,7 @@ function KeyContainer() {
               writeBtn
               ref={writeBtnRef}
               position={[12, 0, -3]} 
-              focused={false} />
+              />
             <Text
               ref={writeTextRef}
               color="black" 

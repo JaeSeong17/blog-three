@@ -5,11 +5,10 @@ import { useDispatch, useSelector } from 'react-redux';
 import { setIndex, setTarget } from '../../../modules/controller';
 import { useGLTF } from '@react-three/drei';
 import gsap from 'gsap';
-import { setCurrMode } from '../../../modules/posts';
+import { setCurrTag, loadWaiting, setCurrMode, setComplete } from '../../../modules/posts';
 
-const Keycap = forwardRef(({position, index, writeBtn}, ref) => {
+const Keycap = forwardRef(({position, index, writeBtn, tag}, ref) => {
     const dispatch = useDispatch();
-    const focused = useSelector(state => state.controller.focus)
     const target = useSelector(state => state.controller.target)
     const current = useSelector(state => state.controller.index)
     const { nodes } = useGLTF('/keycap.glb')
@@ -18,7 +17,6 @@ const Keycap = forwardRef(({position, index, writeBtn}, ref) => {
 
     const threeColor = new THREE.Color()
     const { scale, color } = useSpring({
-      scale: focused && index === current ? 1.1 : 1.5,
       color: target === 'board' && index === current ? threeColor.set('rgba(255, 77, 77, 1)').convertSRGBToLinear() : threeColor.set('rgba(255, 255, 255, 1)').convertSRGBToLinear(),
       config: config.wobbly
     });
@@ -32,20 +30,18 @@ const Keycap = forwardRef(({position, index, writeBtn}, ref) => {
         onClick={(e) => {
           e.stopPropagation()
           if (writeBtn){
+            dispatch(setIndex(-1))
             dispatch(setCurrMode('write'))
             dispatch(setTarget('screen'))
           }else {
-            dispatch(setCurrMode('post'))
-            if (index === current){
-              if(focused){
-                dispatch(setTarget('key'))
-              }else {
-                dispatch(setTarget('board'))
-              }
+            if (current === index){
+              dispatch(setComplete())
             } else {
               dispatch(setIndex(index))
-              dispatch(setTarget('board'))
             }
+            dispatch(setCurrMode('post'))
+            dispatch(setCurrTag(tag==='Total'? null : tag))
+            dispatch(setTarget('board'))
           }
           clickAnime.to(innerRef.current.position, {
             z: 0.5,

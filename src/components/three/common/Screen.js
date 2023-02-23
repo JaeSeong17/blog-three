@@ -4,6 +4,7 @@ import { useSelector, useDispatch } from "react-redux";
 import gsap from "gsap";
 import ScreenHtml from "../../html/root/ScreenHtml";
 import { setTarget } from "../../../modules/controller";
+import { setCurrMode } from "../../../modules/posts";
 
 
 const Screen = () => {
@@ -18,6 +19,10 @@ const Screen = () => {
             duration: 1
         })
     }, [target])
+
+    function writeComplete() {
+        dispatch(setCurrMode('post'));
+    }
 
     return (
         <group position={[0, 40, 12]}>
@@ -36,6 +41,7 @@ const Screen = () => {
                         currPostUsername={currPostUsername}
                         currPostId={currPostId}
                         currMode={currMode}
+                        writeComplete={writeComplete}
                     />
                 </Html>
             </mesh>

@@ -59,6 +59,12 @@ const posts = createSlice({
         loadComplete: (state) => {
             state.waiting = false;
             state.complete = false;
+        },
+        setComplete: (state) => {
+            state.complete = true;
+        },
+        setCurrTag: (state, { payload }) => {
+            state.currTag = payload;
         }
     }
 });
@@ -71,6 +77,8 @@ export const {
     increasePage,
     decreasePage,
     loadWaiting,
-    loadComplete
+    loadComplete,
+    setComplete,
+    setCurrTag
 } = posts.actions;
 export default posts.reducer;

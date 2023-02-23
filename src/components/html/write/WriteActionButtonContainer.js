@@ -5,7 +5,7 @@ import { setTarget } from '../../../modules/controller';
 import { writePost } from '../../../modules/write';
 import WriteActionButtons from "./WriteActionButtons";
 
-const WriteActionButtonsContainer = () => {
+const WriteActionButtonsContainer = ({writeComplete}) => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const { title, body, tags, post, postError } = useSelector(({ write }) => ({
@@ -25,6 +25,7 @@ const WriteActionButtonsContainer = () => {
                 tags,
             }),
         );
+        writeComplete();
     };
 
     // 취소

@@ -1,6 +1,12 @@
 # Blog - THREE
-개인 블로그를 직접 만들어 봅니다. react, three.js 활용을 목표로 합니다.
+개인 블로그를 직접 만들어 봅니다. react, three.js, typescript 활용을 목표로 합니다.
 상태관리 redux -> reduxjs/toolkit 시도합니다.
+
+# Bug Fix
+2023.02.24
+글쓰기 완료 후 다시 글쓰기 창 진입시 이전 글작성 완료 창이 계속 나타나는 문제
+- 원인 : '포스트 등록' 버튼이 store의 post값을 참조하여 뷰어로 전환하는 로직이 존재하는데 첫 글쓰기 완료 후 다시 글쓰기로 재 진입시 이전 post 등록 완료 정보가 초기화 되지 않아 그대로 참조함
+- 해결 : 글쓰기 페이지 진입시 store.write 정보를 initialize 함
 
 ## three.js 기록
 이 문서 내용은 Pmndrs.docs, threejs, gsap를 기반으로 작성되었습니다
@@ -27,6 +33,7 @@ export const action = createAction('root/action', params => params);
 export const action = createAction('root/action', (params) => ({payload: params}));
 ```
 
+- useEffect의 두번째 파라미터로 특정 값 변경시점을 트래킹 하는 경우 해당 변수에 새 값을 할당 하더라도 같은 값일 경우 값이 바뀌지 않은 것으로 판단함 => useEffect 수행X
 
 #### canvas
 - canvas 내의 mesh component 렌더링과 useEffect의 마운트 시점이 동기가 아니다 -> canvas 외부에서 useEffect시 canvas 내부 컴포넌트를 타겟팅한 ref가 undefined로 출력됨
