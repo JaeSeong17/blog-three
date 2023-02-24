@@ -6,7 +6,7 @@ const HtmlWrapper = styled.div`
     overflow-y: scroll;
     overflow-x: hidden;
     background-color: white;
-    padding: 0 12rem 0 12rem;
+    padding: 0 12rem 0 12rem; 
 `
 
 export default HtmlWrapper;

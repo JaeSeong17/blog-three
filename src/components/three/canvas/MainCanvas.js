@@ -24,33 +24,33 @@ const Wrapper = styled.div`
 // }
 
 function MainCanvas() {
-    const backColor = new THREE.Color('#fcfafa').convertSRGBToLinear();
-    const lightColor = new THREE.Color('rgba(240, 40, 40, 1)').convertSRGBToLinear()
+  const backColor = new THREE.Color('#fcfafa').convertSRGBToLinear();
+  const lightColor = new THREE.Color('rgba(240, 40, 40, 1)').convertSRGBToLinear()
 
-    return(
-        <Wrapper>
-          <Canvas camera={{ 
-                position: [0, -33, 3],
-                castShadow: true,
-                up: [0, 0, 1]
-                }}>
-              {/* <primitive object={new THREE.AxesHelper(10)} /> */}
-              <fog attach="fog" args={[backColor, 20, 60]} />
-              <color attach="background" args={[backColor]} />
-              <ambientLight intensity={0.25} />
-              <directionalLight castShadow intensity={0.2} position={[10, 6, 6]} shadow-mapSize={[1024, 1024]}/>
-              <pointLight position={[10, 10, 10]} color={lightColor} intensity={0.7} castShadow/>
-              <pointLight position={[-10, -10, 10]} color={lightColor} intensity={0.3} castShadow/>
-              {/* <spotLight position={[15, 0, 20]} angle={0.4} penumbra={0.6} intensity={1} /> */}
-              <Suspense fallback={null}>
-                <MainScene />
-              </Suspense>
-              <Plane />
-              {/* <OrbitControls /> */}
-          </Canvas>
-          <Loader />
-        </Wrapper>
-      )
-  }
-  
-  export default MainCanvas;
+  return (
+    <Wrapper>
+      <Canvas camera={{
+        position: [0, -33, 3],
+        castShadow: true,
+        up: [0, 0, 1]
+      }}>
+        {/* <primitive object={new THREE.AxesHelper(10)} /> */}
+        <fog attach="fog" args={[backColor, 20, 60]} />
+        <color attach="background" args={[backColor]} />
+        <ambientLight intensity={0.25} />
+        <directionalLight castShadow intensity={0.2} position={[10, 6, 6]} shadow-mapSize={[1024, 1024]} />
+        <pointLight position={[10, 10, 10]} color={lightColor} intensity={0.7} castShadow />
+        <pointLight position={[-10, -10, 10]} color={lightColor} intensity={0.3} castShadow />
+        {/* <spotLight position={[15, 0, 20]} angle={0.4} penumbra={0.6} intensity={1} /> */}
+        <Suspense fallback={null}>
+          <MainScene />
+        </Suspense>
+        <Plane />
+        {/* <OrbitControls /> */}
+      </Canvas>
+      <Loader />
+    </Wrapper>
+  )
+}
+
+export default MainCanvas;

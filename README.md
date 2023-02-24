@@ -2,12 +2,20 @@
 개인 블로그를 직접 만들어 봅니다. react, three.js, typescript 활용을 목표로 합니다.
 상태관리 redux -> reduxjs/toolkit 시도합니다.
 
-# Bug Fix
-2023.02.24
+# Dev Report
+2023.02.23
 글쓰기 완료 후 다시 글쓰기 창 진입시 이전 글작성 완료 창이 계속 나타나는 문제
 - 원인 : '포스트 등록' 버튼이 store의 post값을 참조하여 뷰어로 전환하는 로직이 존재하는데 첫 글쓰기 완료 후 다시 글쓰기로 재 진입시 이전 post 등록 완료 정보가 초기화 되지 않아 그대로 참조함
 - 해결 : 글쓰기 페이지 진입시 store.write 정보를 initialize 함
 
+2023.02.24
+글쓰기 완료 후 스크린에서 나갔을 때 버튼 목록으로 바로 이동하지 못하고 글 목록으로 넘어가는 문제
+- 원인 : '포스트 등록' 버튼 클릭 시 currMode를 write에서 post로 바꾸는 로직 존재
+- 해결 : 포스트 등록 완료 후 작성 모드에서 뷰어 모드로 전환하는 것은 currMode 전환에서 담당하지 않고 포스트 등록 버튼의 navigate 동작으로 수행되므로 해당 로직 제거
+
+
+
+---
 ## three.js 기록
 이 문서 내용은 Pmndrs.docs, threejs, gsap를 기반으로 작성되었습니다
 
@@ -34,6 +42,7 @@ export const action = createAction('root/action', (params) => ({payload: params}
 ```
 
 - useEffect의 두번째 파라미터로 특정 값 변경시점을 트래킹 하는 경우 해당 변수에 새 값을 할당 하더라도 같은 값일 경우 값이 바뀌지 않은 것으로 판단함 => useEffect 수행X
+
 
 #### canvas
 - canvas 내의 mesh component 렌더링과 useEffect의 마운트 시점이 동기가 아니다 -> canvas 외부에서 useEffect시 canvas 내부 컴포넌트를 타겟팅한 ref가 undefined로 출력됨
@@ -115,7 +124,7 @@ master.add(intro())
 - scroll.offset은 0 ~ 1 값으로 표현되며 처음과 끝 지점에서 매우 작은 수로 지수표기법(1.0e+5)으로 표현되므로 총 길이값을 곱해서 인덱스 표기시 처음과 끝에서 별도 처리 필요 
 - scroll.fixed 해당 화면을 스크롤에서 고정시킬 수는 있으나 스크롤 자체가 lock이 되는 것이 아니기 때문에 탈출시 jump 현상이 발생할 수 있다.
 
-
+---
 #### useFrame의 효율적인 작업을 위한 코드 작성법
 
 ##### useFrame에서 각 프레임 별 애니메이션 설정 (unity frame과 유사한 개념인듯하다. 자세한 내용은 조사 필요)

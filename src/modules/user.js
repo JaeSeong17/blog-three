@@ -10,54 +10,54 @@ const LOGOUT = 'user/logout';
 export const check = createAction(CHECK);
 const checkSaga = createRequestSaga(CHECK, authAPI.check);
 function checkFailureSaga() {
-    try {
-        localStorage.removeItem('user');
-    } catch (e) {
-        console.log('localStorage is not working');
-    }
+  try {
+    localStorage.removeItem('user');
+  } catch (e) {
+    console.log('localStorage is not working');
+  }
 }
 function* logoutSaga() {
-    try {
-        yield call(authAPI.logout);
-        localStorage.removeItem('user');
-    } catch (e) {
-        console.log(e);
-    }
+  try {
+    yield call(authAPI.logout);
+    localStorage.removeItem('user');
+  } catch (e) {
+    console.log(e);
+  }
 }
 export function* userSaga() {
-    yield takeLatest(CHECK, checkSaga);
-    yield takeLatest(CHECK_FAILURE, checkFailureSaga);
-    yield takeLatest(LOGOUT, logoutSaga);
+  yield takeLatest(CHECK, checkSaga);
+  yield takeLatest(CHECK_FAILURE, checkFailureSaga);
+  yield takeLatest(LOGOUT, logoutSaga);
 }
 
 const user = createSlice({
-    name:"user",
-    initialState: {
-        user: null,
-        checkError: null,
+  name: "user",
+  initialState: {
+    user: null,
+    checkError: null,
+  },
+  reducers: {
+    tempSetUser: (state, { payload: user }) => {
+      state.user = user;
     },
-    reducers: {
-        tempSetUser: (state, { payload: user }) => {
-            state.user = user;
-        },
-        checkSuccess: (state, { payload: user }) => {
-            state.user = user;
-            state.checkError = null;
-        },
-        checkFailure: (state, { payload: error }) => {
-            state.user = null;
-            state.checkError = error;
-        },
-        logout: (state, action) => {
-            state.user = null;
-        }
+    checkSuccess: (state, { payload: user }) => {
+      state.user = user;
+      state.checkError = null;
+    },
+    checkFailure: (state, { payload: error }) => {
+      state.user = null;
+      state.checkError = error;
+    },
+    logout: (state, action) => {
+      state.user = null;
     }
+  }
 });
 
-export const { 
-    tempSetUser,
-    checkSuccess,
-    checkFailure,
-    logout
+export const {
+  tempSetUser,
+  checkSuccess,
+  checkFailure,
+  logout
 } = user.actions
 export default user.reducer;

@@ -15,13 +15,13 @@ const TagsBlock = styled.div`
 `;
 
 const Tags = ({ tags }) => {
-    return (
-        <TagsBlock>
-            {tags.map(tag => (
-                <div key={tag}>#{tag}</div>
-            ))}
-        </TagsBlock>
-    );
+  return (
+    <TagsBlock>
+      {tags.map(tag => (
+        <div key={tag}>#{tag}</div>
+      ))}
+    </TagsBlock>
+  );
 };
 
 export default Tags;

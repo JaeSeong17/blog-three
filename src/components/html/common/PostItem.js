@@ -11,18 +11,18 @@ const PostItemBlock = styled.div`
 `;
 
 const PostItem = ({ post }) => {
-    const { publishedDate, user, tags, title, body, _id } = post;
-    return (
-        <PostItemBlock>
-            <h2>{title}</h2>
-            <SubInfo
-                username={user.username}
-                publishedDate={new Date(publishedDate)}
-            />
-            <Tags tags={tags} />
-            <p>{body}</p>
-        </PostItemBlock>
-    );
+  const { publishedDate, user, tags, title, body, _id } = post;
+  return (
+    <PostItemBlock>
+      <h2>{title}</h2>
+      <SubInfo
+        username={user.username}
+        publishedDate={new Date(publishedDate)}
+      />
+      <Tags tags={tags} />
+      <p>{body}</p>
+    </PostItemBlock>
+  );
 };
 
 export default PostItem;

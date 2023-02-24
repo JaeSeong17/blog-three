@@ -15,24 +15,24 @@ const StyledButton = styled.button`
         opacity: 0.75;
     }
 
-    ${props => 
-        props.fullWidth &&
-        css`
+    ${props =>
+    props.fullWidth &&
+    css`
             padding: 0.75rem 0 0.75rem 0;
             width: 100%;
             font-size: 1.125rem;
         `
-    }
+  }
 
-    ${props => 
-        props.red &&
-        css`
+    ${props =>
+    props.red &&
+    css`
             background: red;
             &:hover {
                 opacity: 0.75;
             }
         `
-    }
+  }
 `;
 
 const Button = props => <StyledButton {...props} />;
