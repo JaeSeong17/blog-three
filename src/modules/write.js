@@ -39,15 +39,15 @@ const write = createSlice({
     },
     writePostFailure: (state, { payload: postError }) => {
       state.postError = postError;
-    }
-  }
-})
+    },
+  },
+});
 
 export const {
   initialize,
   changeField,
   writePost,
   writePostSuccess,
-  writePostFailure
+  writePostFailure,
 } = write.actions;
 export default write.reducer;

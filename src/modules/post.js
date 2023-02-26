@@ -5,8 +5,8 @@ import { takeLatest } from 'redux-saga/effects';
 
 const READ_POST = 'post/readPost';
 
-export const readPost = createAction(READ_POST, (id) => ({
-  payload: id
+export const readPost = createAction(READ_POST, id => ({
+  payload: id,
 }));
 
 const readPostSaga = createRequestSaga(READ_POST, postsAPI.readPost);
@@ -30,13 +30,9 @@ const post = createSlice({
     unloadPost: (state, action) => {
       state.post = null;
       state.error = null;
-    }
-  }
-})
+    },
+  },
+});
 
-export const {
-  readPostSuccess,
-  readPostFailure,
-  unloadPost
-} = post.actions;
+export const { readPostSuccess, readPostFailure, unloadPost } = post.actions;
 export default post.reducer;

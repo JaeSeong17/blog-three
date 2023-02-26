@@ -1,14 +1,14 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import './index.css';
-import App from './App';
-import { configureStore } from '@reduxjs/toolkit';
-import controllerReducer from './modules/controller';
-import postsReducer, { postsSaga } from './modules/posts';
-import loadingReducer from './modules/loading';
 import { Provider } from 'react-redux';
 import { all } from 'redux-saga/effects';
 import createSagaMiddleware from 'redux-saga';
+import { configureStore } from '@reduxjs/toolkit';
+import App from './App';
+import './index.css';
+import controllerReducer from 'src/modules/controller';
+import postsReducer, { postsSaga } from 'src/modules/posts.js';
+import loadingReducer from 'src/modules/loading.js';
 
 export function* rootSaga() {
   yield all([postsSaga()]);
@@ -21,7 +21,7 @@ const store = configureStore({
     loading: loadingReducer,
   },
   devTools: true,
-  middleware: [sagaMiddleware]
+  middleware: [sagaMiddleware],
 });
 sagaMiddleware.run(rootSaga);
 
@@ -29,7 +29,7 @@ const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <Provider store={store}>
     <App />
-  </Provider>
+  </Provider>,
 );
 
 // If you want to start measuring performance in your app, pass a function

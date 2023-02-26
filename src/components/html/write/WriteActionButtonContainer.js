@@ -1,9 +1,9 @@
-import { useEffect } from "react";
-import { useSelector, useDispatch } from "react-redux";
+import { useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { setTarget } from '../../../modules/controller';
 import { writePost } from '../../../modules/write';
-import WriteActionButtons from "./WriteActionButtons";
+import WriteActionButtons from './WriteActionButtons';
 
 const WriteActionButtonsContainer = ({ writeComplete }) => {
   const navigate = useNavigate();
@@ -30,7 +30,7 @@ const WriteActionButtonsContainer = ({ writeComplete }) => {
   // 취소
   const onCancel = () => {
     dispatch(setTarget('key'));
-  }
+  };
 
   // 성공 혹은 실패 시 할 작업
   useEffect(() => {

@@ -1,16 +1,16 @@
-import { Text3D } from "@react-three/drei";
+import { Text3D } from '@react-three/drei';
 import * as THREE from 'three';
-import { useRef, useEffect } from "react";
-import gsap from "gsap";
-import { useSelector, useDispatch } from "react-redux";
-import { setTarget } from "../../../modules/controller";
+import { useRef, useEffect } from 'react';
+import gsap from 'gsap';
+import { useSelector, useDispatch } from 'react-redux';
+import { setTarget } from '../../../modules/controller';
 
 const material = new THREE.MeshStandardMaterial({
   color: new THREE.Color('#fafafa').convertSRGBToLinear(),
   roughness: 0,
   metalness: 0.8,
-  emissive: new THREE.Color('#ff0000').convertSRGBToLinear()
-})
+  emissive: new THREE.Color('#ff0000').convertSRGBToLinear(),
+});
 
 const StartText3d = () => {
   const titleRef = useRef();
@@ -21,10 +21,10 @@ const StartText3d = () => {
 
   useEffect(() => {
     gsap.to(entireRef.current.position, {
-      z: target === "start" ? 4 : -2,
+      z: target === 'start' ? 4 : -2,
       duration: 1.2,
-    })
-  }, [target])
+    });
+  }, [target]);
 
   useEffect(() => {
     gsap.to(titleRef.current.position, {
@@ -32,20 +32,19 @@ const StartText3d = () => {
       repeat: -1,
       ease: 'power3.inOut',
       duration: 4,
-      yoyo: true
-    })
+      yoyo: true,
+    });
     gsap.to(coneRef.current.rotation, {
       y: Math.PI,
       repeat: -1,
-      ease: "power2.inOut",
+      ease: 'power2.inOut',
       yoyo: true,
-      duration: 2
-    })
-  }, [])
+      duration: 2,
+    });
+  }, []);
 
   return (
-    <group ref={entireRef}
-      position={[0, -2, -2]}>
+    <group ref={entireRef} position={[0, -2, -2]}>
       <group ref={titleRef}>
         <Text3D
           position={[0, 0, 0]}
@@ -75,9 +74,9 @@ const StartText3d = () => {
         </Text3D>
       </group>
       <group
-        onClick={(e) => {
-          e.stopPropagation()
-          dispatch(setTarget('login'))
+        onClick={e => {
+          e.stopPropagation();
+          dispatch(setTarget('login'));
         }}>
         <Text3D
           position={[2.2, 0, -2.4]}
@@ -92,17 +91,16 @@ const StartText3d = () => {
           font="/NanumGothic_Regular.json">
           들어가기
         </Text3D>
-        <mesh ref={coneRef}
+        <mesh
+          ref={coneRef}
           position={[3, 0, -3]}
-          rotation={[Math.PI / 2 * 3, 0, 0]}
+          rotation={[(Math.PI / 2) * 3, 0, 0]}
           material={material}>
-          <coneGeometry
-            args={[0.3, 0.6, 5]} />
+          <coneGeometry args={[0.3, 0.6, 5]} />
         </mesh>
       </group>
     </group>
-
-  )
-}
+  );
+};
 
 export default StartText3d;

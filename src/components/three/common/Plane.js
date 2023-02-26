@@ -1,18 +1,18 @@
-import { MeshReflectorMaterial } from "@react-three/drei";
-import { useDispatch, useSelector } from "react-redux";
+import { MeshReflectorMaterial } from '@react-three/drei';
+import { useDispatch, useSelector } from 'react-redux';
 import * as THREE from 'three';
 import { setTarget } from '../../../modules/controller';
 
 function Plane() {
-  const color = new THREE.Color('rgba(240, 240, 240, 1)').convertSRGBToLinear()
+  const color = new THREE.Color('rgba(240, 240, 240, 1)').convertSRGBToLinear();
   const target = useSelector(state => state.target);
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
   return (
     <mesh
       position={[0, 0, 0]}
       receiveShadow
-      onClick={(e) => {
-        e.stopPropagation()
+      onClick={e => {
+        e.stopPropagation();
         // if(!['start', 'login', 'loading'].includes(target)){
         //   dispatch(setTarget('key'))
         // }

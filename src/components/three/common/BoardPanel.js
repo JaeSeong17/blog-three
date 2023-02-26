@@ -1,34 +1,33 @@
-import { useRef } from "react";
-import gsap from "gsap";
-import { useDispatch } from "react-redux";
-import { setTarget } from "../../../modules/controller";
-import { Html } from "@react-three/drei";
-import PostItem from "../../html/common/PostItem";
-import { setCurrPost } from "../../../modules/posts";
-import { forwardRef, useImperativeHandle } from "react";
-import { useEffect } from "react";
+import { useRef } from 'react';
+import gsap from 'gsap';
+import { useDispatch } from 'react-redux';
+import { setTarget } from '../../../modules/controller';
+import { Html } from '@react-three/drei';
+import PostItem from '../../html/common/PostItem';
+import { setCurrPost } from '../../../modules/posts';
+import { forwardRef, useImperativeHandle, useEffect } from 'react';
 
 const BoardPanel = forwardRef(({ position, post }, ref) => {
   const { publishedDate, user, tags, title, body, _id } = post;
   const dispatch = useDispatch();
   const panelRef = useRef();
-  useImperativeHandle(ref, () => panelRef.current)
+  useImperativeHandle(ref, () => panelRef.current);
 
   const anime = gsap.timeline();
   function clickAnimation() {
     anime.to(panelRef.current.position, {
-      z: "-=0.1",
+      z: '-=0.1',
       duration: 0.05,
       repeat: 1,
-      yoyo: true
-    })
+      yoyo: true,
+    });
   }
 
   return (
     <group
       ref={panelRef}
       position={position}
-      onClick={(e) => {
+      onClick={e => {
         e.stopPropagation();
         clickAnimation();
         dispatch(setCurrPost({ username: user.username, postId: _id }));
@@ -48,7 +47,7 @@ const BoardPanel = forwardRef(({ position, post }, ref) => {
         </Html>
       </mesh>
     </group>
-  )
-})
+  );
+});
 
 export default BoardPanel;

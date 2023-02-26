@@ -1,6 +1,6 @@
-import DataTower from "../common/DataTower";
-import LoginBox from "../common/LoginBox";
-import StartText3d from "../common/StartText3d";
+import DataTower from '../common/DataTower';
+import LoginBox from '../common/LoginBox';
+import StartText3d from '../common/StartText3d';
 
 const FrontContainer = () => {
   return (
@@ -9,7 +9,7 @@ const FrontContainer = () => {
       <StartText3d />
       <LoginBox />
     </group>
-  )
-}
+  );
+};
 
 export default FrontContainer;

@@ -1,24 +1,25 @@
-import { Html } from "@react-three/drei";
-import { useRef, useEffect } from "react";
-import { useSelector, useDispatch } from "react-redux";
-import gsap from "gsap";
-import ScreenHtml from "../../html/root/ScreenHtml";
-import { setTarget } from "../../../modules/controller";
-import { setCurrMode } from "../../../modules/posts";
-
+import { Html } from '@react-three/drei';
+import { useRef, useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import gsap from 'gsap';
+import ScreenHtml from '../../html/root/ScreenHtml';
+import { setTarget } from '../../../modules/controller';
+import { setCurrMode } from '../../../modules/posts';
 
 const Screen = () => {
   const dispatch = useDispatch();
   const target = useSelector(state => state.controller.target);
-  const { currPostUsername, currPostId, currMode } = useSelector(state => state.posts);
+  const { currPostUsername, currPostId, currMode } = useSelector(
+    state => state.posts,
+  );
   const screenRef = useRef(null);
 
   useEffect(() => {
     gsap.to(screenRef.current, {
       autoAlpha: target === 'screen' ? 1 : 0,
-      duration: 1
-    })
-  }, [target])
+      duration: 1,
+    });
+  }, [target]);
 
   function writeComplete() {
     dispatch(setCurrMode('post'));
@@ -47,7 +48,7 @@ const Screen = () => {
       </mesh>
       <mesh
         position={[-13, -0.5, 9.5]}
-        onClick={(e) => {
+        onClick={e => {
           if (currMode === 'write') {
             dispatch(setTarget('key'));
           } else if (currMode === 'post') {
@@ -59,7 +60,7 @@ const Screen = () => {
         <meshStandardMaterial color="red" />
       </mesh>
     </group>
-  )
-}
+  );
+};
 
 export default Screen;

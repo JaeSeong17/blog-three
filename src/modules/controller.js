@@ -1,35 +1,35 @@
-import { createSlice } from '@reduxjs/toolkit'
+import { createSlice } from '@reduxjs/toolkit';
 
 const camSetting = {
-  'start': {
+  start: {
     angle: { x: 0, y: 0, z: 2 },
-    pos: { x: 0, y: -30, z: 3 }
+    pos: { x: 0, y: -30, z: 3 },
   },
-  'login': {
+  login: {
     angle: { x: 0, y: 0, z: 2 },
-    pos: { x: 0, y: -30, z: 3 }
+    pos: { x: 0, y: -30, z: 3 },
   },
-  'loading': {
+  loading: {
     angle: { x: 0, y: 0, z: 2 },
-    pos: { x: 0, y: -30, z: 3 }
+    pos: { x: 0, y: -30, z: 3 },
   },
-  'key': {
+  key: {
     angle: { x: 0, y: 3, z: 0 },
-    pos: { x: 15, y: 4, z: 20 }
+    pos: { x: 15, y: 4, z: 20 },
   },
-  'board': {
+  board: {
     angle: { x: 4, y: 6, z: 0 },
-    pos: { x: 10, y: 7, z: 15 }
+    pos: { x: 10, y: 7, z: 15 },
   },
-  'connect': {
+  connect: {
     angle: { x: 0, y: 16, z: 5 },
-    pos: { x: 10, y: 12, z: 5 }
+    pos: { x: 10, y: 12, z: 5 },
   },
-  'screen': {
+  screen: {
     angle: { x: 0, y: 30, z: 12 },
-    pos: { x: 0, y: 25, z: 12 }
+    pos: { x: 0, y: 25, z: 12 },
   },
-}
+};
 
 const controller = createSlice({
   name: 'controller',
@@ -37,36 +37,32 @@ const controller = createSlice({
     camAngle: { x: 0, y: 0, z: 2 },
     camPos: { x: 0, y: -30, z: 3 },
     index: -1,
-    target: "start",
+    target: 'start',
   },
   reducers: {
     setCamAngle: (state, action) => {
       state.camAngle = {
         ...state.camAngle,
-        ...action.payload
-      }
+        ...action.payload,
+      };
     },
     setCamPos: (state, action) => {
       state.camPos = {
         ...state.camPos,
-        ...action.payload
-      }
+        ...action.payload,
+      };
     },
     setIndex: (state, action) => {
-      state.index = action.payload
+      state.index = action.payload;
     },
     setTarget: (state, action) => {
-      state.target = action.payload
-      state.camAngle = camSetting[action.payload].angle
-      state.camPos = camSetting[action.payload].pos
-    }
-  }
-})
+      state.target = action.payload;
+      state.camAngle = camSetting[action.payload].angle;
+      state.camPos = camSetting[action.payload].pos;
+    },
+  },
+});
 
-export const {
-  setCamAngle,
-  setCamPos,
-  setIndex,
-  setTarget
-} = controller.actions
+export const { setCamAngle, setCamPos, setIndex, setTarget } =
+  controller.actions;
 export default controller.reducer;

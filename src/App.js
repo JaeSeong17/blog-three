@@ -1,7 +1,7 @@
-import MainCanvas from "./components/three/canvas/MainCanvas";
+import MainCanvas from './components/three/canvas/MainCanvas';
 
 function App() {
-  return <MainCanvas /> 
+  return <MainCanvas />;
 }
 
 export default App;

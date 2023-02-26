@@ -1,16 +1,19 @@
-import { createSlice, createAction } from "@reduxjs/toolkit";
-import createRequestSaga from "../lib/createRequestSaga";
+import { createSlice, createAction } from '@reduxjs/toolkit';
+import createRequestSaga from '../lib/createRequestSaga';
 import * as postsAPI from '../lib/api/posts';
 import { takeLatest } from 'redux-saga/effects';
 
 const LIST_POSTS = 'posts/listPosts';
-export const listPosts = createAction(LIST_POSTS, ({ tag, username, page }) => ({
-  payload: {
-    tag,
-    username,
-    page
-  }
-}));
+export const listPosts = createAction(
+  LIST_POSTS,
+  ({ tag, username, page }) => ({
+    payload: {
+      tag,
+      username,
+      page,
+    },
+  }),
+);
 const listPostsSaga = createRequestSaga(LIST_POSTS, postsAPI.listPosts);
 export function* postsSaga() {
   yield takeLatest(LIST_POSTS, listPostsSaga);
@@ -46,27 +49,27 @@ const posts = createSlice({
     setCurrMode: (state, { payload }) => {
       state.currMode = payload;
     },
-    increasePage: (state) => {
+    increasePage: state => {
       state.currPage += 1;
     },
-    decreasePage: (state) => {
+    decreasePage: state => {
       state.currPage -= 1;
     },
-    loadWaiting: (state) => {
+    loadWaiting: state => {
       state.waiting = true;
       console.log('waiting module');
     },
-    loadComplete: (state) => {
+    loadComplete: state => {
       state.waiting = false;
       state.complete = false;
     },
-    setComplete: (state) => {
+    setComplete: state => {
       state.complete = true;
     },
     setCurrTag: (state, { payload }) => {
       state.currTag = payload;
-    }
-  }
+    },
+  },
 });
 
 export const {
@@ -79,6 +82,6 @@ export const {
   loadWaiting,
   loadComplete,
   setComplete,
-  setCurrTag
+  setCurrTag,
 } = posts.actions;
 export default posts.reducer;

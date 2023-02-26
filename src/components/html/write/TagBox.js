@@ -1,62 +1,62 @@
-import styled from "styled-components";
-import React, { useState, useCallback } from "react";
-import { useEffect } from "react";
+import styled from 'styled-components';
+import React, { useState, useCallback, useEffect } from 'react';
 
 const TagBoxBlock = styled.div`
-    width: 100%;
-    border-top: 1px solid gray;
-    padding-top: 2rem;
+  width: 100%;
+  border-top: 1px solid gray;
+  padding-top: 2rem;
 
-    h4 {
-        color: gray;
-        margin-top: 0;
-        margin-bottom: 0.5rem;
-    }
+  h4 {
+    color: gray;
+    margin-top: 0;
+    margin-bottom: 0.5rem;
+  }
 `;
 
 const TagForm = styled.form`
-    border-radius: 4px;
-    overflow: hidden;
-    display: flex;
-    width: 256px;
-    border: 1px solid gray;
-    input, button {
-        outline: none;
-        border: none;
-        font-size: 1rem;
-    }
-    
-    input {
-        padding: 0.5rem;
-        flex: 1;
-        min-width: 0;
-    }
+  border-radius: 4px;
+  overflow: hidden;
+  display: flex;
+  width: 256px;
+  border: 1px solid gray;
+  input,
+  button {
+    outline: none;
+    border: none;
+    font-size: 1rem;
+  }
 
-    button {
-        cursor: pointer;
-        padding: 0 1rem 0 1rem;
-        border: none;
-        background: gray;
-        color: white;
-        font-weight: bold;
-        &:hover {
-            background: gray;
-        }
+  input {
+    padding: 0.5rem;
+    flex: 1;
+    min-width: 0;
+  }
+
+  button {
+    cursor: pointer;
+    padding: 0 1rem 0 1rem;
+    border: none;
+    background: gray;
+    color: white;
+    font-weight: bold;
+    &:hover {
+      background: gray;
     }
+  }
 `;
 
 const Tag = styled.div`
-    margin-right: 0.5rem;
-    color: gray;
-    cursor: pointer;
-    &:hover {
-        opacity: 0.5;
-    }
+  margin-right: 0.5rem;
+  color: gray;
+  cursor: pointer;
+  &:hover {
+    opacity: 0.5;
+  }
 `;
 
 const TagListBlock = styled.div`
-    display: flex;
-    margin-top: 0.5rem;
+  display: flex;
+  margin-top: 0.5rem;
 `;
 
 // React.memo를 사용해 tag값이 바뀔 때만 리렌더링되도록 처리
@@ -66,11 +66,13 @@ const TagItem = React.memo(({ tag, onRemove }) => (
 
 // React.memo를 사용해 tags 값이 바뀔 때만 리렌더링 되도록 처리
 const TagList = React.memo(({ tags, onRemove }) => {
-  return (<TagListBlock>
-    {tags.map(tag => (
-      <TagItem key={tag} tag={tag} onRemove={onRemove} />
-    ))}
-  </TagListBlock>)
+  return (
+    <TagListBlock>
+      {tags.map(tag => (
+        <TagItem key={tag} tag={tag} onRemove={onRemove} />
+      ))}
+    </TagListBlock>
+  );
 });
 
 const TagBox = ({ onChangeTags, tags }) => {

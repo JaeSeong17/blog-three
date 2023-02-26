@@ -18,9 +18,9 @@ export default function createRequestSaga(type, request) {
       yield put({
         type: FAILURE,
         payload: e,
-        error: true
+        error: true,
       });
     }
     yield put(finishLoading(type)); // 로딩 끝
-  }
+  };
 }

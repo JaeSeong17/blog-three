@@ -1,64 +1,72 @@
-import { Html } from "@react-three/drei";
-import { useEffect, useState, useRef, forwardRef } from "react";
-import { useDispatch, useSelector, Provider } from "react-redux";
-import styled from "styled-components";
-import authReducer, { changeField, initializeForm, login, authSaga } from '../../../modules/auth';
-import userReducer, { check, userSaga, tempSetUser } from '../../../modules/user';
+import { Html } from '@react-three/drei';
+import { useEffect, useState, useRef, forwardRef } from 'react';
+import { useDispatch, useSelector, Provider } from 'react-redux';
+import styled from 'styled-components';
+import authReducer, {
+  changeField,
+  initializeForm,
+  login,
+  authSaga,
+} from '../../../modules/auth';
+import userReducer, {
+  check,
+  userSaga,
+  tempSetUser,
+} from '../../../modules/user';
 import { configureStore } from '@reduxjs/toolkit';
 import loadingReducer from '../../../modules/loading';
 import createSagaMiddleware from 'redux-saga';
 import { all } from 'redux-saga/effects';
-import gsap from "gsap";
-import { setTarget } from "../../../modules/controller";
+import gsap from 'gsap';
+import { setTarget } from '../../../modules/controller';
 
 const Wrapper = styled.div`
-    background-color: white;
-    width: 340px;
-    height: 290px;
-    padding: 1rem;
-    opacity: 0;
+  background-color: white;
+  width: 340px;
+  height: 290px;
+  padding: 1rem;
+  opacity: 0;
 `;
 const StyledInput = styled.input`
-    font-size: 1rem;
-    border: none;
-    border-bottom: 1px solid gray;
-    padding-bottom: 0.5rem;
-    outline: none;
-    width: 100%;
-    &:focus {
-        color: $oc-teal-7;
-        border-bottom: 1px solid;
-    }
-    & + & {
-        margin-top: 1rem;
-    }
+  font-size: 1rem;
+  border: none;
+  border-bottom: 1px solid gray;
+  padding-bottom: 0.5rem;
+  outline: none;
+  width: 100%;
+  &:focus {
+    color: $oc-teal-7;
+    border-bottom: 1px solid;
+  }
+  & + & {
+    margin-top: 1rem;
+  }
 `;
 const Button = styled.button`
-    margin: 1rem 0 1rem 0;
-    padding: 0.4rem 0 0.4rem 0;
-    width: 100%;
-    font-size: 1.125rem;
-    font-weight: bold;
-    color: white;
-    border-radius: 4px;
-    border: none;
-    background: gray;
-    cursor: pointer;
+  margin: 1rem 0 1rem 0;
+  padding: 0.4rem 0 0.4rem 0;
+  width: 100%;
+  font-size: 1.125rem;
+  font-weight: bold;
+  color: white;
+  border-radius: 4px;
+  border: none;
+  background: gray;
+  cursor: pointer;
 `;
 const ErrorMessage = styled.div`
-    color: red;
-    text-align: center;
-    font-size: 0.875;
-    margin-top: 1rem;
+  color: red;
+  text-align: center;
+  font-size: 0.875;
+  margin-top: 1rem;
 `;
 const Footer = styled.div`
-    text-align: right;
-    color: gray;
-    &:hover {
-        color: black;
-    }
+  text-align: right;
+  color: gray;
+  &:hover {
+    color: black;
+  }
 `;
-
 
 export function* loginSaga() {
   yield all([authSaga(), userSaga()]);
@@ -68,11 +76,11 @@ const authStore = configureStore({
   reducer: {
     auth: authReducer,
     loading: loadingReducer,
-    user: userReducer
+    user: userReducer,
   },
   devTools: true,
-  middleware: [sagaMiddleware]
-})
+  middleware: [sagaMiddleware],
+});
 function loadUser() {
   try {
     const user = localStorage.getItem('user');
@@ -88,13 +96,15 @@ loadUser();
 
 const LoginForm = forwardRef(({ checkLogin }, ref) => {
   const dispatch = useDispatch();
-  const { username, password, auth, authError, user } = useSelector(({ auth, user }) => ({
-    username: auth.username,
-    password: auth.password,
-    auth: auth.auth,
-    authError: auth.authError,
-    user: user.user
-  }));
+  const { username, password, auth, authError, user } = useSelector(
+    ({ auth, user }) => ({
+      username: auth.username,
+      password: auth.password,
+      auth: auth.auth,
+      authError: auth.authError,
+      user: user.user,
+    }),
+  );
   const [error, setError] = useState(null);
 
   // 인풋 변경 이벤트 핸들러
@@ -103,10 +113,10 @@ const LoginForm = forwardRef(({ checkLogin }, ref) => {
     dispatch(
       changeField({
         key: name,
-        value
-      })
-    )
-  }
+        value,
+      }),
+    );
+  };
 
   // 폼 등록 이벤트 핸들러
   const onSubmit = e => {
@@ -117,8 +127,8 @@ const LoginForm = forwardRef(({ checkLogin }, ref) => {
 
   // 컴포넌트 처음 렌더링 시 form 초기화
   useEffect(() => {
-    dispatch(initializeForm())
-  }, [dispatch])
+    dispatch(initializeForm());
+  }, [dispatch]);
 
   useEffect(() => {
     if (authError) {
@@ -131,7 +141,7 @@ const LoginForm = forwardRef(({ checkLogin }, ref) => {
       console.log('로그인 성공');
       dispatch(check());
     }
-  }, [auth, authError, dispatch])
+  }, [auth, authError, dispatch]);
 
   useEffect(() => {
     console.log('로그인 상태 확인');
@@ -143,7 +153,6 @@ const LoginForm = forwardRef(({ checkLogin }, ref) => {
       } catch (e) {
         console.log('localStroage is not workding');
       }
-
     }
   }, [user]);
 
@@ -156,14 +165,16 @@ const LoginForm = forwardRef(({ checkLogin }, ref) => {
           name="username"
           placeholder="아이디"
           onChange={onChange}
-          value={username} />
+          value={username}
+        />
         <StyledInput
           autoComplete="new-password"
           name="password"
           placeholder="비밀번호"
           type="password"
           onChange={onChange}
-          value={password} />
+          value={password}
+        />
         {error && <ErrorMessage>{error}</ErrorMessage>}
         <Button>확인</Button>
       </form>
@@ -171,8 +182,8 @@ const LoginForm = forwardRef(({ checkLogin }, ref) => {
         <p>게스트이신가요?</p>
       </Footer>
     </Wrapper>
-  )
-})
+  );
+});
 
 const LoginBox = () => {
   const target = useSelector(state => state.controller.target);
@@ -182,11 +193,12 @@ const LoginBox = () => {
   const checkLogin = () => {
     dispatch(setTarget('loading'));
     setTimeout(() => dispatch(setTarget('key')), 2000);
-  }
+  };
 
   useEffect(() => {
     if (target === 'login') {
-      gsap.timeline()
+      gsap
+        .timeline()
         .to(boxRef.current.position, {
           z: 3,
           delay: 1,
@@ -195,9 +207,10 @@ const LoginBox = () => {
         .to(formRef.current, {
           autoAlpha: 1,
           duration: 1,
-        })
+        });
     } else {
-      gsap.timeline()
+      gsap
+        .timeline()
         .to(formRef.current, {
           autoAlpha: 0,
           duration: 1,
@@ -205,16 +218,13 @@ const LoginBox = () => {
         .to(boxRef.current.position, {
           z: -3,
           duration: 1,
-        })
+        });
     }
-  }, [target])
+  }, [target]);
 
   return (
-    <group
-      position={[3, -3, -3]}
-      ref={boxRef}>
-      <mesh
-        rotation={[-Math.PI / 20, 0, -Math.PI / 20]}>
+    <group position={[3, -3, -3]} ref={boxRef}>
+      <mesh rotation={[-Math.PI / 20, 0, -Math.PI / 20]}>
         <boxGeometry args={[5, 0.2, 4.5]} />
         <meshStandardMaterial />
         <Html
@@ -229,7 +239,7 @@ const LoginBox = () => {
         </Html>
       </mesh>
     </group>
-  )
-}
+  );
+};
 
 export default LoginBox;

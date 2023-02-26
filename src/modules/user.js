@@ -31,7 +31,7 @@ export function* userSaga() {
 }
 
 const user = createSlice({
-  name: "user",
+  name: 'user',
   initialState: {
     user: null,
     checkError: null,
@@ -50,14 +50,9 @@ const user = createSlice({
     },
     logout: (state, action) => {
       state.user = null;
-    }
-  }
+    },
+  },
 });
 
-export const {
-  tempSetUser,
-  checkSuccess,
-  checkFailure,
-  logout
-} = user.actions
+export const { tempSetUser, checkSuccess, checkFailure, logout } = user.actions;
 export default user.reducer;

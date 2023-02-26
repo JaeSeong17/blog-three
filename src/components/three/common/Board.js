@@ -1,12 +1,11 @@
-import { useDispatch, useSelector } from "react-redux";
-import { setTarget } from "../../../modules/controller";
-import { listPosts, loadComplete } from "../../../modules/posts";
-import BoardPanel from "./BoardPanel";
-import { forwardRef, useImperativeHandle, useRef } from "react";
-import gsap from "gsap";
-import CustomEase from "gsap/CustomEase";
-
-import { useParams } from "react-router-dom";
+import { useDispatch, useSelector } from 'react-redux';
+import { setTarget } from '../../../modules/controller';
+import { listPosts, loadComplete } from '../../../modules/posts';
+import BoardPanel from './BoardPanel';
+import { forwardRef, useImperativeHandle, useRef } from 'react';
+import gsap from 'gsap';
+import CustomEase from 'gsap/CustomEase';
+import { useParams } from 'react-router-dom';
 
 const Board = forwardRef(({ props }, ref) => {
   const dispatch = useDispatch();
@@ -16,21 +15,19 @@ const Board = forwardRef(({ props }, ref) => {
     boardOnAnime,
     boardOffAnime,
     panelOnAnime,
-    panelOffAnime
-  }))
+    panelOffAnime,
+  }));
 
   const { username } = useParams();
-  const { target, posts, tag, page, error, loading, waiting, complete } = useSelector(
+  const { posts, tag, page, error, loading, waiting } = useSelector(
     ({ controller, posts, loading }) => ({
-      target: controller.target,
       posts: posts.posts,
       tag: posts.currTag,
       page: posts.currPage,
       error: posts.error,
       waiting: posts.waiting,
-      complete: posts.complete,
-      loading: loading['posts/listPosts']
-    })
+      loading: loading['posts/listPosts'],
+    }),
   );
 
   function panelOnAnime() {
@@ -39,16 +36,15 @@ const Board = forwardRef(({ props }, ref) => {
     for (let i = 0; i < posts.length; i++) {
       panelsPos.push(panelsRef.current[i].position);
     }
-    const tl = gsap.timeline()
-      .to(panelsPos, {
-        z: 1,
-        ease: CustomEase.create(
-          "custom",
-          "M0,0 C0.126,0.382 0.232,1.89 0.49,1.194 0.666,0.718 0.818,1.001 1,1 "
-        ),
-        stagger: 0.1,
-        duration: 1
-      })
+    const tl = gsap.timeline().to(panelsPos, {
+      z: 1,
+      ease: CustomEase.create(
+        'custom',
+        'M0,0 C0.126,0.382 0.232,1.89 0.49,1.194 0.666,0.718 0.818,1.001 1,1 ',
+      ),
+      stagger: 0.1,
+      duration: 1,
+    });
     return tl;
   }
 
@@ -57,35 +53,32 @@ const Board = forwardRef(({ props }, ref) => {
     for (let i = 0; i < posts.length; i++) {
       panelsPos.push(panelsRef.current[i].position);
     }
-    const tl = gsap.timeline()
-      .to(panelsPos, {
-        z: 0,
-        stagger: 0.1,
-        duration: 1,
-        onComplete: () => {
-          if (waiting) {
-            dispatch(listPosts({ page, username, tag }));
-          }
+    const tl = gsap.timeline().to(panelsPos, {
+      z: 0,
+      stagger: 0.1,
+      duration: 1,
+      onComplete: () => {
+        if (waiting) {
+          dispatch(listPosts({ page, username, tag }));
         }
-      })
+      },
+    });
     return tl;
   }
 
   function boardOnAnime() {
-    const tl = gsap.timeline()
-      .to(boardRef.current.position, {
-        z: 2,
-        duration: 0.4
-      });
+    const tl = gsap.timeline().to(boardRef.current.position, {
+      z: 2,
+      duration: 0.4,
+    });
     return tl;
   }
 
   function boardOffAnime() {
-    const tl = gsap.timeline()
-      .to(boardRef.current.position, {
-        z: 0,
-        duration: 0.1,
-      })
+    const tl = gsap.timeline().to(boardRef.current.position, {
+      z: 0,
+      duration: 0.1,
+    });
     return tl;
   }
 
@@ -101,22 +94,24 @@ const Board = forwardRef(({ props }, ref) => {
       </mesh>
       <mesh
         position={[-9.1, -3.2, 1]}
-        onClick={(e) => {
+        onClick={e => {
           dispatch(setTarget('key'));
         }}>
         <boxGeometry args={[1.2, 2.8, 0.3]} />
         <meshStandardMaterial color="red" />
       </mesh>
-      {!loading && posts && posts.map((post, idx) => (
-        <BoardPanel
-          ref={el => panelsRef.current[idx] = el}
-          post={post}
-          key={idx}
-          position={[-6.5 + idx * 3.6, 0, 0]}
-        />
-      ))}
+      {!loading &&
+        posts &&
+        posts.map((post, idx) => (
+          <BoardPanel
+            ref={el => (panelsRef.current[idx] = el)}
+            post={post}
+            key={idx}
+            position={[-6.5 + idx * 3.6, 0, 0]}
+          />
+        ))}
     </group>
-  )
-})
+  );
+});
 
 export default Board;
