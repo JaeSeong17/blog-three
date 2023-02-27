@@ -1,7 +1,7 @@
 import { useNavigate } from '../../../../node_modules/react-router-dom/dist/index';
 import { useImperativeHandle, forwardRef } from 'react';
 import { useDispatch } from 'react-redux';
-import { initialize } from '../../../modules/write';
+import { initialize } from '../../../modules/screen/write';
 
 const Navigator = forwardRef((props, ref) => {
   const navigate = useNavigate();

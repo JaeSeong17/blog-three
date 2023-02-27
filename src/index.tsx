@@ -6,9 +6,10 @@ import createSagaMiddleware from 'redux-saga';
 import { configureStore } from '@reduxjs/toolkit';
 import App from './App';
 import './index.css';
-import controllerReducer from 'src/modules/controller';
-import postsReducer, { postsSaga } from 'src/modules/posts.js';
-import loadingReducer from 'src/modules/loading.js';
+import controllerReducer from 'src/modules/root/controller';
+import postsReducer, { postsSaga } from 'src/modules/root/posts';
+import loadingReducer from 'src/modules/loading';
+import userReducer from 'src/modules/root/user';
 
 export function* rootSaga() {
   yield all([postsSaga()]);
@@ -17,6 +18,7 @@ const sagaMiddleware = createSagaMiddleware();
 const store = configureStore({
   reducer: {
     controller: controllerReducer,
+    user: userReducer,
     posts: postsReducer,
     loading: loadingReducer,
   },

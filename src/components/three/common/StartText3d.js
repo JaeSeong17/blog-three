@@ -3,7 +3,7 @@ import * as THREE from 'three';
 import { useRef, useEffect } from 'react';
 import gsap from 'gsap';
 import { useSelector, useDispatch } from 'react-redux';
-import { setTarget } from '../../../modules/controller';
+import { setTarget } from '../../../modules/root/controller';
 
 const material = new THREE.MeshStandardMaterial({
   color: new THREE.Color('#fafafa').convertSRGBToLinear(),
@@ -18,6 +18,7 @@ const StartText3d = () => {
   const entireRef = useRef();
   const dispatch = useDispatch();
   const target = useSelector(state => state.controller.target);
+  const user = useSelector(state => state.user.user);
 
   useEffect(() => {
     gsap.to(entireRef.current.position, {
@@ -76,7 +77,8 @@ const StartText3d = () => {
       <group
         onClick={e => {
           e.stopPropagation();
-          dispatch(setTarget('login'));
+          if (user) dispatch(setTarget('key'));
+          else dispatch(setTarget('login'));
         }}>
         <Text3D
           position={[2.2, 0, -2.4]}

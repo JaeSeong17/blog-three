@@ -6,7 +6,7 @@ import { useImperativeHandle } from 'react';
 import { useNavigate } from '../../../../node_modules/react-router-dom/dist/index';
 import { forwardRef } from 'react';
 import { useDispatch } from 'react-redux';
-import { initialize } from '../../../modules/write';
+import { initialize } from '../../../modules/screen/write';
 
 const WritePage = forwardRef(({ writeComplete }, ref) => {
   const navigate = useNavigate();

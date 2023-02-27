@@ -1,6 +1,6 @@
 import { useEffect, useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { changeField, initialize } from '../../../modules/write';
+import { changeField, initialize } from '../../../modules/screen/write';
 import Editor from './Editor';
 
 const EditorContainer = () => {

@@ -7,18 +7,19 @@ import authReducer, {
   initializeForm,
   login,
   authSaga,
-} from '../../../modules/auth';
+} from '../../../modules/auth/auth';
 import userReducer, {
   check,
   userSaga,
   tempSetUser,
-} from '../../../modules/user';
+} from '../../../modules/auth/user';
 import { configureStore } from '@reduxjs/toolkit';
 import loadingReducer from '../../../modules/loading';
 import createSagaMiddleware from 'redux-saga';
 import { all } from 'redux-saga/effects';
 import gsap from 'gsap';
-import { setTarget } from '../../../modules/controller';
+import { setTarget } from '../../../modules/root/controller';
+import { setRootUser } from '../../../modules/root/user';
 
 const Wrapper = styled.div`
   background-color: white;
@@ -94,7 +95,7 @@ function loadUser() {
 sagaMiddleware.run(loginSaga);
 loadUser();
 
-const LoginForm = forwardRef(({ checkLogin }, ref) => {
+const LoginForm = forwardRef(({ updateRootUser, setTargetToKey }, ref) => {
   const dispatch = useDispatch();
   const { username, password, auth, authError, user } = useSelector(
     ({ auth, user }) => ({
@@ -147,7 +148,8 @@ const LoginForm = forwardRef(({ checkLogin }, ref) => {
     console.log('로그인 상태 확인');
     if (user) {
       console.log('로그인 상태 확인 성공');
-
+      updateRootUser(user);
+      setTargetToKey();
       try {
         localStorage.setItem('user', JSON.stringify(user));
       } catch (e) {
@@ -190,7 +192,11 @@ const LoginBox = () => {
   const boxRef = useRef(null);
   const formRef = useRef(null);
   const dispatch = useDispatch();
-  const checkLogin = () => {
+  const updateRootUser = user => {
+    dispatch(setRootUser(user));
+  };
+  const setTargetToKey = () => {
+    if (target !== 'login') return;
     dispatch(setTarget('loading'));
     setTimeout(() => dispatch(setTarget('key')), 2000);
   };
@@ -234,7 +240,11 @@ const LoginBox = () => {
           rotation-x={Math.PI / 2}
           position={[0, -0.11, 0]}>
           <Provider store={authStore}>
-            <LoginForm ref={formRef} checkLogin={checkLogin} />
+            <LoginForm
+              ref={formRef}
+              updateRootUser={updateRootUser}
+              setTargetToKey={setTargetToKey}
+            />
           </Provider>
         </Html>
       </mesh>

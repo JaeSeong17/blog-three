@@ -1,7 +1,7 @@
 import { useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
-import { listPosts, loadComplete } from '../../../modules/posts';
+import { listPosts, loadComplete } from '../../../modules/root/posts';
 import Board from '../common/Board';
 import Pagination from '../common/Pagination';
 import gsap from 'gsap';

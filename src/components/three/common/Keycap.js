@@ -2,10 +2,10 @@ import * as THREE from 'three';
 // import { useSpring, config, animated } from '@react-spring/three';
 import { forwardRef, useRef, useImperativeHandle, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { setIndex, setTarget } from '../../../modules/controller';
+import { setIndex, setTarget } from '../../../modules/root/controller';
 import { useGLTF } from '@react-three/drei';
 import gsap from 'gsap';
-import { setCurrTag, setCurrMode, setComplete } from '../../../modules/posts';
+import { setCurrTag, setCurrMode, setComplete } from '../../../modules/root/posts';
 
 const Keycap = forwardRef(({ position, index, writeBtn, tag }, ref) => {
   const dispatch = useDispatch();

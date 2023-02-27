@@ -1,10 +1,10 @@
 import { useRef } from 'react';
 import gsap from 'gsap';
 import { useDispatch } from 'react-redux';
-import { setTarget } from '../../../modules/controller';
+import { setTarget } from '../../../modules/root/controller';
 import { Html } from '@react-three/drei';
 import PostItem from '../../html/common/PostItem';
-import { setCurrPost } from '../../../modules/posts';
+import { setCurrPost } from '../../../modules/root/posts';
 import { forwardRef, useImperativeHandle, useEffect } from 'react';
 
 const BoardPanel = forwardRef(({ position, post }, ref) => {

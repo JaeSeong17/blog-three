@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
-import createRequestSaga from '../lib/createRequestSaga';
-import * as postsAPI from '../lib/api/posts';
+import createRequestSaga from '../../lib/createRequestSaga';
+import * as postsAPI from '../../lib/api/posts';
 import { takeLatest } from 'redux-saga/effects';
 
 // 사가 생성

@@ -1,6 +1,6 @@
 import { all } from 'redux-saga/effects';
-import writeReducer, { writeSaga } from '../../../modules/write';
-import postReducer, { postSaga } from '../../../modules/post';
+import writeReducer, { writeSaga } from '../../../modules/screen/write';
+import postReducer, { postSaga } from '../../../modules/screen/post';
 import loadingReducer from '../../../modules/loading';
 import createSagaMiddleware from 'redux-saga';
 import { configureStore } from '@reduxjs/toolkit';

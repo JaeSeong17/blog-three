@@ -1,7 +1,7 @@
 import { useRef, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import gsap from 'gsap';
-import { setTarget } from '../../../modules/controller';
+import { setTarget } from '../../../modules/root/controller';
 
 const ConnectBoxes = () => {
   const boxesRef = useRef([]);

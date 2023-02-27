@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
-import { readPost, unloadPost } from '../../../modules/post';
+import { readPost, unloadPost } from '../../../modules/screen/post';
 import PostViewer from './PostViewer';
 
 const PostViewerContainer = () => {

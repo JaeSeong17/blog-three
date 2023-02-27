@@ -3,8 +3,8 @@ import { useRef, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import gsap from 'gsap';
 import ScreenHtml from '../../html/root/ScreenHtml';
-import { setTarget } from '../../../modules/controller';
-import { setCurrMode } from '../../../modules/posts';
+import { setTarget } from '../../../modules/root/controller';
+import { setCurrMode } from '../../../modules/root/posts';
 
 const Screen = () => {
   const dispatch = useDispatch();

@@ -4,7 +4,7 @@ import PostViewerContainer from '../post/PostViewerContainer';
 import { useNavigate } from 'react-router-dom';
 import { useImperativeHandle } from 'react';
 import { useDispatch } from 'react-redux';
-import { initialize } from '../../../modules/write';
+import { initialize } from '../../../modules/screen/write';
 
 const PostPage = forwardRef((props, ref) => {
   const navigate = useNavigate();

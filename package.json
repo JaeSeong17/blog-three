@@ -36,6 +36,7 @@
     "redux-saga": "^1.2.1",
     "styled-components": "^5.3.6",
     "three": "^0.145.0",
+    "tsc-alias": "^1.8.2",
     "typescript": "^4.9.5",
     "web-vitals": "^2.1.0"
   },
@@ -65,6 +66,6 @@
   },
   "proxy": "http://localhost:4000/",
   "_moduleAliases": {
-    "@modules": "dist"
+    "@modules": "src/modules"
   }
 }

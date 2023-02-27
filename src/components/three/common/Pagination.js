@@ -6,7 +6,7 @@ import {
   decreasePage,
   increasePage,
   loadWaiting,
-} from '../../../modules/posts';
+} from '../../../modules/root/posts';
 import { forwardRef, useImperativeHandle } from 'react';
 
 const Pagination = forwardRef(({ props }, ref) => {

@@ -1,6 +1,6 @@
 import { useDispatch, useSelector } from 'react-redux';
-import { setTarget } from '../../../modules/controller';
-import { listPosts, loadComplete } from '../../../modules/posts';
+import { setTarget } from '../../../modules/root/controller';
+import { listPosts, loadComplete } from '../../../modules/root/posts';
 import BoardPanel from './BoardPanel';
 import { forwardRef, useImperativeHandle, useRef } from 'react';
 import gsap from 'gsap';
