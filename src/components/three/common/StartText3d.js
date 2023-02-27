@@ -77,8 +77,12 @@ const StartText3d = () => {
       <group
         onClick={e => {
           e.stopPropagation();
-          if (user) dispatch(setTarget('key'));
-          else dispatch(setTarget('login'));
+          if (user) {
+            dispatch(setTarget('loading'));
+            setTimeout(() => dispatch(setTarget('key')), 1500);
+          } else {
+            dispatch(setTarget('login'));
+          }
         }}>
         <Text3D
           position={[2.2, 0, -2.4]}

@@ -1,4 +1,4 @@
-import styled, { css } from 'styled-components';
+import styled from 'styled-components';
 import SubInfo from './SubInfo';
 import Tags from './Tags';
 
@@ -11,7 +11,7 @@ const PostItemBlock = styled.div`
 `;
 
 const PostItem = ({ post }) => {
-  const { publishedDate, user, tags, title, body, _id } = post;
+  const { publishedDate, user, tags, title, body } = post;
   return (
     <PostItemBlock>
       <h2>{title}</h2>

@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { setIndex, setTarget } from '../../../modules/root/controller';
 import { useGLTF } from '@react-three/drei';
 import gsap from 'gsap';
-import { setCurrTag, setCurrMode, setComplete } from '../../../modules/root/posts';
+import { setCurrTag, setCurrMode, setComplete } from 'src/modules/root/posts';
 
 const Keycap = forwardRef(({ position, index, writeBtn, tag }, ref) => {
   const dispatch = useDispatch();
@@ -14,16 +14,6 @@ const Keycap = forwardRef(({ position, index, writeBtn, tag }, ref) => {
   const { nodes } = useGLTF('/keycap.glb');
   const innerRef = useRef();
   useImperativeHandle(ref, () => innerRef.current);
-
-  // const threeColor = new THREE.Color();
-  // const { scale, color } = useSpring({
-  //   color: target === 'board' && index === current ? threeColor.set('rgba(255, 77, 77, 1)').convertSRGBToLinear() : threeColor.set('rgba(255, 255, 255, 1)').convertSRGBToLinear(),
-  //   config: config.wobbly
-  // });
-
-  useEffect(() => {
-    console.log(innerRef.current);
-  }, [target, index]);
 
   const clickAnime = gsap.timeline();
   return (
@@ -59,7 +49,11 @@ const Keycap = forwardRef(({ position, index, writeBtn, tag }, ref) => {
       rotation={[Math.PI / 2, 0, 0]}
       geometry={nodes.Cube.geometry}>
       <meshStandardMaterial
-        // color={color}
+        color={
+          target === 'board' && index === current
+            ? 'rgba(255, 77, 77, 1)'
+            : 'rgba(255, 255, 255, 1)'
+        }
         roughness={0}
         metalness={0.8}
         emissive={new THREE.Color('#ff0000').convertSRGBToLinear()}
