@@ -35,7 +35,7 @@ const Keycap = forwardRef(({ position, index, writeBtn, tag }, ref) => {
           } else {
             dispatch(setIndex(index));
           }
-          dispatch(setCurrMode('post'));
+          // dispatch(setCurrMode('post'));
           dispatch(setCurrTag(tag === 'Total' ? null : tag));
           dispatch(setTarget('board'));
         }

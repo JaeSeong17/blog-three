@@ -4,7 +4,7 @@ import { useDispatch } from 'react-redux';
 import { setTarget } from '../../../modules/root/controller';
 import { Html } from '@react-three/drei';
 import PostItem from '../../html/common/PostItem';
-import { setCurrPost } from '../../../modules/root/posts';
+import { setCurrPost, setCurrMode } from '../../../modules/root/posts';
 import { forwardRef, useImperativeHandle, useEffect } from 'react';
 
 const BoardPanel = forwardRef(({ position, post }, ref) => {
@@ -30,8 +30,9 @@ const BoardPanel = forwardRef(({ position, post }, ref) => {
       onClick={e => {
         e.stopPropagation();
         clickAnimation();
-        dispatch(setCurrPost({ username: user.username, postId: _id }));
+        dispatch(setCurrMode('post'));
         dispatch(setTarget('connect'));
+        dispatch(setCurrPost({ username: user.username, postId: _id }));
       }}>
       <mesh>
         <boxGeometry args={[3.5, 9.2, 0.2]} />
