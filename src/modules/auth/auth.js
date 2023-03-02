@@ -4,16 +4,26 @@ import * as authAPI from '../../lib/api/auth';
 import { takeLatest } from 'redux-saga/effects';
 
 const LOGIN = 'auth/login';
-// 사가 생성
+const REGISTER = 'auth/register';
 export const login = createAction(LOGIN, ({ username, password }) => ({
   payload: {
     username,
     password,
   },
 }));
+export const register = createAction(REGISTER, ({ username, password }) => ({
+  payload: {
+    username,
+    password,
+  },
+}));
+
+// 사가 생성
 const loginSaga = createRequestSaga(LOGIN, authAPI.login);
+const registerSaga = createRequestSaga(REGISTER, authAPI.register);
 export function* authSaga() {
   yield takeLatest(LOGIN, loginSaga);
+  yield takeLatest(REGISTER, registerSaga);
 }
 
 const initialState = {
@@ -48,6 +58,13 @@ const auth = createSlice({
     loginFailure: (state, { payload: error }) => {
       state.authError = error;
     },
+    registerSuccess: (state, { payload: auth }) => {
+      state.auth = auth;
+      state.authError = null;
+    },
+    registerFailuer: (state, { payload: error }) => {
+      state.authError = error;
+    }
   },
 });
 
