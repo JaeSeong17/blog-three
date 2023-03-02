@@ -16,21 +16,30 @@ export function* authSaga() {
   yield takeLatest(LOGIN, loginSaga);
 }
 
-const auth = createSlice({
-  name: 'auth',
-  initialState: {
+const initialState = {
+  register: {
     username: '',
     password: '',
-    auth: null,
-    authError: null,
+    passwordConfirm: '',
   },
+  login: {
+    username: '',
+    password: '',
+  },
+  auth: null,
+  authError: null,
+};
+
+const auth = createSlice({
+  name: 'auth',
+  initialState,
   reducers: {
-    changeField: (state, action) => {
-      state[action.payload.key] = action.payload.value;
+    changeField: (state, { payload: { form, key, value } }) => {
+      state[form][key] = value;
     },
-    initializeForm: state => {
-      state.username = '';
-      state.password = '';
+    initializeForm: (state, { payload: form }) => {
+      state[form] = initialState[form];
+      state.authError = null;
     },
     loginSuccess: (state, { payload: auth }) => {
       state.auth = auth;
