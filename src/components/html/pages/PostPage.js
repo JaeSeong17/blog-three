@@ -1,30 +1,12 @@
-import { forwardRef } from 'react';
 import HtmlWrapper from '../common/HtmlWrapper';
 import PostViewerContainer from '../post/PostViewerContainer';
-import { useNavigate } from 'react-router-dom';
-import { useImperativeHandle } from 'react';
-import { useDispatch } from 'react-redux';
-import { initialize } from '../../../modules/screen/write';
 
-const PostPage = forwardRef((props, ref) => {
-  const navigate = useNavigate();
-  const dispatch = useDispatch();
-  useImperativeHandle(ref, () => ({
-    writeNavigate,
-    postNavigate,
-  }));
-  function writeNavigate() {
-    dispatch(initialize());
-    navigate('/write');
-  }
-  function postNavigate(currPostUsername, currPostId) {
-    navigate(`/@${currPostUsername}/${currPostId}`);
-  }
+const PostPage = ({ currPostId }) => {
   return (
     <HtmlWrapper>
-      <PostViewerContainer />
+      <PostViewerContainer currPostId={currPostId} />
     </HtmlWrapper>
   );
-});
+};
 
 export default PostPage;

@@ -1,12 +1,11 @@
 import { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
 import { setTarget } from '../../../modules/root/controller';
 import { writePost } from '../../../modules/screen/write';
 import WriteActionButtons from './WriteActionButtons';
 
 const WriteActionButtonsContainer = ({ writeComplete }) => {
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
   const dispatch = useDispatch();
   const { title, body, tags, post, postError } = useSelector(({ write }) => ({
     title: write.title,
@@ -35,13 +34,15 @@ const WriteActionButtonsContainer = ({ writeComplete }) => {
   // 성공 혹은 실패 시 할 작업
   useEffect(() => {
     if (post) {
+      console.log(post);
       const { _id, user } = post;
-      navigate(`/@${user.username}/${_id}`);
+      console.log(_id, user);
+      writeComplete(user.username, _id);
     }
     if (postError) {
       console.log(postError);
     }
-  }, [navigate, post, postError]);
+  }, [post, postError]);
   return <WriteActionButtons onPublish={onPublish} onCancel={onCancel} />;
 };
 

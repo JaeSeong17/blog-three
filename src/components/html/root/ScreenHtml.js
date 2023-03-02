@@ -5,11 +5,8 @@ import loadingReducer from '../../../modules/loading';
 import createSagaMiddleware from 'redux-saga';
 import { configureStore } from '@reduxjs/toolkit';
 import { Provider } from 'react-redux';
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import WritePage from '../../html/pages/WritePage';
-import PostPage from '../../html/pages/PostPage';
-import Navigator from '../pages/Navigator';
-import { useEffect, useRef } from 'react';
+import WritePage from '../pages/WritePage';
+import PostPage from '../pages/PostPage';
 
 export function* screenSaga() {
   yield all([writeSaga(), postSaga()]);
@@ -32,45 +29,14 @@ const ScreenHtml = ({
   currMode,
   writeComplete,
 }) => {
-  const rootRef = useRef();
-  const writeRef = useRef();
-  const postRef = useRef();
-  useEffect(() => {
-    console.log(currPostUsername, currPostId);
-    if (currMode === 'post' && currPostUsername && currPostId) {
-      if (rootRef.current)
-        rootRef.current.postNavigate(currPostUsername, currPostId);
-      else if (writeRef.current)
-        writeRef.current.postNavigate(currPostUsername, currPostId);
-      else if (postRef.current)
-        postRef.current.postNavigate(currPostUsername, currPostId);
-    }
-  }, [currMode, currPostUsername, currPostId]);
-  useEffect(() => {
-    if (currMode === 'write') {
-      if (rootRef.current) rootRef.current.writeNavigate();
-      else if (writeRef.current) writeRef.current.writeNavigate();
-      else if (postRef.current) postRef.current.writeNavigate();
-    }
-  }, [currMode]);
+  let currScreen;
+  if (currMode === 'post' && currPostUsername && currPostId) {
+    currScreen = <PostPage currPostId={currPostId} />;
+  } else if (currMode === 'write') {
+    currScreen = <WritePage writeComplete={writeComplete} />;
+  }
 
-  return (
-    <Provider store={writeStore}>
-      <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<Navigator ref={rootRef} />} />
-          <Route
-            path="/write"
-            element={<WritePage ref={writeRef} writeComplete={writeComplete} />}
-          />
-          <Route
-            path="/@:username/:postId"
-            element={<PostPage ref={postRef} />}
-          />
-        </Routes>
-      </BrowserRouter>
-    </Provider>
-  );
+  return <Provider store={writeStore}>{currScreen}</Provider>;
 };
 
 export default ScreenHtml;

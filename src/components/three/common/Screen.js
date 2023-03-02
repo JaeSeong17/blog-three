@@ -4,7 +4,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import gsap from 'gsap';
 import ScreenHtml from '../../html/root/ScreenHtml';
 import { setTarget } from '../../../modules/root/controller';
-import { setCurrMode } from '../../../modules/root/posts';
+import { setCurrMode, setCurrPost } from '../../../modules/root/posts';
 
 const Screen = () => {
   const dispatch = useDispatch();
@@ -21,7 +21,8 @@ const Screen = () => {
     });
   }, [target]);
 
-  function writeComplete() {
+  function writeComplete(username, postId) {
+    dispatch(setCurrPost({ username, postId }));
     dispatch(setCurrMode('post'));
   }
 
@@ -48,7 +49,7 @@ const Screen = () => {
       </mesh>
       <mesh
         position={[-13, -0.5, 9.5]}
-        onClick={e => {
+        onClick={() => {
           if (currMode === 'write') {
             dispatch(setTarget('key'));
           } else if (currMode === 'post') {
