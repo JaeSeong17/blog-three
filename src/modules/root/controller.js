@@ -9,6 +9,10 @@ const camSetting = {
     angle: { x: 0, y: 0, z: 2 },
     pos: { x: 0, y: -30, z: 3 },
   },
+  register: {
+    angle: { x: 0, y: 0, z: 2 },
+    pos: { x: 0, y: -30, z: 3 },
+  },
   loading: {
     angle: { x: 0, y: 0, z: 2 },
     pos: { x: 0, y: -30, z: 3 },
