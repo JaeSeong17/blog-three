@@ -1,9 +1,7 @@
-import { createSlice, createAction } from '@reduxjs/toolkit';
+import { createSlice } from '@reduxjs/toolkit';
 import { takeLatest, call } from 'redux-saga/effects';
 import * as authAPI from '../../lib/api/auth';
 
-const LOGOUT = 'user/logout';
-export const logout = createAction(LOGOUT);
 function* logoutSaga() {
   try {
     console.log('try logout');
@@ -14,20 +12,28 @@ function* logoutSaga() {
   }
 }
 export function* userSaga() {
-  yield takeLatest(LOGOUT, logoutSaga);
+  yield takeLatest(rootLogout, logoutSaga);
 }
 
 const user = createSlice({
   name: 'user',
   initialState: {
     user: null,
+    tryLogout: false,
   },
   reducers: {
     setRootUser: (state, { payload: user }) => {
       state.user = user;
     },
+    rootLogout: state => {
+      state.user = null;
+      state.tryLogout = true;
+    },
+    completeSyncLogout: state => {
+      state.tryLogout = false;
+    },
   },
 });
 
-export const { setRootUser } = user.actions;
+export const { setRootUser, rootLogout, completeSyncLogout } = user.actions;
 export default user.reducer;

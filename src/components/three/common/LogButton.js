@@ -4,7 +4,7 @@ import gsap from 'gsap';
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect, useRef } from 'react';
 import { setTarget } from '../../../modules/root/controller';
-import { logout } from '../../../modules/auth/user';
+import { rootLogout } from '../../../modules/root/user';
 
 const material = new THREE.MeshStandardMaterial({
   color: new THREE.Color('#fafafa').convertSRGBToLinear(),
@@ -50,7 +50,7 @@ const LogButton = () => {
       onClick={e => {
         e.stopPropagation();
         if (user) {
-          dispatch(logout());
+          dispatch(rootLogout());
         }
         clickAnimation();
         dispatch(setTarget('login'));

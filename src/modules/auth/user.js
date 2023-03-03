@@ -16,7 +16,6 @@ function checkFailureSaga() {
     console.log('localStorage is not working');
   }
 }
-export const logout = createAction(LOGOUT);
 function* logoutSaga() {
   try {
     yield call(authAPI.logout);
@@ -38,6 +37,10 @@ const user = createSlice({
     checkError: null,
   },
   reducers: {
+    initializeUser: state => {
+      state.user = null;
+      state.checkError = null;
+    },
     tempSetUser: (state, { payload: user }) => {
       state.user = user;
     },
@@ -49,8 +52,17 @@ const user = createSlice({
       state.user = null;
       state.checkError = error;
     },
+    logout: state => {
+      state.user = null;
+    },
   },
 });
 
-export const { tempSetUser, checkSuccess, checkFailure } = user.actions;
+export const {
+  initializeUser,
+  tempSetUser,
+  checkSuccess,
+  checkFailure,
+  logout,
+} = user.actions;
 export default user.reducer;

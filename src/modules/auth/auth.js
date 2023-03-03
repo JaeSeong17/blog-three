@@ -64,7 +64,7 @@ const auth = createSlice({
     },
     registerFailuer: (state, { payload: error }) => {
       state.authError = error;
-    }
+    },
   },
 });
 

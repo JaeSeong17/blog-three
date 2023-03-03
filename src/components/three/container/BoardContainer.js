@@ -41,7 +41,6 @@ const BoardContainer = () => {
   }, [tag]);
 
   useEffect(() => {
-    console.log('check change wait, comp: ', waiting, complete);
     if (waiting && !complete) {
       boardRef.current.panelOffAnime();
     } else if (waiting && complete) {
