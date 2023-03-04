@@ -1,7 +1,12 @@
 import AuthTemplate from './AuthTemplate';
 import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { changeField, initializeForm, login } from '../../../modules/auth/auth';
+import {
+  changeField,
+  initializeAuth,
+  initializeForm,
+  login,
+} from '../../../modules/auth/auth';
 import { check, initializeUser } from '../../../modules/auth/user';
 
 const LoginForm = ({
@@ -60,6 +65,7 @@ const LoginForm = ({
 
   useEffect(() => {
     if (rootUser.tryLogout) {
+      dispatch(initializeAuth());
       dispatch(initializeUser());
       initRootUser();
       return;

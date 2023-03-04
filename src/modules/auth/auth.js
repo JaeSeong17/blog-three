@@ -47,6 +47,12 @@ const auth = createSlice({
     changeField: (state, { payload: { form, key, value } }) => {
       state[form][key] = value;
     },
+    initializeAuth: state => {
+      state['register'] = initialState['register'];
+      state['login'] = initialState['login'];
+      state.auth = null;
+      state.authError = null;
+    },
     initializeForm: (state, { payload: form }) => {
       state[form] = initialState[form];
       state.authError = null;
@@ -62,12 +68,19 @@ const auth = createSlice({
       state.auth = auth;
       state.authError = null;
     },
-    registerFailuer: (state, { payload: error }) => {
+    registerFailure: (state, { payload: error }) => {
       state.authError = error;
     },
   },
 });
 
-export const { changeField, initializeForm, loginSuccess, loginFailure } =
-  auth.actions;
+export const {
+  changeField,
+  initializeAuth,
+  initializeForm,
+  loginSuccess,
+  loginFailure,
+  registerSuccess,
+  registerFailure,
+} = auth.actions;
 export default auth.reducer;
