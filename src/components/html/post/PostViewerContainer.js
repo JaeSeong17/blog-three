@@ -1,11 +1,9 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useParams } from 'react-router-dom';
 import { readPost, unloadPost } from '../../../modules/screen/post';
 import PostViewer from './PostViewer';
 
 const PostViewerContainer = ({ currPostId }) => {
-  // const { postId } = useParams();
   const dispatch = useDispatch();
   const { post, error, loading } = useSelector(({ post, loading }) => ({
     post: post.post,
