@@ -3,7 +3,7 @@ import styled from 'styled-components';
 const AuthFormBlock = styled.div`
   background-color: white;
   width: 340px;
-  height: 290px;
+  height: 260px;
   padding: 1rem;
 `;
 const StyledInput = styled.input`
@@ -38,13 +38,6 @@ const ErrorMessage = styled.div`
   text-align: center;
   font-size: 0.875;
   margin-top: 1rem;
-`;
-const Footer = styled.div`
-  text-align: right;
-  color: gray;
-  &:hover {
-    color: black;
-  }
 `;
 
 const textMap = {
@@ -86,13 +79,6 @@ const AuthTemplate = ({ type, form, onChange, onSubmit, error }) => {
         {error && <ErrorMessage>{error}</ErrorMessage>}
         <Button>{text}</Button>
       </form>
-      <Footer>
-        {/* {type === 'login' ? (
-          <Link to="/register">회원가입</Link>
-        ) : (
-          <Link to="/login">로그인</Link>
-        )} */}
-      </Footer>
     </AuthFormBlock>
   );
 };
