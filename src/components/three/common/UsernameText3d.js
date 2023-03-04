@@ -17,17 +17,39 @@ const UsernameText3d = () => {
   const textRef1 = useRef();
   const textRef2 = useRef();
   useEffect(() => {
-    gsap
-      .timeline()
-      .to(textRef1.current.position, {
-        z: ['start', 'login', 'loading'].includes(target) ? -2 : 0,
-        delay: 5,
-        duration: 1.2,
-      })
-      .to(textRef2.current.position, {
-        z: ['start', 'login', 'loading'].includes(target) ? -2 : 0,
-        duration: 1.2,
-      });
+    const onTarget = ['key', 'board', 'connect', 'screen'];
+    if (onTarget.includes(target)) {
+      gsap
+        .timeline()
+        .to(textRef1.current.position, {
+          z: 0,
+          delay: 1.8,
+          duration: 1.2,
+        })
+        .to(textRef2.current.position, {
+          z: 0,
+          duration: 1.2,
+        });
+    } else {
+      gsap
+        .timeline()
+        .to(
+          textRef1.current.position,
+          {
+            z: -2,
+            duration: 1.2,
+          },
+          'closeLabel',
+        )
+        .to(
+          textRef2.current.position,
+          {
+            z: -2,
+            duration: 1.2,
+          },
+          'closeLabel',
+        );
+    }
   }, [target]);
 
   return (
@@ -57,8 +79,7 @@ const UsernameText3d = () => {
         size={1.1}
         font="/NanumGothic_Regular.json"
         position={[-2.2, 1, -2]}
-        rotation={[0, 0, Math.PI / 2]}
-        anchorX="right">
+        rotation={[0, 0, Math.PI / 2]}>
         {user ? user.username : 'Guest'}님
       </Text3D>
     </group>

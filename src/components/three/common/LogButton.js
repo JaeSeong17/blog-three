@@ -21,15 +21,16 @@ const LogButton = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    if (['start', 'login', 'loading'].includes(target)) {
+    const onTarget = ['key', ' board', 'connect', 'screen'];
+    if (onTarget.includes(target)) {
       gsap.to(ref.current.position, {
-        z: -3,
+        z: 1,
+        delay: 4,
         duration: 1.2,
       });
     } else {
       gsap.to(ref.current.position, {
-        z: 1,
-        delay: 7,
+        z: -3,
         duration: 1.2,
       });
     }

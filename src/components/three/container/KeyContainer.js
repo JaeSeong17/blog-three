@@ -43,34 +43,87 @@ const KeyContainer = () => {
       boxesPos.push(boxesRef.current[i].position);
       textsPos.push(textsRef[i].position);
     }
-    gsap
-      .timeline()
-      .to(boxesPos, {
-        z: ['start', 'login', 'loading'].includes(target) ? -3 : 1.1,
-        ease: CustomEase.create(
-          'custom',
-          'M0,0 C0.126,0.382 0.232,1.89 0.49,1.194 0.666,0.718 0.818,1.001 1,1 ',
-        ),
-        duration: 1,
-        stagger: 0.2,
-      })
-      .to(textsPos, {
-        z: ['start', 'login', 'loading'].includes(target) ? -3 : 0.4,
-        ease: CustomEase.create(
-          'custom',
-          'M0,0 C0.126,0.382 0.232,1.89 0.49,1.194 0.666,0.718 0.818,1.001 1,1 ',
-        ),
-        duration: 1,
-        stagger: 0.2,
-      })
-      .to(writeBtnRef.current.position, {
-        z: ['start', 'login', 'loading'].includes(target) ? -3 : 1.1,
-        duration: 1,
-      })
-      .to(writeTextRef.current.position, {
-        z: ['start', 'login', 'loading'].includes(target) ? -3 : 0.4,
-        duration: 1,
-      });
+    const onTarget = ['key', 'board', 'connect', 'screen'];
+    const customEaseValue =
+      'M0,0 C0.126,0.382 0.232,1.89 0.49,1.194 0.666,0.718 0.818,1.001 1,1 ';
+
+    if (onTarget.includes(target)) {
+      gsap
+        .timeline()
+        .to(
+          boxesPos,
+          {
+            z: 1.1,
+            ease: CustomEase.create('custom', customEaseValue),
+            duration: 1,
+            stagger: 0.2,
+          },
+          'listLabel',
+        )
+        .to(
+          textsPos,
+          {
+            z: 0.4,
+            ease: CustomEase.create('custom', customEaseValue),
+            duration: 1,
+            stagger: 0.2,
+          },
+          'listLabel',
+        )
+        .to(
+          writeBtnRef.current.position,
+          {
+            z: 1.1,
+            duration: 1,
+          },
+          'writeLabel',
+        )
+        .to(
+          writeTextRef.current.position,
+          {
+            z: 0.4,
+            duration: 1,
+          },
+          'writeLabel',
+        );
+    } else {
+      gsap
+        .timeline()
+        .to(
+          boxesPos,
+          {
+            z: -3,
+            ease: CustomEase.create('custom', customEaseValue),
+            duration: 1,
+          },
+          'closeLabel',
+        )
+        .to(
+          textsPos,
+          {
+            z: -3,
+            ease: CustomEase.create('custom', customEaseValue),
+            duration: 1,
+          },
+          'closeLabel',
+        )
+        .to(
+          writeBtnRef.current.position,
+          {
+            z: -3,
+            duration: 1,
+          },
+          'closeLabel',
+        )
+        .to(
+          writeTextRef.current.position,
+          {
+            z: -3,
+            duration: 1,
+          },
+          'closeLabel',
+        );
+    }
   }, [target]);
 
   return (
