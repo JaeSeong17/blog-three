@@ -9,10 +9,10 @@ import './index.css';
 import controllerReducer from 'src/modules/root/controller';
 import postsReducer, { postsSaga } from 'src/modules/root/posts';
 import loadingReducer from 'src/modules/loading';
-import userReducer from 'src/modules/root/user';
+import userReducer, { userSaga } from 'src/modules/root/user';
 
 export function* rootSaga() {
-  yield all([postsSaga()]);
+  yield all([postsSaga(), userSaga()]);
 }
 const sagaMiddleware = createSagaMiddleware();
 const store = configureStore({
