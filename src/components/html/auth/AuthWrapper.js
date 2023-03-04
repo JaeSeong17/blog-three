@@ -19,7 +19,12 @@ const AuthWrapper = ({
       />
     );
   } else if (target === 'register') {
-    currForm = <RegisterForm />;
+    currForm = (
+      <RegisterForm
+        updateRootUser={updateRootUser}
+        setTargetToKey={setTargetToKey}
+      />
+    );
   }
   return currForm;
 };
