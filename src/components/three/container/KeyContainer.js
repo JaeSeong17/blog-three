@@ -30,6 +30,7 @@ const data = [
 
 const KeyContainer = () => {
   const target = useSelector(state => state.controller.target);
+  const user = useSelector(state => state.user.user);
   const boxesRef = useRef([]);
   const boxesPos = [];
   const textsRef = useRef([]);
@@ -156,7 +157,7 @@ const KeyContainer = () => {
           fontSize={0.6}
           rotation={[0, Math.PI / 4, Math.PI / 2]}
           anchorX="left">
-          Write new Post
+          {user ? 'Write new Post' : 'Write (login required)'}
         </Text>
       </group>
     </group>

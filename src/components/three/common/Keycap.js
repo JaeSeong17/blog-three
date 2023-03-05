@@ -1,6 +1,4 @@
-import * as THREE from 'three';
-// import { useSpring, config, animated } from '@react-spring/three';
-import { forwardRef, useRef, useImperativeHandle, useEffect } from 'react';
+import { forwardRef, useRef, useImperativeHandle } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { setIndex, setTarget } from '../../../modules/root/controller';
 import { useGLTF } from '@react-three/drei';
@@ -10,10 +8,24 @@ import { setCurrTag, setCurrMode, setComplete } from 'src/modules/root/posts';
 const Keycap = forwardRef(({ position, index, writeBtn, tag }, ref) => {
   const dispatch = useDispatch();
   const target = useSelector(state => state.controller.target);
+  const user = useSelector(state => state.user.user);
   const current = useSelector(state => state.controller.index);
   const { nodes } = useGLTF('/keycap.glb');
   const innerRef = useRef();
   useImperativeHandle(ref, () => innerRef.current);
+
+  let btnColor;
+  let btnEmissive;
+  if (writeBtn && !user) {
+    btnColor = 'white';
+    btnEmissive = 'black';
+  } else if (target === 'board' && index === current) {
+    btnColor = 'rgba(255, 77, 77, 1)';
+    btnEmissive = '#ff0000';
+  } else {
+    btnColor = 'rgba(255, 255, 255, 1)';
+    btnEmissive = '#ff0000';
+  }
 
   const clickAnime = gsap.timeline();
   return (
@@ -26,6 +38,7 @@ const Keycap = forwardRef(({ position, index, writeBtn, tag }, ref) => {
       onClick={e => {
         e.stopPropagation();
         if (writeBtn) {
+          if (!user) return;
           dispatch(setIndex(-1));
           dispatch(setCurrMode('write'));
           dispatch(setTarget('screen'));
@@ -35,7 +48,6 @@ const Keycap = forwardRef(({ position, index, writeBtn, tag }, ref) => {
           } else {
             dispatch(setIndex(index));
           }
-          // dispatch(setCurrMode('post'));
           dispatch(setCurrTag(tag === 'Total' ? null : tag));
           dispatch(setTarget('board'));
         }
@@ -49,14 +61,10 @@ const Keycap = forwardRef(({ position, index, writeBtn, tag }, ref) => {
       rotation={[Math.PI / 2, 0, 0]}
       geometry={nodes.Cube.geometry}>
       <meshStandardMaterial
-        color={
-          target === 'board' && index === current
-            ? 'rgba(255, 77, 77, 1)'
-            : 'rgba(255, 255, 255, 1)'
-        }
+        color={btnColor}
         roughness={0}
         metalness={0.8}
-        emissive={new THREE.Color('#ff0000').convertSRGBToLinear()}
+        emissive={btnEmissive}
         clearcoat={1}
         clearcoatRoughness={0}
       />
