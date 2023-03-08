@@ -1,14 +1,22 @@
-import { createSlice, createAction } from '@reduxjs/toolkit';
+import { createSlice, createAction, PayloadAction } from '@reduxjs/toolkit';
 import createRequestSaga from '../../lib/createRequestSaga';
 import * as authAPI from '../../lib/api/auth';
 import { takeLatest, call } from 'redux-saga/effects';
+import { AxiosError } from 'axios';
 
-const CHECK = 'user/check';
-const CHECK_FAILURE = 'user/checkFailure';
-const LOGOUT = 'user/logout';
+interface UserState {
+  user: UserResponse | null;
+  checkError: AxiosError | null;
+}
+
+interface UserResponse {
+  username: string;
+  _id: string;
+}
+
 // 사가 생성
-export const check = createAction(CHECK);
-const checkSaga = createRequestSaga(CHECK, authAPI.check);
+export const check = createAction('user/check');
+const checkSaga = createRequestSaga('user/check', authAPI.check);
 function checkFailureSaga() {
   try {
     localStorage.removeItem('user');
@@ -25,9 +33,9 @@ function* logoutSaga() {
   }
 }
 export function* userSaga() {
-  yield takeLatest(CHECK, checkSaga);
-  yield takeLatest(CHECK_FAILURE, checkFailureSaga);
-  yield takeLatest(LOGOUT, logoutSaga);
+  yield takeLatest('user/check', checkSaga);
+  yield takeLatest('user/checkFailure', checkFailureSaga);
+  yield takeLatest('user/logout', logoutSaga);
 }
 
 const user = createSlice({
@@ -35,20 +43,23 @@ const user = createSlice({
   initialState: {
     user: null,
     checkError: null,
-  },
+  } as UserState,
   reducers: {
     initializeUser: state => {
       state.user = null;
       state.checkError = null;
     },
-    tempSetUser: (state, { payload: user }) => {
+    tempSetUser: (state, { payload: user }: PayloadAction<UserResponse>) => {
       state.user = user;
     },
-    checkSuccess: (state, { payload: user }) => {
-      state.user = user;
+    checkSuccess: (
+      state,
+      { payload: user }: PayloadAction<{ data: UserResponse }>,
+    ) => {
+      state.user = user.data;
       state.checkError = null;
     },
-    checkFailure: (state, { payload: error }) => {
+    checkFailure: (state, { payload: error }: PayloadAction<AxiosError>) => {
       state.user = null;
       state.checkError = error;
     },
