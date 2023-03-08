@@ -9,7 +9,9 @@
     },
     "moduleResolution": "node",
     "allowSyntheticDefaultImports": true,
-    "jsx": "react",
-    "outDir": "./dist"
+    "jsx": "react-jsx",
+    "outDir": "./dist/",
+    "strict": true,
+    "allowJs": true
   }
 }
