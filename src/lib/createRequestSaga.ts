@@ -1,17 +1,29 @@
+import { PayloadAction } from '@reduxjs/toolkit';
+import { AxiosResponse } from 'axios';
 import { call, put } from 'redux-saga/effects';
 import { startLoading, finishLoading } from '../modules/loading';
 
-export default function createRequestSaga(type, request) {
+interface AxiosCallback {
+  (payload: any): Promise<AxiosResponse<any, any>>;
+}
+
+export default function createRequestSaga(
+  type: string,
+  request: AxiosCallback,
+) {
   const SUCCESS = `${type}Success`;
   const FAILURE = `${type}Failure`;
 
-  return function* (action) {
+  return function* (action: PayloadAction<any>) {
     yield put(startLoading(type)); // 로딩 시작
     try {
-      const response = yield call(request, action.payload);
+      const response: AxiosResponse = yield call(request, action.payload);
       yield put({
         type: SUCCESS,
-        payload: response.data,
+        payload: {
+          data: response.data,
+          meta: response,
+        },
         meta: response,
       });
     } catch (e) {
