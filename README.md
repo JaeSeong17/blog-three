@@ -7,6 +7,24 @@
 
 # Dev Report
 
+#### 2023.03.09
+
+- Typescript의 .d.ts에 타입들을 별도로 모듈화 수행
+- .d.ts 파일 내 declare module 'module-name' 키워드로 타입 모듈을 선언할 수 있다
+- .d.ts 파일은 js로 컴파일 되지 않는 타입만 정의된 파일로 module 블럭 외부에 import 키워드 사용시 읽어오지 못함
+
+```C
+// type.d.ts
+// import { a-type } from 'outer-types';  여기서 외부 모듈 참조시 읽지 못함
+
+declare module 'inner-types' {
+  import { a-type } from 'outer-types';   // 여기서 import 해야함
+  export interface b-type {
+    data: a-type;
+  }
+}
+```
+
 #### 2023.03.08
 
 Typesciprt 도입 시도
@@ -125,6 +143,34 @@ export const action = createAction('root/action', (params) => ({payload: params}
 
 - useEffect의 두번째 파라미터로 특정 값 변경시점을 트래킹 하는 경우 해당 변수에 새 값을 할당 하더라도 같은 값일 경우 값이 바뀌지 않은 것으로 판단함 => useEffect 수행X
 
+```C
+const [params, setParams] = setState('initial');
+useEffect(() => {
+  console.log('test');
+}, [params])
+// params = 'initial' 을 수행해도 값이 그대로 이기 때문에 useEffect는 새로 렌더링 할 필요가 없다고 판단
+```
+
+- RTK의 PayloadAction은 단일 payload를 사용하도록 원칙 준수하기 때문에 여러개의 payload를 사용하는 것은 지양함
+- redux saga에서 axios api로부터 받은 response의 meta값을 payload로 전달하지 못함
+
+```C
+// redux-saga
+...
+yield put({
+  type: 'SUCCESS'
+  payload: response.data
+  meta: response
+})
+...
+
+// reducer
+// action: (state, {payload, meta}) => { RTK에서는 meta타입 사용을 권장하지 않음
+action: (state, {payload}: PayloadAction<type>) => {
+  // ...
+}
+```
+
 ---
 
 ### typescript
@@ -154,8 +200,12 @@ https://docs.pmnd.rs/
 - canvas 내 mesh들을 group으로 묶을 수 있다
 - object의 eventlistener 설정시 보는 시점에 따라 이벤트 버블링이 발생할 수 있다 (영역이 겹치면 여러개의 이벤트 발생) -> e.stopPropagation
 
-- canavs내에서 Html element를 사용할 수 있음 : <Html>
-- <참고!> canvas내에서 redux store에 접근시 오류 발생 (캔버스 내의 html은 dom tree 상 canvas 하위 계층에 렌더링 되는것 같지 않거나 상위 tree의 리덕스 스토어를 상속받지 못함, 확실한 이유는 조사 필요)
+- canavs내에서 Html element를 사용할 수 있음: threejs의 라이브러리를 활용 <Html>
+- <참고!> canvas내에서 redux store에 접근시 오류 발생
+  - Canvas 요소는 HTML문서의 일부이나 Canvas 안에서 렌더링되는 그래픽 요소들은 일반적인 HTML과는 다른 방식으로 처리된다
+  - Canvas 내에서 렌더링된 HTML 요소들은 전체 DOM트리에 연결되어 있지 않다
+  - 따라서 redux Provider의 store속성으로 연결된 redux-store는 DOM트리에 전역적으로 연결되나 Canvas 내부 HTML요소에는 제공되지 않음
+  - 그러나 Canvas의 props으로 store의 state와 action을 전달하여 내부에서 사용할 수는 있다 (redux의 connect함수 참조)
 
 ##### camera movement
 
