@@ -1,11 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { TargetSet } from 'preset-types';
 import camSetting from 'src/static/camSetting';
-
-interface CamControllerState {
-  camAngle: { x: number; y: number; z: number }; // 카메라가 바라보는 방향
-  camPos: { x: number; y: number; z: number }; // 카메라의 위치
-  target: string; // 타겟 값에 따라 카메라 위치 설정
-}
+import { CamControllerState } from 'root-state-types';
 
 const camController = createSlice({
   name: 'camController',
@@ -15,7 +11,7 @@ const camController = createSlice({
     target: 'start',
   } as CamControllerState,
   reducers: {
-    setTarget: (state, { payload }: PayloadAction<string>) => {
+    setTarget: (state, { payload }: PayloadAction<TargetSet>) => {
       state.target = payload;
       state.camAngle = camSetting[payload].angle;
       state.camPos = camSetting[payload].pos;

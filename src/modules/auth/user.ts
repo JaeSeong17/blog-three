@@ -3,16 +3,8 @@ import createRequestSaga from '../../lib/createRequestSaga';
 import * as authAPI from '../../lib/api/auth';
 import { takeLatest, call } from 'redux-saga/effects';
 import { AxiosError } from 'axios';
-
-interface UserState {
-  user: UserResponse | null;
-  checkError: AxiosError | null;
-}
-
-interface UserResponse {
-  username: string;
-  _id: string;
-}
+import { User } from 'auth-type';
+import { UserState } from 'auth-state-types';
 
 // 사가 생성
 export const check = createAction('user/check');
@@ -49,13 +41,10 @@ const user = createSlice({
       state.user = null;
       state.checkError = null;
     },
-    tempSetUser: (state, { payload: user }: PayloadAction<UserResponse>) => {
+    tempSetUser: (state, { payload: user }: PayloadAction<User>) => {
       state.user = user;
     },
-    checkSuccess: (
-      state,
-      { payload: user }: PayloadAction<{ data: UserResponse }>,
-    ) => {
+    checkSuccess: (state, { payload: user }: PayloadAction<{ data: User }>) => {
       state.user = user.data;
       state.checkError = null;
     },

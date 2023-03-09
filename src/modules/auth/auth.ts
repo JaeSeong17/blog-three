@@ -3,33 +3,8 @@ import createRequestSaga from '../../lib/createRequestSaga';
 import * as authAPI from '../../lib/api/auth';
 import { takeLatest } from 'redux-saga/effects';
 import { AxiosError } from 'axios';
-import { LoginParams } from 'authtype';
-
-interface FormState {
-  [index: string]: string | undefined;
-  username: string;
-  password: string;
-  passwordConfirm?: string;
-}
-
-interface AuthState {
-  [index: string]: FormState | LoginResponse | AxiosError | null;
-  register: FormState;
-  login: FormState;
-  auth: LoginResponse | null;
-  authError: AxiosError | null;
-}
-
-interface InputParams {
-  form: 'register' | 'login';
-  key: 'username' | 'password' | 'passwordConfirm';
-  value: string;
-}
-
-interface LoginResponse {
-  _id: string;
-  username: string;
-}
+import { LoginParams, User } from 'auth-type';
+import { AuthState, AuthInputParams } from 'auth-state-types';
 
 export const login = createAction(
   'auth/login',
@@ -79,7 +54,7 @@ const auth = createSlice({
   reducers: {
     changeField: (
       state,
-      { payload: { form, key, value } }: PayloadAction<InputParams>,
+      { payload: { form, key, value } }: PayloadAction<AuthInputParams>,
     ) => {
       state[form][key] = value;
     },
@@ -96,10 +71,7 @@ const auth = createSlice({
       state[form] = initialState[form];
       state.authError = null;
     },
-    loginSuccess: (
-      state,
-      { payload: auth }: PayloadAction<{ data: LoginResponse }>,
-    ) => {
+    loginSuccess: (state, { payload: auth }: PayloadAction<{ data: User }>) => {
       state.auth = auth.data;
       state.authError = null;
     },
@@ -109,7 +81,7 @@ const auth = createSlice({
     },
     registerSuccess: (
       state,
-      { payload: auth }: PayloadAction<{ data: LoginResponse }>,
+      { payload: auth }: PayloadAction<{ data: User }>,
     ) => {
       state.auth = auth.data;
       state.authError = null;

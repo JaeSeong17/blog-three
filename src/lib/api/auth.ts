@@ -1,5 +1,5 @@
 import client from './client';
-import { LoginParams } from 'authtype';
+import { LoginParams } from 'auth-type';
 
 // 로그인
 export const login = ({ username, password }: LoginParams) =>

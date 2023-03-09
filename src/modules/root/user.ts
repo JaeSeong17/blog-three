@@ -1,9 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-
-interface RootUserState {
-  user: string | null;
-  tryLogout: boolean;
-}
+import { RootUserState } from 'root-state-types';
 
 const user = createSlice({
   name: 'user',

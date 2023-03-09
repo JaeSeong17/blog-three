@@ -2,29 +2,11 @@ import { createSlice, PayloadAction, createAction } from '@reduxjs/toolkit';
 import createRequestSaga from '../../lib/createRequestSaga';
 import * as postsAPI from '../../lib/api/posts';
 import { takeLatest } from 'redux-saga/effects';
-import { AxiosHeaders } from 'axios';
-
-interface ListPostState {
-  posts: Array<object> | null;
-  index: number;
-  currTag: string;
-  currPage: number;
-  lastPage: number;
-  waiting: boolean;
-  complete: boolean;
-  error: any;
-}
-
-interface ListPostsParams {
-  tag: Array<string>;
-  username?: string;
-  page: number;
-}
-
-interface ListPostsResponse {
-  data: Array<object>;
-  meta: { headers: AxiosHeaders };
-}
+import {
+  BoardControllerState,
+  ListPostsParams,
+  ListPostsResponse,
+} from 'root-state-types';
 
 export const listPosts = createAction(
   'boardController/listPosts',
@@ -53,7 +35,7 @@ const boardController = createSlice({
     waiting: false,
     complete: false,
     error: null,
-  } as ListPostState,
+  } as BoardControllerState,
   reducers: {
     listPostsSuccess: (
       state,
