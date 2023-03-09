@@ -1,5 +1,5 @@
 import AuthTemplate from './AuthTemplate';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, ChangeEvent } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   initializeForm,
@@ -7,31 +7,43 @@ import {
   changeField,
 } from '../../../modules/auth/auth';
 import { check, initializeUser } from '../../../modules/auth/user';
+import { User } from 'auth-type';
+import { AuthState, UserState } from 'auth-state-types';
 
-const RegisterForm = ({ updateRootUser, setTargetToKey }) => {
+interface RegisterFormParams {
+  updateRootUser: (user: User) => void;
+  setTargetToKey: () => void;
+}
+
+const RegisterForm = ({
+  updateRootUser,
+  setTargetToKey,
+}: RegisterFormParams) => {
   const dispatch = useDispatch();
-  const { form, auth, authError, user } = useSelector(({ auth, user }) => ({
-    form: auth.register,
-    auth: auth.auth,
-    authError: auth.authError,
-    user: user.user,
-  }));
-  const [error, setError] = useState(null);
+  const { form, auth, authError, user } = useSelector(
+    ({ auth, user }: { auth: AuthState; user: UserState }) => ({
+      form: auth.register,
+      auth: auth.auth,
+      authError: auth.authError,
+      user: user.user,
+    }),
+  );
+  const [error, setError] = useState<string | null>(null);
 
   // 인풋 변경 이벤트 핸들러
-  const onChange = e => {
+  const onChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { value, name } = e.target;
     dispatch(
       changeField({
         form: 'register',
-        key: name,
+        key: name as 'username' | 'password' | 'passwordConfirm',
         value,
       }),
     );
   };
 
   // 폼 등록 이벤트 핸들러
-  const onSubmit = e => {
+  const onSubmit = (e: ChangeEvent<HTMLFormElement>) => {
     e.preventDefault();
     const { username, password, passwordConfirm } = form;
     //폼에 빈칸이 존재
@@ -63,7 +75,10 @@ const RegisterForm = ({ updateRootUser, setTargetToKey }) => {
   useEffect(() => {
     if (authError) {
       // 이미 존재하는 계정명
-      if (authError.response.status === 409) {
+      if (
+        authError.response !== undefined &&
+        authError.response.status === 409
+      ) {
         setError('이미 존재하는 계정명입니다.');
         return;
       }
@@ -81,7 +96,6 @@ const RegisterForm = ({ updateRootUser, setTargetToKey }) => {
   //user 값이 잘 설정되었는지 확인
   useEffect(() => {
     console.log('로그인 상태 확인');
-    console.log(user);
     if (user) {
       console.log('로그인 상태 확인 성공');
       updateRootUser(user);

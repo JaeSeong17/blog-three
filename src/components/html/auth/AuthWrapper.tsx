@@ -1,5 +1,15 @@
-import LoginForm from '../auth/LoginForm';
-import RegisterForm from '../auth/RegisterForm';
+import { RootUser, User } from 'auth-type';
+import { TargetSet } from 'preset-types';
+import LoginForm from './LoginForm';
+import RegisterForm from './RegisterForm';
+
+interface AuthWrapperParams {
+  target: TargetSet;
+  rootUser: RootUser;
+  initRootUser: () => void;
+  updateRootUser: (user: User) => void;
+  setTargetToKey: () => void;
+}
 
 const AuthWrapper = ({
   target,
@@ -7,7 +17,7 @@ const AuthWrapper = ({
   initRootUser,
   updateRootUser,
   setTargetToKey,
-}) => {
+}: AuthWrapperParams) => {
   let currForm;
   if (target === 'login') {
     currForm = (

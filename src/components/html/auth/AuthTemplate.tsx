@@ -1,3 +1,5 @@
+import { FormState } from 'auth-state-types';
+import { ChangeEventHandler, FormEventHandler } from 'react';
 import styled from 'styled-components';
 
 const AuthFormBlock = styled.div`
@@ -40,19 +42,33 @@ const ErrorMessage = styled.div`
   margin-top: 1rem;
 `;
 
-const textMap = {
+interface AuthTemplateParams {
+  type: 'login' | 'register';
+  form: FormState;
+  onChange: ChangeEventHandler;
+  onSubmit: FormEventHandler;
+  error: string | null;
+}
+
+const textMap: { [index: string]: string } = {
   login: '로그인',
   register: '회원가입',
 };
 
-const AuthTemplate = ({ type, form, onChange, onSubmit, error }) => {
+const AuthTemplate = ({
+  type,
+  form,
+  onChange,
+  onSubmit,
+  error,
+}: AuthTemplateParams) => {
   const text = textMap[type];
   return (
     <AuthFormBlock>
       <h3>{text}</h3>
       <form onSubmit={onSubmit}>
         <StyledInput
-          authComplete="username"
+          autoComplete="username"
           name="username"
           placeholder="아이디"
           onChange={onChange}
@@ -68,7 +84,7 @@ const AuthTemplate = ({ type, form, onChange, onSubmit, error }) => {
         />
         {type === 'register' && (
           <StyledInput
-            authComplete="new-password"
+            autoComplete="new-password"
             name="passwordConfirm"
             placeholder="비밀번호 확인"
             type="password"

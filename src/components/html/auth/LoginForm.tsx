@@ -1,43 +1,54 @@
 import AuthTemplate from './AuthTemplate';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, ChangeEvent } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   changeField,
   initializeAuth,
   initializeForm,
   login,
-} from '../../../modules/auth/auth';
-import { check, initializeUser } from '../../../modules/auth/user';
+} from 'src/modules/auth/auth';
+import { check, initializeUser } from 'src/modules/auth/user';
+import { RootUser, User } from 'auth-type';
+import { AuthState, UserState } from 'auth-state-types';
+
+interface LoginFormParams {
+  rootUser: RootUser;
+  initRootUser: () => void;
+  updateRootUser: (user: User) => void;
+  setTargetToKey: () => void;
+}
 
 const LoginForm = ({
   rootUser,
   initRootUser,
   updateRootUser,
   setTargetToKey,
-}) => {
+}: LoginFormParams) => {
   const dispatch = useDispatch();
-  const { form, auth, authError, user } = useSelector(({ auth, user }) => ({
-    form: auth.login,
-    auth: auth.auth,
-    authError: auth.authError,
-    user: user.user,
-  }));
-  const [error, setError] = useState(null);
+  const { form, auth, authError, user } = useSelector(
+    ({ auth, user }: { auth: AuthState; user: UserState }) => ({
+      form: auth.login,
+      auth: auth.auth,
+      authError: auth.authError,
+      user: user.user,
+    }),
+  );
+  const [error, setError] = useState<string | null>(null);
 
   // 인풋 변경 이벤트 핸들러
-  const onChange = e => {
+  const onChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { value, name } = e.target;
     dispatch(
       changeField({
         form: 'login',
-        key: name,
+        key: name as 'username' | 'password',
         value,
       }),
     );
   };
 
   // 폼 등록 이벤트 핸들러
-  const onSubmit = e => {
+  const onSubmit = (e: ChangeEvent<HTMLFormElement>) => {
     e.preventDefault();
     const { username, password } = form;
     dispatch(login({ username, password }));
@@ -71,7 +82,6 @@ const LoginForm = ({
       return;
     }
     console.log('로그인 상태 확인');
-    console.log(user);
     if (user) {
       console.log('로그인 상태 확인 성공');
       updateRootUser(user);
