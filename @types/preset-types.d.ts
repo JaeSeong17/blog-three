@@ -8,4 +8,6 @@ declare module 'preset-types' {
     | 'board'
     | 'connect'
     | 'screen';
+
+  export type ModeSet = 'none' | 'post' | 'write';
 }
