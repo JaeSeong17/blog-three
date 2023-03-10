@@ -1,6 +1,8 @@
+import { AxiosError } from 'axios';
+import { PostResponse } from 'screen-state-types';
 import styled from 'styled-components';
-import SubInfo from '../common/SubInfo';
-import Tags from '../common/Tags';
+import SubInfo from '../PostPanel/SubInfo';
+import Tags from '../PostPanel/Tags';
 
 const PostViewerBlock = styled.div`
   margin-top: 4rem;
@@ -22,7 +24,13 @@ const PostContent = styled.div`
   color: gray;
 `;
 
-const PostViewer = ({ post, error, loading }) => {
+interface PostViewerParams {
+  post: PostResponse | null;
+  error: AxiosError | null;
+  loading: boolean;
+}
+
+const PostViewer = ({ post, error, loading }: PostViewerParams) => {
   // 에러 발생 시
   if (error) {
     if (error.response && error.response.status === 404) {
@@ -32,7 +40,7 @@ const PostViewer = ({ post, error, loading }) => {
   }
 
   // 로딩 중이거나 아직 포스트 데이터가 없을 때
-  if (loading | !post) {
+  if (loading || !post) {
     return null;
   }
 
@@ -44,7 +52,7 @@ const PostViewer = ({ post, error, loading }) => {
         <h1>{title}</h1>
         <SubInfo
           username={user.username}
-          publishedDate={publishedDate}
+          publishedDate={new Date(publishedDate)}
           hasMarginTop
         />
         <Tags tags={tags} />

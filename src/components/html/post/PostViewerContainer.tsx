@@ -1,15 +1,19 @@
+import { LoadingState } from 'loading-state-types';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { PostState } from 'screen-state-types';
 import { readPost, unloadPost } from '../../../modules/screen/post';
 import PostViewer from './PostViewer';
 
-const PostViewerContainer = ({ currPostId }) => {
+const PostViewerContainer = ({ currPostId }: { currPostId: string }) => {
   const dispatch = useDispatch();
-  const { post, error, loading } = useSelector(({ post, loading }) => ({
-    post: post.post,
-    error: post.error,
-    loading: loading['post/readPost'],
-  }));
+  const { post, error, loading } = useSelector(
+    ({ post, loading }: { post: PostState; loading: LoadingState }) => ({
+      post: post.post,
+      error: post.error,
+      loading: loading['post/readPost'],
+    }),
+  );
 
   useEffect(() => {
     // 처음 마운트 시 포스틑 읽기 요청
