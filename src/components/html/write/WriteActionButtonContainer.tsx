@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { CurrPostParams } from 'root-state-types';
-import { WriteState } from 'screen-state-types';
+import { ScreenState } from 'screen-state-types';
 import { setTarget } from '../../../modules/root/camController';
 import { writePost } from '../../../modules/screen/write';
 import WriteActionButtons from './WriteActionButtons';
@@ -13,7 +13,7 @@ const WriteActionButtonsContainer = ({
 }) => {
   const dispatch = useDispatch();
   const { title, body, tags, post, postError } = useSelector(
-    ({ write }: { write: WriteState }) => ({
+    ({ write }: ScreenState) => ({
       title: write.title,
       body: write.body,
       tags: write.tags,

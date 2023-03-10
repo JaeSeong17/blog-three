@@ -1,12 +1,12 @@
 import { useEffect, useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { WriteState } from 'screen-state-types';
+import { ScreenState } from 'screen-state-types';
 import { changeField, initialize } from '../../../modules/screen/write';
 import Editor from './Editor';
 
 const EditorContainer = () => {
   const dispatch = useDispatch();
-  const { title, body } = useSelector(({ write }: { write: WriteState }) => ({
+  const { title, body } = useSelector(({ write }: ScreenState) => ({
     title: write.title,
     body: write.body,
   }));

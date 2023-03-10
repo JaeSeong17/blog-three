@@ -8,7 +8,7 @@ import {
 } from '../../../modules/auth/auth';
 import { check, initializeUser } from '../../../modules/auth/user';
 import { User } from 'auth-type';
-import { AuthState, UserState } from 'auth-state-types';
+import { CertState } from 'cert-state-types';
 
 interface RegisterFormParams {
   updateRootUser: (user: User) => void;
@@ -21,7 +21,7 @@ const RegisterForm = ({
 }: RegisterFormParams) => {
   const dispatch = useDispatch();
   const { form, auth, authError, user } = useSelector(
-    ({ auth, user }: { auth: AuthState; user: UserState }) => ({
+    ({ auth, user }: CertState) => ({
       form: auth.register,
       auth: auth.auth,
       authError: auth.authError,

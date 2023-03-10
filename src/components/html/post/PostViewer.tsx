@@ -1,8 +1,8 @@
 import { AxiosError } from 'axios';
 import { PostResponse } from 'screen-state-types';
 import styled from 'styled-components';
-import SubInfo from '../PostPanel/SubInfo';
-import Tags from '../PostPanel/Tags';
+import SubInfo from '../postPanel/SubInfo';
+import Tags from '../postPanel/Tags';
 
 const PostViewerBlock = styled.div`
   margin-top: 4rem;

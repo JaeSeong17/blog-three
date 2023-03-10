@@ -9,7 +9,7 @@ import {
 } from 'src/modules/auth/auth';
 import { check, initializeUser } from 'src/modules/auth/user';
 import { RootUser, User } from 'auth-type';
-import { AuthState, UserState } from 'cert-state-types';
+import { CertState } from 'cert-state-types';
 
 interface LoginFormParams {
   rootUser: RootUser;
@@ -26,7 +26,7 @@ const LoginForm = ({
 }: LoginFormParams) => {
   const dispatch = useDispatch();
   const { form, auth, authError, user } = useSelector(
-    ({ auth, user }: { auth: AuthState; user: UserState }) => ({
+    ({ auth, user }: CertState) => ({
       form: auth.login,
       auth: auth.auth,
       authError: auth.authError,

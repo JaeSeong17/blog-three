@@ -1,14 +1,13 @@
-import { LoadingState } from 'loading-state-types';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { PostState } from 'screen-state-types';
+import { ScreenState } from 'screen-state-types';
 import { readPost, unloadPost } from '../../../modules/screen/post';
 import PostViewer from './PostViewer';
 
 const PostViewerContainer = ({ currPostId }: { currPostId: string }) => {
   const dispatch = useDispatch();
   const { post, error, loading } = useSelector(
-    ({ post, loading }: { post: PostState; loading: LoadingState }) => ({
+    ({ post, loading }: ScreenState) => ({
       post: post.post,
       error: post.error,
       loading: loading['post/readPost'],
