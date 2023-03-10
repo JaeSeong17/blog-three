@@ -1,19 +1,26 @@
 import { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { setTarget } from '../../../modules/root/controller';
+import { CurrPostParams } from 'root-state-types';
+import { WriteState } from 'screen-state-types';
+import { setTarget } from '../../../modules/root/camController';
 import { writePost } from '../../../modules/screen/write';
 import WriteActionButtons from './WriteActionButtons';
 
-const WriteActionButtonsContainer = ({ writeComplete }) => {
-  // const navigate = useNavigate();
+const WriteActionButtonsContainer = ({
+  writeComplete,
+}: {
+  writeComplete: (parms: CurrPostParams) => void;
+}) => {
   const dispatch = useDispatch();
-  const { title, body, tags, post, postError } = useSelector(({ write }) => ({
-    title: write.title,
-    body: write.body,
-    tags: write.tags,
-    post: write.post,
-    postError: write.postError,
-  }));
+  const { title, body, tags, post, postError } = useSelector(
+    ({ write }: { write: WriteState }) => ({
+      title: write.title,
+      body: write.body,
+      tags: write.tags,
+      post: write.post,
+      postError: write.postError,
+    }),
+  );
 
   // 포스트 등록
   const onPublish = () => {
@@ -34,10 +41,12 @@ const WriteActionButtonsContainer = ({ writeComplete }) => {
   // 성공 혹은 실패 시 할 작업
   useEffect(() => {
     if (post) {
-      console.log(post);
       const { _id, user } = post;
-      console.log(_id, user);
-      writeComplete(user.username, _id);
+      const currPostParams: CurrPostParams = {
+        username: user.username,
+        postId: _id,
+      };
+      writeComplete(currPostParams);
     }
     if (postError) {
       console.log(postError);
