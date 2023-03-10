@@ -3,14 +3,18 @@ import { useRef, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import gsap from 'gsap';
 import ScreenHtml from '../../html/root/ScreenHtml';
-import { setTarget } from '../../../modules/root/controller';
-import { setCurrMode, setCurrPost } from '../../../modules/root/posts';
+import { setTarget } from '../../../modules/root/camController';
+import {
+  setCurrMode,
+  setCurrPost,
+} from '../../../modules/root/screenController';
+import { CurrPostParams, RootState } from 'root-state-types';
 
 const Screen = () => {
   const dispatch = useDispatch();
-  const target = useSelector(state => state.controller.target);
+  const target = useSelector((state: RootState) => state.camController.target);
   const { currPostUsername, currPostId, currMode } = useSelector(
-    state => state.posts,
+    (state: RootState) => state.screenController,
   );
   const screenRef = useRef(null);
 
@@ -21,8 +25,8 @@ const Screen = () => {
     });
   }, [target]);
 
-  function writeComplete(username, postId) {
-    dispatch(setCurrPost({ username, postId }));
+  function writeComplete(currPostParams: CurrPostParams) {
+    dispatch(setCurrPost(currPostParams));
     dispatch(setCurrMode('post'));
   }
 
@@ -55,7 +59,7 @@ const Screen = () => {
           } else if (currMode === 'post') {
             dispatch(setTarget('board'));
           }
-          dispatch(setCurrMode('root'));
+          dispatch(setCurrMode('none'));
         }}>
         <boxGeometry args={[3, 0.5, 1]} />
         <meshStandardMaterial color="red" />
