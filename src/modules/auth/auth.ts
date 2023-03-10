@@ -4,25 +4,19 @@ import * as authAPI from '../../lib/api/auth';
 import { takeLatest } from 'redux-saga/effects';
 import { AxiosError } from 'axios';
 import { LoginParams, User } from 'auth-type';
-import { AuthState, AuthInputParams } from 'auth-state-types';
+import { AuthState, AuthInputParams } from 'cert-state-types';
 
 export const login = createAction(
   'auth/login',
   ({ username, password }: LoginParams) => ({
-    payload: {
-      username,
-      password,
-    },
+    payload: { username, password },
   }),
 );
 
 export const register = createAction(
   'auth/register',
   ({ username, password }: LoginParams) => ({
-    payload: {
-      username,
-      password,
-    },
+    payload: { username, password },
   }),
 );
 

@@ -10,8 +10,8 @@ import {
 
 export const listPosts = createAction(
   'boardController/listPosts',
-  ({ tag, username, page }) => ({
-    payload: { tag, username, page } as ListPostsParams,
+  ({ tag, username, page }: ListPostsParams) => ({
+    payload: { tag, username, page },
   }),
 );
 

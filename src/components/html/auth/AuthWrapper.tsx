@@ -1,15 +1,6 @@
-import { RootUser, User } from 'auth-type';
-import { TargetSet } from 'preset-types';
+import { RootAuthCarrier } from 'auth-type';
 import LoginForm from './LoginForm';
 import RegisterForm from './RegisterForm';
-
-interface AuthWrapperParams {
-  target: TargetSet;
-  rootUser: RootUser;
-  initRootUser: () => void;
-  updateRootUser: (user: User) => void;
-  setTargetToKey: () => void;
-}
 
 const AuthWrapper = ({
   target,
@@ -17,7 +8,7 @@ const AuthWrapper = ({
   initRootUser,
   updateRootUser,
   setTargetToKey,
-}: AuthWrapperParams) => {
+}: RootAuthCarrier) => {
   let currForm;
   if (target === 'login') {
     currForm = (
@@ -35,6 +26,8 @@ const AuthWrapper = ({
         setTargetToKey={setTargetToKey}
       />
     );
+  } else {
+    currForm = null;
   }
   return currForm;
 };

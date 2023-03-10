@@ -1,4 +1,4 @@
-import { FormState } from 'auth-state-types';
+import { FormState } from 'cert-state-types';
 import { ChangeEventHandler, FormEventHandler } from 'react';
 import styled from 'styled-components';
 

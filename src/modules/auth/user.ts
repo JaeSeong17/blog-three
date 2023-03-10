@@ -4,7 +4,7 @@ import * as authAPI from '../../lib/api/auth';
 import { takeLatest, call } from 'redux-saga/effects';
 import { AxiosError } from 'axios';
 import { User } from 'auth-type';
-import { UserState } from 'auth-state-types';
+import { UserState } from 'cert-state-types';
 
 // 사가 생성
 export const check = createAction('user/check');

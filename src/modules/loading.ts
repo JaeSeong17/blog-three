@@ -1,8 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-
-interface LoadingState {
-  [index: string]: boolean;
-}
+import { LoadingState } from 'loading-state-types';
 
 const loading = createSlice({
   name: 'loading',

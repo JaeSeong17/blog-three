@@ -5,7 +5,7 @@ import { takeLatest } from 'redux-saga/effects';
 import { AxiosError } from 'axios';
 import { PostState, PostResponse } from 'screen-state-types';
 
-export const readPost = createAction('post/readPost', id => ({
+export const readPost = createAction('post/readPost', (id: string) => ({
   payload: id,
 }));
 

@@ -1,29 +1,20 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-
-interface ScreenState {
-  currPostUsername: string | null;
-  currPostId: string | null;
-  currMode: string;
-}
-
-interface CurrPostParams {
-  username: string;
-  postId: string;
-}
+import { ModeSet } from 'preset-types';
+import { ScreenControllerState, CurrPostParams } from 'root-state-types';
 
 const screenController = createSlice({
   name: 'screenController',
   initialState: {
     currPostUsername: null,
     currPostId: null,
-    currMode: 'root',
-  } as ScreenState,
+    currMode: 'none',
+  } as ScreenControllerState,
   reducers: {
     setCurrPost: (state, { payload }: PayloadAction<CurrPostParams>) => {
       state.currPostUsername = payload.username;
       state.currPostId = payload.postId;
     },
-    setCurrMode: (state, { payload }: PayloadAction<string>) => {
+    setCurrMode: (state, { payload }: PayloadAction<ModeSet>) => {
       state.currMode = payload;
     },
   },

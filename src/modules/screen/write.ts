@@ -1,11 +1,22 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { createAction, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import createRequestSaga from '../../lib/createRequestSaga';
 import * as postsAPI from '../../lib/api/posts';
 import { takeLatest } from 'redux-saga/effects';
 import { AxiosError } from 'axios';
-import { WriteState, InputParams, WriteResponse } from 'screen-state-types';
+import {
+  WriteState,
+  InputParams,
+  WriteResponse,
+  WriteParams,
+} from 'screen-state-types';
 
-// 사가 생성
+export const writePost = createAction(
+  'write/writePost',
+  ({ title, body, tags }: WriteParams) => ({
+    payload: { title, body, tags },
+  }),
+);
+
 const writePostSaga = createRequestSaga('write/writePost', postsAPI.writePost);
 export function* writeSaga() {
   yield takeLatest('write/writePost', writePostSaga);
@@ -38,15 +49,12 @@ const write = createSlice({
         state[key] = value as string;
       }
     },
-    writePost: state => {
-      state.post = null;
-      state.postError = null;
-    },
     writePostSuccess: (
       state,
       { payload: post }: PayloadAction<{ data: WriteResponse }>,
     ) => {
       state.post = post.data;
+      state.postError = null;
     },
     writePostFailure: (
       state,
@@ -57,11 +65,6 @@ const write = createSlice({
   },
 });
 
-export const {
-  initialize,
-  changeField,
-  writePost,
-  writePostSuccess,
-  writePostFailure,
-} = write.actions;
+export const { initialize, changeField, writePostSuccess, writePostFailure } =
+  write.actions;
 export default write.reducer;
