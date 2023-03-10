@@ -1,6 +1,11 @@
 import styled, { css } from 'styled-components';
 
-const StyledButton = styled.button`
+interface ButtonProps {
+  red?: boolean;
+  fullWidth?: boolean;
+}
+
+const Button = styled.button<ButtonProps>`
   border: none;
   border-radius: 4px;
   font-size: 1rem;
@@ -32,7 +37,5 @@ const StyledButton = styled.button`
       }
     `}
 `;
-
-const Button = props => <StyledButton {...props} />;
 
 export default Button;
