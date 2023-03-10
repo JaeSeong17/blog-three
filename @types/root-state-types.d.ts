@@ -1,6 +1,15 @@
 declare module 'root-state-types' {
   import { TargetSet } from 'preset-types';
   import { AxiosHeaders } from 'axios';
+  import { LoadingState } from 'loading-state-types';
+  export interface RootState {
+    boardController: BoardControllerState;
+    camController: CamControllerState;
+    screenController: ScreenControllerState;
+    user: RootUserState;
+    loading: LoadingState;
+  }
+
   export interface BoardControllerState {
     posts: Array<object> | null;
     index: number;

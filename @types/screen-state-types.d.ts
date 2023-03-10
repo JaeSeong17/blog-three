@@ -1,12 +1,23 @@
 declare module 'screen-state-types' {
+  import { LoadingState } from 'loading-state-types';
   import { AxiosError } from 'axios';
+  import { User } from 'auth-type';
+  export interface ScreenState {
+    write: WriteState;
+    post: PostState;
+    loading: LoadingState;
+  }
+
   export interface PostState {
     post: PostResponse | null;
     error: AxiosError | null;
   }
 
   export interface PostResponse {
+    user: User;
     _id: string;
+    title: string;
+    body: string;
     publishedDate: string;
     tags: Array<string>;
   }
@@ -16,13 +27,19 @@ declare module 'screen-state-types' {
     title: string;
     body: string;
     tags: Array<string>;
-    post: any;
+    post: PostResponse | null;
     postError: AxiosError | null;
   }
 
   interface InputParams {
     key: 'title' | 'body' | 'tags';
     value: string | Array<string>;
+  }
+
+  interface WriteParams {
+    title: string;
+    body: string;
+    tags: Array<string>;
   }
 
   interface WriteResponse {

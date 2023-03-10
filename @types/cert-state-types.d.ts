@@ -1,6 +1,14 @@
-declare module 'auth-state-types' {
+declare module 'cert-state-types' {
   import { User } from 'auth-type';
   import { AxiosError } from 'axios';
+  import { LoadingState } from 'loading-state-types';
+
+  export interface CertState {
+    auth: AuthState;
+    loading: LoadingState;
+    user: UserState;
+  }
+
   export interface AuthState {
     [index: string]: FormState | User | AxiosError | null;
     register: FormState;
