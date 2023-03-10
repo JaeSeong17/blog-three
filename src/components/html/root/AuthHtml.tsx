@@ -10,7 +10,7 @@ import userReducer, {
 } from '../../../modules/auth/user';
 import { Provider } from 'react-redux';
 import AuthWrapper from '../auth/AuthWrapper';
-import { forwardRef, useRef, useEffect } from 'react';
+import { RootAuthCarrier } from 'auth-type';
 
 export function* loginSaga() {
   yield all([authSaga(), userSaga()]);
@@ -52,7 +52,7 @@ const AuthHtml = ({
   initRootUser,
   updateRootUser,
   setTargetToKey,
-}) => {
+}: RootAuthCarrier) => {
   return (
     <Provider store={authStore}>
       <AuthWrapper

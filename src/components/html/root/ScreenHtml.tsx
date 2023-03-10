@@ -7,6 +7,8 @@ import { configureStore } from '@reduxjs/toolkit';
 import { Provider } from 'react-redux';
 import WritePage from '../pages/WritePage';
 import PostPage from '../pages/PostPage';
+import { CurrPostParams } from 'root-state-types';
+import { ModeSet } from 'preset-types';
 
 export function* screenSaga() {
   yield all([writeSaga(), postSaga()]);
@@ -23,12 +25,19 @@ const writeStore = configureStore({
 });
 sagaMiddleware.run(screenSaga);
 
+interface RootScreenCarrier {
+  currPostUsername: string | null;
+  currPostId: string | null;
+  currMode: ModeSet;
+  writeComplete: (parms: CurrPostParams) => void;
+}
+
 const ScreenHtml = ({
   currPostUsername,
   currPostId,
   currMode,
   writeComplete,
-}) => {
+}: RootScreenCarrier) => {
   let currScreen;
   if (currMode === 'post' && currPostUsername && currPostId) {
     currScreen = <PostPage currPostId={currPostId} />;
