@@ -1,5 +1,6 @@
 declare module 'root-state-types' {
-  import { TargetSet } from 'preset-types';
+  import { PostResponse } from 'screen-state-types';
+  import { ModeSet, TargetSet } from 'preset-types';
   import { AxiosHeaders } from 'axios';
   import { LoadingState } from 'loading-state-types';
   export interface RootState {
@@ -11,9 +12,9 @@ declare module 'root-state-types' {
   }
 
   export interface BoardControllerState {
-    posts: Array<object> | null;
+    posts: Array<PostResponse> | null;
     index: number;
-    currTag: string;
+    currTag: string | null;
     currPage: number;
     lastPage: number;
     waiting: boolean;
@@ -22,13 +23,13 @@ declare module 'root-state-types' {
   }
 
   export interface ListPostsParams {
-    tag: Array<string>;
+    tag: string | null;
     username?: string;
     page: number;
   }
 
   export interface ListPostsResponse {
-    data: Array<object>;
+    data: Array<PostResponse>;
     meta: { headers: AxiosHeaders };
   }
 
@@ -41,7 +42,7 @@ declare module 'root-state-types' {
   export interface ScreenControllerState {
     currPostUsername: string | null;
     currPostId: string | null;
-    currMode: string;
+    currMode: ModeSet;
   }
 
   export interface CurrPostParams {
