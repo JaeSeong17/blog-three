@@ -7,13 +7,13 @@ import AuthHtml from '../../html/root/AuthHtml';
 import GuestButton from './GuestButton';
 import RegisterButton from './RegisterButton';
 import { RootState } from 'root-state-types';
-import { GroupProps } from '@react-three/fiber';
 import { authBoxOnAnim, authBoxOffAnim } from '../anim/AuthBoxAnim';
+import { Group } from 'three';
 
 const AuthBox = () => {
   const dispatch = useDispatch();
-  const boxRef = useRef<GroupProps>(null);
-  const btnRef = useRef<GroupProps>(null);
+  const boxRef = useRef<Group>(null);
+  const btnRef = useRef<Group>(null);
   const formRef = useRef<HTMLDivElement>(null);
   const activateTarget = ['login', 'register']; // AuthBox가 활성화 되는 타겟
   const { target, rootUser } = useSelector(
@@ -36,11 +36,12 @@ const AuthBox = () => {
   };
 
   useEffect(() => {
+    // AuthBox 활성화/비활성화 애니메이션
     if (boxRef.current && formRef.current && btnRef.current) {
       if (activateTarget.includes(target)) {
-        authBoxOnAnim(boxRef.current, formRef.current, btnRef.current);
+        authBoxOnAnim(boxRef.current, formRef.current, btnRef.current); // 활성화
       } else {
-        authBoxOffAnim(boxRef.current, formRef.current, btnRef.current);
+        authBoxOffAnim(boxRef.current, formRef.current, btnRef.current); // 비활성화
       }
     }
   }, [target, boxRef, formRef, btnRef]);
