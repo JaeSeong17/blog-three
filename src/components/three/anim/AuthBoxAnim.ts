@@ -1,11 +1,7 @@
 import gsap from 'gsap';
-import { GroupProps } from '@react-three/fiber';
+import { Group } from 'three';
 
-export const authBoxOnAnim = (
-  box: GroupProps,
-  form: HTMLDivElement,
-  btn: GroupProps,
-) => {
+export const authBoxOnAnim = (box: Group, form: HTMLDivElement, btn: Group) => {
   gsap
     .timeline()
     .to(box.position, {
@@ -23,9 +19,9 @@ export const authBoxOnAnim = (
 };
 
 export const authBoxOffAnim = (
-  box: GroupProps,
+  box: Group,
   form: HTMLDivElement,
-  btn: GroupProps,
+  btn: Group,
 ) => {
   gsap
     .timeline()

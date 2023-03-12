@@ -11,10 +11,14 @@ const PostItemBlock = styled.div`
   padding: 0 1rem 0 1rem;
 `;
 
-const PostItem = ({ post }: { post: PostResponse }) => {
+interface PostItemParams {
+  post: PostResponse;
+  panelClickHandler: (props: any) => void;
+}
+const PostItem = ({ post, panelClickHandler }: PostItemParams) => {
   const { publishedDate, user, tags, title, body } = post;
   return (
-    <PostItemBlock>
+    <PostItemBlock onClick={panelClickHandler}>
       <h2>{title}</h2>
       <SubInfo
         username={user.username}
