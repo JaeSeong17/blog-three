@@ -10,7 +10,7 @@ import {
 
 export const listPosts = createAction(
   'boardController/listPosts',
-  ({ tag, username, page }: ListPostsParams) => ({
+  ({ page, tag, username }: ListPostsParams) => ({
     payload: { tag, username, page },
   }),
 );
@@ -59,7 +59,7 @@ const boardController = createSlice({
     },
     loadWaiting: state => {
       state.waiting = true;
-      console.log('waiting module');
+      console.log('waiting new posts list');
     },
     loadComplete: state => {
       state.waiting = false;
@@ -69,7 +69,7 @@ const boardController = createSlice({
       state.complete = true;
     },
     setCurrTag: (state, { payload }: PayloadAction<string>) => {
-      state.currTag = payload;
+      state.currTag = payload === 'Total' ? null : payload;
     },
   },
 });
