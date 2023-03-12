@@ -3,9 +3,144 @@
 개인 블로그를 직접 만들어 봅니다. react, three.js, typescript 활용을 목표로 합니다.
 상태관리 redux -> reduxjs/toolkit 시도합니다.
 
+[Dev Report](#dev-report)
+[react](#react)
+[react-redux/toolkit](#reduxjstoolkit)
+[typescript](#typescript)
+[three.js](#threejs)
+[useFrame의 효율적인 코드 작성법](#useFrame의효율적인코드작성법)
+
 ---
 
+:pencil2: - 새로 알게 된 점
+:pushpin: - 추가 필요 기능
+:wrench: - 새롭게 시도한 작업
+:heavy_exclamation_mark: - 발견된 버그 (수정 필요)
+:heavy_check_mark: - 수정된 버그
+
 # Dev Report
+
+#### 2023.03.13
+
+- @types/Three 타입 모듈 설치
+  -> GroupProps와 Group 타입 차이가 있음, Group 컴포넌트는 THREE.Group 타입을 상속하기 때문에 ref에 RefObject<GroupProps>를 등록하면 오류 발생
+- Pagination Button을 Panel들이 업데이트 완료되기 전에 누르면 Page 숫자만 올라가고 board가 업데이트 되지 못함
+  -> panels이 loading중 일때 pagination button이 클릭되지 못하게 막아야함
+
+#### 2023.03.12
+
+- useEffect의 의존성 배열에 중첩객체를 넣는다면 해당 객체의 최상위에 위치한 값만 추적되고 내부 객체의 값은 감지하지 못함
+- 의존성 배열에 추적하려는 값에는 중첩객체 까지 모두 명시해주어야 한다.
+
+```C
+const obj = {
+  nestedObj: {
+    prop1: 'value1',
+    prop2: 'value2'
+  },
+  prop3: 'value3'
+}
+
+useEffect(() => {
+  // obj.nestedObj.prop1 값을 참조하는 코드
+}, [obj, obj.nestedObj]); // 중첩객체도 추가해주어야 함
+```
+
+- Board 구조에서 전체 동작 애니메이션을 Container쪽에서 모두 처리하고자 Board와 panels의 ref를 모두 BoardContainer까지 끌어올려 제어하려고 리팩토링을 시도
+
+```C
+const Parent = () => {
+  const doubleNestedRef = useRef();
+
+  return <Child ref={doubleNestedRef} />
+};
+
+const Child = forwardRef((props, doubleNestedRef) => {
+  const nestedRef = useRef();
+  useImperativeHandler(doubleNestedRef, () => {
+    nestedRef,
+  })    // 중간층에서 최하층의 ref을 받아 최상층으로 올리는 객체 --- 1
+
+  return <GrandChild ref={nestedRef} />
+});
+
+const GrandChild = forwardRef(() => {
+  const ref = useRef();
+  useImperativeHandler(nestedRef, () => {
+    ref,
+  })    // 최하층에서 자신의 ref를 받아 중간층으로 올리는 객체 --- 2
+
+  return <div ref={ref} />
+})
+```
+
+- 하지만 코드의 의존성이 심하게 높아짐 (컴포넌트 계층간 연결성이 높아지면서 본인도 헷갈리기 시작)
+- 컴포넌트 본인의 요소를 컨트롤하는 애니메이션 함수를 생성해서 함수자체를 넘겨주는 방식으로 구현하는것이 좋아보임 (직접 요소의 속성을 제어하지 않고 함수에게 제어권을 넘김)
+
+- 부모 컴포넌트에서 이벤트 핸들링을 하더라도 Html 클릭시 부모로 이벤트 버블링이 되지 않아 이벤트 처리를 하지 못함
+- Canvas 내부에서 생성된 Html은 전체 DOM트리와 연결되어 있지 않아 발생하는 현상으로 보임
+- 부모 컴포넌트에서 이벤트 핸들러를 속성으로 전달하여 Html 내부에서 실행 하도록 별도 처리가 필요함
+  -> PostItem 클릭시 Html요소가 이벤트 객체를 가로채면서 Screen으로 넘어가는 동작을 수행하지 못하던 문제 해결
+
+```C
+const ThreeComponent = () => {
+  const ClickHandler = (e) => {
+    // 이벤트 핸들러
+  };
+
+  return (
+    <group onClick={panelClickHandler}> // 부모 컴포넌트(3d요소)의 이벤트 핸들러 등록
+      <mesh>
+        <Html
+          <Item panelClickHandler={panelClickHandler} />  // 자식 컴포넌트 (Html)에 이벤트 핸들러 전달
+        </Html>
+      </mesh>
+    </group>
+  );
+}
+```
+
+#### 2023.03.11
+
+- useRef로 생성한 ObjectRef 객체는 등록한 요소의 실시간 변경을 추적할 수 있다. 하지만 ref 객체의 current 값은 해당 객체의 현재 값을 참조할 뿐 추적하는 기능은 상실하게 된다.
+- 따라서 만약 useImperativeHandle로 자식의 여러 값을 부모의 forwardRef로 연결하고 싶을 때에는 반드시 자식에서 생성되는 ref 객체 자체를 넘겨주어야 한다.
+
+```C
+type ChildRef = {
+  firstChildRef: RefObject<HTMLDivElement>;
+  secondchildRef: RefObject<HTMLDivElement>;
+}
+
+const Child = () => forwardRef<ChildRef>((props, ref) => {
+  useImperativeHandle(ref, () => ({
+    // firstChildRef: firstChildRef.current,
+    // secondChildRef: secondChildRef.current,
+    // 이렇게 current값을 넘겨주면 childRef의 부모에서 받은 childRef의 값은 실시간으로 변경되는 값을 추적하지 못함
+    // 리렌더링 시 값이 갱신되지 못한다는 의미
+
+    firstChildRef,
+    secondChildRef,
+  }))
+
+  return (
+    <>
+      <div ref={firstChildRef}> First </div>
+      <div ref={secondChildRef}> Second </div>
+    </>
+  )
+});
+
+const Parent = () => {
+  const childRefs = useRef<ChildRef>(null);
+
+  useEffect(() => {
+    // childRefs.current.firstChildRef 처럼 자식 컴포넌트의 요소에 등록된 ref에 접근할 수 있음
+  }, [])
+
+
+  return <Child ref={childRefs} />
+}
+```
 
 #### 2023.03.09
 
@@ -123,6 +258,8 @@ dispatch(action({data1, data2}));
 ### react
 
 - useRef와 forwardRef를 동시에 사용하고 싶을 때에는 useImperativeHandle를 사용하자
+- useImperativeHandler가 생성하는 객체는 ref 객체가 생성될 때 실행되며 React 컴포넌트의 렌더링 사이클과는 별개로 작동
+- 때문에 useImperatvieHandler가 직접 값을 수정하면 렌더링 사이클 (props,state 변경시 호출되는 초기 렌더링/ 부모컴포넌트의 리렌더링에 의한 본인 렌더링/ 강제 컴포넌트 언마운트 혹은 리렌더링시)이 감지하지 못하고 화면에 반영되지 않는 경우가 발생할 수 있음
 
 ```C
 const innerRef = useRef();
@@ -183,7 +320,7 @@ typescript에서 node_modules import시 제대로 참조하지 못하는 문제 
 
 ---
 
-### three.js 기록
+### three.js
 
 이 문서 내용은 Pmndrs.docs, threejs, gsap를 기반으로 작성되었습니다
 
@@ -205,6 +342,7 @@ https://docs.pmnd.rs/
   - Canvas 요소는 HTML문서의 일부이나 Canvas 안에서 렌더링되는 그래픽 요소들은 일반적인 HTML과는 다른 방식으로 처리된다
   - Canvas 내에서 렌더링된 HTML 요소들은 전체 DOM트리에 연결되어 있지 않다
   - 따라서 redux Provider의 store속성으로 연결된 redux-store는 DOM트리에 전역적으로 연결되나 Canvas 내부 HTML요소에는 제공되지 않음
+  - 이벤트 버블링에도 같은 이유로 부모 컴포넌트로 전달되지 않고 있는것으로 확인, 부모에서 실행할 이벤트 핸들러를 파라미터화 하며 Canvas내부의 Html로 전달해주어야 함
   - 그러나 Canvas의 props으로 store의 state와 action을 전달하여 내부에서 사용할 수는 있다 (redux의 connect함수 참조)
 
 ##### camera movement
