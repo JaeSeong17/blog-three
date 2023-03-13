@@ -3,20 +3,20 @@
 개인 블로그를 직접 만들어 봅니다. react, three.js, typescript 활용을 목표로 합니다.
 상태관리 redux -> reduxjs/toolkit 시도합니다.
 
-[Dev Report](#dev-report)
-[react](#react)
-[react-redux/toolkit](#reduxjstoolkit)
-[typescript](#typescript)
-[three.js](#threejs)
-[useFrame의 효율적인 코드 작성법](#useFrame의효율적인코드작성법)
+- [Dev Report](#dev-report)
+- [react](#react)
+- [react-redux/toolkit](#reduxjstoolkit)
+- [typescript](#typescript)
+- [three.js](#threejs)
+- [useFrame의 효율적인 코드 작성법](#useFrame의-효율적인-작업을-위한-코드-작성법)
 
 ---
 
-:pencil2: - 새로 알게 된 점
-:pushpin: - 추가 필요 기능
-:wrench: - 새롭게 시도한 작업
-:heavy_exclamation_mark: - 발견된 버그 (수정 필요)
-:heavy_check_mark: - 수정된 버그
+- :pencil2: : 새로 알게 된 점
+- :pushpin: : 추가 필요 기능
+- :wrench: : 새롭게 시도한 작업
+- :heavy_exclamation_mark: : 발견된 버그 (수정 필요)
+- :heavy_check_mark: : 수정된 버그
 
 # Dev Report
 
@@ -26,6 +26,7 @@
   -> GroupProps와 Group 타입 차이가 있음, Group 컴포넌트는 THREE.Group 타입을 상속하기 때문에 ref에 RefObject<GroupProps>를 등록하면 오류 발생
 - Pagination Button을 Panel들이 업데이트 완료되기 전에 누르면 Page 숫자만 올라가고 board가 업데이트 되지 못함
   -> panels이 loading중 일때 pagination button이 클릭되지 못하게 막아야함
+- gsap의 yoyo속성을 가지는 애니메이션은 kill을 하기 전까지 반복 재생 - 자원소모
 
 #### 2023.03.12
 
