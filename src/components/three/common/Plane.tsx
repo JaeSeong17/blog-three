@@ -1,17 +1,13 @@
 import { MeshReflectorMaterial } from '@react-three/drei';
-import * as THREE from 'three';
 
 function Plane() {
-  const color = new THREE.Color('rgba(240, 240, 240, 1)').convertSRGBToLinear();
+  const color = 'rgba(240, 240, 240, 1)';
   return (
     <mesh
       position={[0, 0, 0]}
       receiveShadow
       onClick={e => {
         e.stopPropagation();
-        // if(!['start', 'login', 'loading'].includes(target)){
-        //   dispatch(setTarget('key'))
-        // }
       }}>
       <planeGeometry args={[1000, 1000]} />
       <MeshReflectorMaterial

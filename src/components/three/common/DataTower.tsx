@@ -1,14 +1,13 @@
 import { useEffect, useRef } from 'react';
-import gsap from 'gsap';
 import { Mesh } from 'three';
-import { dataTowerAnim } from '../anim/SubObjectAnim';
+import { dataTowerIdleAnim } from '../anim/SubObjectAnim';
 
 const DataTower = () => {
   const ref = useRef<Array<Mesh | null>>([]);
 
   useEffect(() => {
     if (ref.current && ref.current.every(item => item !== null)) {
-      dataTowerAnim(ref.current as Array<Mesh>);
+      dataTowerIdleAnim(ref.current as Array<Mesh>).play();
     }
   }, [ref]);
 

@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import gsap from 'gsap';
 import { setTarget } from '../../../modules/root/camController';
 import { Mesh } from 'three';
-import { ConnectBoxesOff, ConnectBoxesOn } from '../anim/SubObjectAnum';
+import { connectBoxesOff, connectBoxesOn } from '../anim/SubObjectAnim';
 import { RootState } from 'root-state-types';
 
 const ConnectBoxes = () => {
@@ -17,14 +17,14 @@ const ConnectBoxes = () => {
     if (boxesRef.current && boxesRef.current.every(box => box !== null)) {
       const tl = gsap.timeline();
       if (target === 'connect' || target === 'screen') {
-        tl.add(ConnectBoxesOn(boxesRef.current as Mesh[]));
+        tl.add(connectBoxesOn(boxesRef.current as Mesh[]));
         if (target === 'connect') {
           tl.add(() => {
             dispatch(setTarget('screen'));
           });
         }
       } else {
-        tl.add(ConnectBoxesOff(boxesRef.current as Mesh[]));
+        tl.add(connectBoxesOff(boxesRef.current as Mesh[]));
       }
     }
   }, [target, boxesRef.current]);

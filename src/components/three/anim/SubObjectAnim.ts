@@ -1,5 +1,6 @@
-import { Vector3, Mesh } from 'three';
+import { Vector3, Mesh, Group } from 'three';
 import gsap from 'gsap';
+import CustomEase from 'gsap/CustomEase';
 
 gsap.registerPlugin(CustomEase);
 
@@ -25,7 +26,7 @@ export const connectBoxesOff = (boxes: Mesh[]) => {
   });
 };
 
-export const dataTowerAnim = (dataTower: Mesh[]) => {
+export const dataTowerIdleAnim = (dataTower: Mesh[]) => {
   const dataPos: Array<Vector3> = [];
   dataTower.forEach(data => {
     dataPos.push(data.position);
@@ -47,4 +48,38 @@ export const dataTowerAnim = (dataTower: Mesh[]) => {
       repeatDelay: 3,
       z: 2.1,
     });
+};
+
+export const titlesOnAnim = (titles: Group) => {
+  return gsap.to(titles.position, {
+    z: 4,
+    duration: 1.2,
+  });
+};
+
+export const titlesOffAnim = (titles: Group) => {
+  return gsap.to(titles.position, {
+    z: -2,
+    duration: 1.2,
+  });
+};
+
+export const titleIdleAnim = (title: Group) => {
+  return gsap.to(title.position, {
+    z: 0.2,
+    repeat: -1,
+    ease: 'power3.inOut',
+    duration: 2.5,
+    yoyo: true,
+  });
+};
+
+export const coneIdleAnim = (cone: Mesh) => {
+  return gsap.to(cone.rotation, {
+    y: Math.PI,
+    repeat: -1,
+    ease: 'power2.inOut',
+    yoyo: true,
+    duration: 2,
+  });
 };
