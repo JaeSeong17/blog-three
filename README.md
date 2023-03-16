@@ -20,6 +20,65 @@
 
 # Dev Report
 
+#### 2023.03.16
+
+- Keycap 리팩토링
+
+  - 초기에 태그 버튼을 위해 구현했던 Keycap을 KeyContainer에서 tags.map을 사용하여 태그 목록 버튼을 구현
+  - 이후 글작성 버튼을 추가하면서 Keycap에 writeBtn:boolean 속성을 주어 조건부로 동작하도록 추가하면서 구현부가 복잡해짐
+  - 키캡 3D메쉬 파일을 여러곳(로그아웃 버튼, 글쓰기 버튼, 태그 버튼)에서 사용하게 되면서 메쉬 로드 코드의 재사용성이 높아짐
+  - 이후 키를 추가할 때마다 메쉬를 로드하고 중복된 스타일 속성의 반복을 피하기 위해 KeycapTemplate으로 메쉬 부분만 모듈화 하는 방식으로 리팩토링을 수행
+
+- Text3D 리팩토링
+
+  - Text3D에 같은 속성으로 생성되는 컴포넌트 다수 존재 (Titles, MyProfile, RegisterButton, GuestButton)
+  - 각 컴포넌트 별로 다르게 지정하는 속성 (position, scale 등)만을 받아 같은 스타일로 생성해주는 Text3DTemplate으로 모듈화
+
+- TS 마이그레이션 완료
+- 추가할 기능
+
+  - 작성한 자신의 글 수정 기능
+  - 글 검색 기능
+
+- 로그아웃 버튼 버그 발견
+  - 로그아웃 버튼 클릭시 reducer를 정상적으로 호출하지 못함 (localStorage에 저장된 토큰이 삭제되지 못함)
+  - ts 마이그레이션 하는 과정에서 logout Button의 axios api 호출부에 변경이 발생한 듯 보임
+
+#### 2023.03.15
+
+- public 폴더와 src 폴더의 차이는? 정적 파일을 public에?
+
+  - public폴더는 빌드시 변환되지 않고 그대로 복사된다. 이미지 파일과 같은 정적 파일은 public 폴더에 위치시켜 별도 처리 없이 사용할수 있음
+  - src 폴더에 위치시키면 빌드 과정에서 변환되어 번들링 된 파일 내부에 포함되어 용량이 커지고 초기 로딩 시간이 늘어갈 가능성이 있음
+  - 하지만 이미지 파일을 동적으로 로드해야 하는 경우 src 폴더에 위치시키는 것이 코드가 필요에 따라 동적으로 생성해서 관리 할 수 있어 이점이 있다.
+
+- RefObject와 ForwardedRef의 차이는?
+  - ForwardedRef는 React.ForwardedRef<T> 제네릭 타입으로 선언, T타입의 참조 대상을 다루는 React.Ref 타입
+  - RefObject타입이 ForwardedRef타입의 부분집합으로 RefObject를 ForwardedRef로 사용할 수 있음
+  - 하지만 ForwardedRef가 더 구체적인 타입으로 RefObject와 같지는 않다
+    - ForwardedRef는 current속성이 없으므로 useImperativeHandler(forwardRef, () => {}); 방식으로 사용해야함
+    - ForwardedRef<T>의 타입은 ((instance: T | null) => void)로 T 혹은 null 타입의 인스턴스를 생성하는 콜백함수에 의해 생성된 인스턴스가 할당되는 타입
+
+#### 2023.03.14
+
+- gsap 애니메이션을 모듈화 해서 분리했는데 재사용성은 떨어져 보임
+- 각 컴포넌트에 적용할 On/Off애니메이션을 일일이 다 만드는것 보다 움직임에 필요한 x, y, z 값을 전달받아 움직이는 애니메이션 하나를 두는게 관리 측면에서 용이해 보임
+
+- GLTF mesh파일을 사용하는 방식 참조
+
+```C
+const gltf = useLoader(GLTFLoader, '/path/to/file.gltf');
+// gltf 객체는 보통 블렌더로 찍은 3d메쉬 파일을 받아올 때 사용할 수 있는 형식이며
+// nodes, scene 중에 하나를 선택에서 메쉬 파일을 받아올 수 있음.
+// 하나의 파일에는 여러개의 mesh가 포함될 수 있으므로 아래의 방식으로 찾을 수 있음
+const object = gltf.scene.childre.find(obj => obj.name === '찾고자 하는 메쉬 이름') as Mesh;
+// 여기서 할당되는 객체의 타입을 추론하지 못하기 떄문에 단언 필요
+// 이후 <mesh> 컴포넌트에서 geometry 속성으로 사용할 수 있음
+const loadedObj = () => {
+  return <mesh geometry={object.geometry} />
+}
+```
+
 #### 2023.03.13
 
 - @types/Three 타입 모듈 설치
