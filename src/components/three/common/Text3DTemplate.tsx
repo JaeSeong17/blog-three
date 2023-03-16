@@ -1,5 +1,6 @@
 import { Text3D } from '@react-three/drei';
-import { MeshStandardMaterial } from 'three';
+import { ForwardedRef, forwardRef } from 'react';
+import { Mesh, MeshStandardMaterial } from 'three';
 
 const material = new MeshStandardMaterial({
   color: '#fafafa',
@@ -18,28 +19,23 @@ interface Text3dTemplateParams {
   letterSpacing: number;
 }
 
-export const Text3dTemplate = ({
-  innerText,
-  position,
-  rotation,
-  size,
-  height,
-  bevelSize,
-  letterSpacing,
-}: Text3dTemplateParams) => {
-  return (
-    <Text3D
-      position={position}
-      material={material}
-      rotation={rotation}
-      bevelEnabled
-      bevelSize={bevelSize}
-      bevelThickness={0.1}
-      height={height}
-      letterSpacing={letterSpacing}
-      size={size}
-      font="/NanumGothic_Regular.json">
-      {innerText}
-    </Text3D>
-  );
-};
+export const Text3dTemplate = forwardRef(
+  (props: Text3dTemplateParams, ref: ForwardedRef<Mesh>) => {
+    return (
+      <Text3D
+        ref={ref}
+        position={props.position}
+        material={material}
+        rotation={props.rotation}
+        bevelEnabled
+        bevelSize={props.bevelSize}
+        bevelThickness={0.1}
+        height={props.height}
+        letterSpacing={props.letterSpacing}
+        size={props.size}
+        font="/font/NanumGothic_Regular.json">
+        {props.innerText}
+      </Text3D>
+    );
+  },
+);

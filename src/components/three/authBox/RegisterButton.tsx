@@ -1,15 +1,14 @@
-import { Text3D } from '@react-three/drei';
+import { Text3dTemplate } from '../common/Text3DTemplate';
 import { useDispatch, useSelector } from 'react-redux';
-import { forwardRef } from 'react';
-import { setTarget } from '../../../modules/root/controller';
+import { setTarget } from '../../../modules/root/camController';
+import { RootState } from 'root-state-types';
 
-const RegisterButton = forwardRef((props, ref) => {
-  const target = useSelector(state => state.controller.target);
+const RegisterButton = () => {
+  const target = useSelector((state: RootState) => state.camController.target);
   const dispatch = useDispatch();
   return (
     <group
-      ref={ref}
-      position={[1.72, 0, -1.8]}
+      position={[1.72, -0.2, -1.8]}
       rotation={[-Math.PI / 20, 0, -Math.PI / 20]}
       onClick={e => {
         e.stopPropagation();
@@ -23,21 +22,17 @@ const RegisterButton = forwardRef((props, ref) => {
         <boxGeometry args={[1.1, 0.2, 0.45]} />
         <meshStandardMaterial color="#aaaaaa" />
       </mesh>
-      <Text3D
-        bevelEnabled
-        bevelSize={0.008}
-        bevelThickness={0.01}
-        height={0.02}
-        letterSpacing={-0.01}
-        size={0.16}
-        font="/NanumGothic_Regular.json"
+      <Text3dTemplate
+        innerText={target === 'login' ? '계정생성' : '로그인'}
         position={[-0.4, -0.1, -0.07]}
         rotation={[Math.PI / 2, 0, 0]}
-        anchorX="center">
-        {target === 'login' ? '계정생성' : '로그인'}
-      </Text3D>
+        height={0.02}
+        size={0.16}
+        bevelSize={0.008}
+        letterSpacing={-0.01}
+      />
     </group>
   );
-});
+};
 
 export default RegisterButton;
