@@ -1,4 +1,6 @@
 declare module 'auth-type' {
+  import { RootUserState } from 'root-state-types';
+  import { TargetSet } from 'preset-types';
   export interface LoginParams {
     username: string;
     password: string;
@@ -9,8 +11,11 @@ declare module 'auth-type' {
     username: string;
   }
 
-  export interface RootUser {
-    user: User | null;
-    tryLogout: boolean;
+  export interface RootAuthCarrier {
+    target: TargetSet;
+    rootUser: RootUserState;
+    initRootUser: () => void;
+    updateRootUser: (user: string) => void;
+    setTargetToKey: () => void;
   }
 }
