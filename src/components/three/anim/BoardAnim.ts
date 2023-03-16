@@ -32,11 +32,6 @@ export function panelOffAnim(panels: Array<RefObject<Group>>) {
     z: 0,
     stagger: 0.1,
     duration: 1,
-    // onComplete: () => {
-    //   if (waiting) {
-    //     dispatch(listPosts({ page, username, tag }));
-    //   }
-    // },
   });
 }
 
