@@ -1,6 +1,6 @@
 import { useDispatch } from 'react-redux';
 import { setTarget } from '../../../modules/root/camController';
-import { Text3dTemplate } from '../common/Text3DTemplate';
+import { Text3dTemplate } from '../template/Text3DTemplate';
 
 const GuestButton = () => {
   const dispatch = useDispatch();

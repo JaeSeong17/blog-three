@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useEffect, useRef } from 'react';
 import { setTarget } from '../../../modules/root/camController';
 import { rootLogout } from '../../../modules/root/user';
-import { Text3dTemplate } from './Text3DTemplate';
+import { Text3dTemplate } from '../template/Text3DTemplate';
 import { RootState } from 'root-state-types';
 import { Group } from 'three';
 import { clickAnim } from '../anim/CommonAnim';

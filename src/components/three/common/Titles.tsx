@@ -9,7 +9,7 @@ import {
   titlesOnAnim,
   titlesOffAnim,
 } from '../anim/SubObjectAnim';
-import { Text3dTemplate } from './Text3DTemplate';
+import { Text3dTemplate } from '../template/Text3DTemplate';
 import { ThreeEvent } from '@react-three/fiber';
 
 const material = new MeshStandardMaterial({

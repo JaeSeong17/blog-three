@@ -1,8 +1,8 @@
 import { RefObject, useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { listPosts, loadComplete } from '../../../modules/root/boardController';
-import Board, { BoardForwardRef } from '../common/Board';
-import Pagination, { PaginationForwardRef } from '../common/Pagination';
+import Board, { BoardForwardRef } from '../board/Board';
+import Pagination, { PaginationForwardRef } from '../board/Pagination';
 import gsap from 'gsap';
 import {
   boardOnAnim,
@@ -29,6 +29,18 @@ const BoardContainer = () => {
       error: boardController.error,
     }),
   );
+
+  // 키 버튼 변경시 해당 태그에 맞는 포스트 로드
+  useEffect(() => {
+    dispatch(listPosts({ page, tag }));
+  }, [tag]);
+
+  // 포스트 로드 오류시 메시지 출력
+  useEffect(() => {
+    if (error) {
+      console.log('포스트 리스트 로드에서 오류가 발생했습니다.');
+    }
+  }, [error]);
 
   // Board 전체 On/Off 애니메이션
   useEffect(() => {
@@ -66,18 +78,7 @@ const BoardContainer = () => {
     boardRef.current ? boardRef.current.panelRefs.current : null,
   ]);
 
-  // 키 버튼 변경시 해당 태그에 맞는 포스트 로드
-  useEffect(() => {
-    dispatch(listPosts({ page, tag }));
-  }, [tag]);
-
-  // 포스트 로드 오류시 메시지 출력
-  useEffect(() => {
-    if (error) {
-      console.log('포스트 리스트 로드에서 오류가 발생했습니다.');
-    }
-  }, [error]);
-
+  // 페이지 전환 시 패널 On/Off 애니메이션
   useEffect(() => {
     if (boardRef.current) {
       const prs = boardRef.current.panelRefs.current;

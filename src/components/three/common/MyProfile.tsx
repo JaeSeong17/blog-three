@@ -1,6 +1,6 @@
 import { useSelector } from 'react-redux';
 import { useRef, useEffect } from 'react';
-import { Text3dTemplate } from './Text3DTemplate';
+import { Text3dTemplate } from '../template/Text3DTemplate';
 import { RootState } from 'root-state-types';
 import { Mesh } from 'three';
 import { profileOnAnim, profileOffAnim } from '../anim/SubObjectAnim';

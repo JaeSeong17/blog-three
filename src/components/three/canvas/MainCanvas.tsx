@@ -1,10 +1,9 @@
 import styled from 'styled-components';
 import * as THREE from 'three';
-import { Canvas, useFrame } from '@react-three/fiber';
-import { OrbitControls, Html, useProgress, Loader } from '@react-three/drei';
+import { Canvas } from '@react-three/fiber';
+import { Loader } from '@react-three/drei';
 import Plane from '../common/Plane';
-import { useEffect, useRef } from 'react';
-import MainScene from '../Scene/MainScene';
+import MainScene from '../scene/MainScene';
 import { Suspense } from 'react';
 
 const Wrapper = styled.div`
@@ -33,7 +32,6 @@ const MainCanvas = () => {
           castShadow: true,
           up: [0, 0, 1],
         }}>
-        {/* <primitive object={new THREE.AxesHelper(10)} /> */}
         <fog attach="fog" args={[backColor, 20, 60]} />
         <color attach="background" args={[backColor]} />
         <ambientLight intensity={0.25} />
@@ -55,7 +53,6 @@ const MainCanvas = () => {
           intensity={0.3}
           castShadow
         />
-        {/* <spotLight position={[15, 0, 20]} angle={0.4} penumbra={0.6} intensity={1} /> */}
         <Suspense fallback={null}>
           <MainScene />
         </Suspense>

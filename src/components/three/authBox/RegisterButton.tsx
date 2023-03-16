@@ -1,4 +1,4 @@
-import { Text3dTemplate } from '../common/Text3DTemplate';
+import { Text3dTemplate } from '../template/Text3DTemplate';
 import { useDispatch, useSelector } from 'react-redux';
 import { setTarget } from '../../../modules/root/camController';
 import { RootState } from 'root-state-types';

@@ -8,8 +8,8 @@ import {
 } from '../../../modules/root/boardController';
 import { forwardRef, useImperativeHandle } from 'react';
 import { RootState } from 'root-state-types';
-import { pageBtnClickAnim } from '../anim/PaginationAnim';
 import { Group, Mesh } from 'three';
+import { clickAnim } from '../anim/CommonAnim';
 
 export interface PaginationForwardRef {
   paginationRef: RefObject<Group>;
@@ -42,7 +42,7 @@ const Pagination = forwardRef((_, ref) => {
         rotation={[Math.PI * 0.5, 0, 0]}
         onClick={() => {
           if (currPage > 1) {
-            pageBtnClickAnim(leftBtnRef);
+            clickAnim(leftBtnRef);
             dispatch(decreasePage());
             dispatch(loadWaiting());
           }
@@ -63,7 +63,7 @@ const Pagination = forwardRef((_, ref) => {
         rotation={[Math.PI * 0.5, Math.PI * 1, 0]}
         onClick={() => {
           if (currPage < lastPage) {
-            pageBtnClickAnim(rightBtnRef);
+            clickAnim(rightBtnRef);
             dispatch(increasePage());
             dispatch(loadWaiting());
           }

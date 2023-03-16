@@ -6,12 +6,15 @@ import ConnectBoxes from '../common/ConnectBoxes';
 import { useFrame } from '@react-three/fiber';
 import { useSelector } from 'react-redux';
 import * as THREE from 'three';
+import { RootState } from 'root-state-types';
 
 const vec = new THREE.Vector3();
 const lookAtPos = new THREE.Vector3();
 const MainScene = () => {
-  const camAngle = useSelector(state => state.controller.camAngle);
-  const camPos = useSelector(state => state.controller.camPos);
+  const { camAngle, camPos } = useSelector((state: RootState) => ({
+    camAngle: state.camController.camAngle,
+    camPos: state.camController.camPos,
+  }));
 
   useFrame(state => {
     state.camera.position.lerp(vec.set(camPos.x, camPos.y, camPos.z), 0.015);

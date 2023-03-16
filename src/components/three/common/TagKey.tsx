@@ -7,7 +7,7 @@ import { setComplete, setCurrTag } from 'src/modules/root/boardController';
 import { Mesh } from 'three';
 import { keyClickAnim } from '../anim/CommonAnim';
 import { RootState } from 'root-state-types';
-import KeycapTemplate from './KeycapTemplate';
+import KeycapTemplate from '../template/KeycapTemplate';
 
 interface TagKeyParams {
   position: [x: number, y: number, z: number];
