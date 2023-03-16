@@ -1,4 +1,3 @@
-import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { Provider } from 'react-redux';
 import { all } from 'redux-saga/effects';
@@ -6,20 +5,24 @@ import createSagaMiddleware from 'redux-saga';
 import { configureStore } from '@reduxjs/toolkit';
 import App from './App';
 import './index.css';
-import controllerReducer from 'src/modules/root/controller';
-import postsReducer, { postsSaga } from 'src/modules/root/posts';
+import camControllerReducer from 'src/modules/root/camController';
+import screenControllerReducer from 'src/modules/root/screenController';
+import boardControllerReducer, {
+  postsSaga,
+} from 'src/modules/root/boardController';
 import loadingReducer from 'src/modules/loading';
-import userReducer, { userSaga } from 'src/modules/root/user';
+import userReducer from 'src/modules/root/user';
 
 export function* rootSaga() {
-  yield all([postsSaga(), userSaga()]);
+  yield all([postsSaga()]);
 }
 const sagaMiddleware = createSagaMiddleware();
 const store = configureStore({
   reducer: {
-    controller: controllerReducer,
+    camController: camControllerReducer,
+    screenController: screenControllerReducer,
+    boardController: boardControllerReducer,
     user: userReducer,
-    posts: postsReducer,
     loading: loadingReducer,
   },
   devTools: true,
@@ -27,7 +30,9 @@ const store = configureStore({
 });
 sagaMiddleware.run(rootSaga);
 
-const root = ReactDOM.createRoot(document.getElementById('root'));
+const root = ReactDOM.createRoot(
+  document.getElementById('root') as HTMLElement,
+);
 root.render(
   <Provider store={store}>
     <App />
