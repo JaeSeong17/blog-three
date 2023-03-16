@@ -2,8 +2,6 @@ import { Vector3, Mesh, Group } from 'three';
 import gsap from 'gsap';
 import CustomEase from 'gsap/CustomEase';
 
-gsap.registerPlugin(CustomEase);
-
 export const connectBoxesOn = (boxes: Mesh[]) => {
   const boxesPos: Array<Vector3> = [];
   boxes.forEach(box => {
@@ -28,6 +26,8 @@ export const connectBoxesOff = (boxes: Mesh[]) => {
 
 export const dataTowerIdleAnim = (dataTower: Mesh[]) => {
   const dataPos: Array<Vector3> = [];
+
+  gsap.registerPlugin(CustomEase);
   dataTower.forEach(data => {
     dataPos.push(data.position);
   });
@@ -81,5 +81,55 @@ export const coneIdleAnim = (cone: Mesh) => {
     ease: 'power2.inOut',
     yoyo: true,
     duration: 2,
+  });
+};
+
+export const profileOnAnim = (text1: Mesh, text2: Mesh) => {
+  return gsap
+    .timeline()
+    .to(text1.position, {
+      z: 0,
+      delay: 1.8,
+      duration: 1.2,
+    })
+    .to(text2.position, {
+      z: 0,
+      duration: 1.2,
+    });
+};
+
+export const profileOffAnim = (text1: Mesh, text2: Mesh) => {
+  return gsap
+    .timeline()
+    .to(
+      text1.position,
+      {
+        z: -2,
+        duration: 1.2,
+      },
+      'closeLabel',
+    )
+    .to(
+      text2.position,
+      {
+        z: -2,
+        duration: 1.2,
+      },
+      'closeLabel',
+    );
+};
+
+export const logBtnOnAnim = (btn: Group) => {
+  return gsap.to(btn.position, {
+    z: 1,
+    delay: 4,
+    duration: 1.2,
+  });
+};
+
+export const logBtnOffAnim = (btn: Group) => {
+  return gsap.to(btn.position, {
+    z: -3,
+    duration: 1.2,
   });
 };
