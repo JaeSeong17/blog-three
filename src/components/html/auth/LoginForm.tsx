@@ -8,13 +8,13 @@ import {
   login,
 } from 'src/modules/auth/auth';
 import { check, initializeUser } from 'src/modules/auth/user';
-import { RootUser, User } from 'auth-type';
+import { RootUserState } from 'root-state-types';
 import { CertState } from 'cert-state-types';
 
 interface LoginFormParams {
-  rootUser: RootUser;
+  rootUser: RootUserState;
   initRootUser: () => void;
-  updateRootUser: (user: User) => void;
+  updateRootUser: (user: string) => void;
   setTargetToKey: () => void;
 }
 
@@ -84,7 +84,7 @@ const LoginForm = ({
     console.log('로그인 상태 확인');
     if (user) {
       console.log('로그인 상태 확인 성공');
-      updateRootUser(user);
+      updateRootUser(user.username);
       setTargetToKey();
       try {
         localStorage.setItem('user', JSON.stringify(user));

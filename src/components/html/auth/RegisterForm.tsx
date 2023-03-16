@@ -7,11 +7,10 @@ import {
   changeField,
 } from '../../../modules/auth/auth';
 import { check, initializeUser } from '../../../modules/auth/user';
-import { User } from 'auth-type';
 import { CertState } from 'cert-state-types';
 
 interface RegisterFormParams {
-  updateRootUser: (user: User) => void;
+  updateRootUser: (user: string) => void;
   setTargetToKey: () => void;
 }
 
@@ -98,7 +97,7 @@ const RegisterForm = ({
     console.log('로그인 상태 확인');
     if (user) {
       console.log('로그인 상태 확인 성공');
-      updateRootUser(user);
+      updateRootUser(user.username);
       setTargetToKey();
       try {
         localStorage.setItem('user', JSON.stringify(user));
