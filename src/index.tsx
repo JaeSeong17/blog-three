@@ -12,9 +12,15 @@ import boardControllerReducer, {
 } from 'src/modules/root/boardController';
 import loadingReducer from 'src/modules/loading';
 import userReducer from 'src/modules/root/user';
+import authReducer, { authSaga } from 'src/modules/auth/auth';
+import userReReducer, {
+  userSaga,
+  tempSetUser,
+  check,
+} from 'src/modules/auth/user';
 
 export function* rootSaga() {
-  yield all([postsSaga()]);
+  yield all([postsSaga(), authSaga(), userSaga()]);
 }
 const sagaMiddleware = createSagaMiddleware();
 const store = configureStore({
@@ -23,12 +29,33 @@ const store = configureStore({
     screenController: screenControllerReducer,
     boardController: boardControllerReducer,
     user: userReducer,
+    auth: authReducer,
+    userRe: userReReducer,
     loading: loadingReducer,
   },
   devTools: true,
   middleware: [sagaMiddleware],
 });
+
+// 로컬 스토리지로 자동 로그인 시도
+function loadUser() {
+  try {
+    const user = localStorage.getItem('user');
+
+    // 로그인 상태가 아니면 아무 작업도 수행하지 않음
+    if (!user) return;
+
+    // 로컬 스토리지 값으로 redux store 임시 갱신
+    store.dispatch(tempSetUser(JSON.parse(user)));
+
+    // 해당 계정이 로그인되어 있는 상태인지 서버에 확인
+    store.dispatch(check());
+  } catch (e) {
+    console.log(e + 'localStorage is not working');
+  }
+}
 sagaMiddleware.run(rootSaga);
+loadUser();
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement,
