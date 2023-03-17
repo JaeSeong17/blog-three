@@ -3,12 +3,17 @@ declare module 'root-state-types' {
   import { ModeSet, TargetSet } from 'preset-types';
   import { AxiosHeaders } from 'axios';
   import { LoadingState } from 'loading-state-types';
+  import { AuthState } from 'cert-state-types';
+  import { UserState } from 'cert-state-types';
+
   export interface RootState {
     boardController: BoardControllerState;
     camController: CamControllerState;
     screenController: ScreenControllerState;
     user: RootUserState;
     loading: LoadingState;
+    auth: AuthState;
+    userRe: UserState;
   }
 
   export interface BoardControllerState {
