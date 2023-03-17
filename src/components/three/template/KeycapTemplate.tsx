@@ -8,7 +8,7 @@ interface KeyCapParams {
   scale: number;
   color: string;
   emissive: string;
-  clickHandler: (e: ThreeEvent<MouseEvent>) => void;
+  clickHandler?: (e: ThreeEvent<MouseEvent>) => void;
 }
 
 const KeycapTemplate = forwardRef(
