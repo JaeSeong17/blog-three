@@ -35,7 +35,7 @@ const MyProfile = () => {
       />
       <Text3dTemplate
         ref={textRef2}
-        innerText={`${user ? user : 'Guest'}님`}
+        innerText={`${user ? user.username : 'Guest'}님`}
         position={[-2.2, 1, -2]}
         rotation={[0, 0, Math.PI / 2]}
         size={1.1}

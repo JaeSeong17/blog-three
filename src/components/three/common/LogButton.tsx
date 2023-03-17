@@ -1,21 +1,20 @@
-import { useLoader } from '@react-three/fiber';
+import { useLoader, ThreeEvent } from '@react-three/fiber';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect, useRef } from 'react';
 import { setTarget } from '../../../modules/root/camController';
 import { Text3dTemplate } from '../template/Text3DTemplate';
 import { RootState } from 'root-state-types';
-import { Group, Mesh } from 'three';
+import { Group } from 'three';
 import { clickAnim } from '../anim/CommonAnim';
-import { ThreeEvent } from '@react-three/fiber';
 import { logBtnOnAnim, logBtnOffAnim } from '../anim/SubObjectAnim';
-import {} from 'three';
 import { logout } from 'src/modules/root/user';
+import KeycapTemplate from '../template/KeycapTemplate';
+import { initializeAuth } from 'src/modules/root/auth';
 
 const LogButton = () => {
   const dispatch = useDispatch();
   const gltf = useLoader(GLTFLoader, 'model/keycap.glb');
-  const cube = gltf.scene.children.find(child => child.name === 'Cube') as Mesh;
   const user = useSelector((state: RootState) => state.user.user);
   const target = useSelector((state: RootState) => state.camController.target);
   const ref = useRef<Group>(null);
@@ -23,9 +22,9 @@ const LogButton = () => {
 
   // 클릭 이벤트 핸들러
   function logBtnClickHandler(e: ThreeEvent<MouseEvent>) {
-    console.log(gltf);
     e.stopPropagation();
     if (user) {
+      dispatch(initializeAuth());
       dispatch(logout());
     }
     clickAnim(ref);
@@ -45,20 +44,12 @@ const LogButton = () => {
 
   return (
     <group ref={ref} onClick={logBtnClickHandler}>
-      <mesh
-        receiveShadow
-        castShadow
+      <KeycapTemplate
         position={[0, 2, -0.1]}
         scale={0.8}
-        rotation={[Math.PI / 2, 0, 0]}
-        geometry={cube.geometry}>
-        <meshStandardMaterial
-          color="rgba(255, 255, 255, 1)"
-          roughness={0}
-          metalness={0.8}
-          emissive={'#ff0000'}
-        />
-      </mesh>
+        color={'#ffffff'}
+        emissive={'#ff0000'}
+      />
       <Text3dTemplate
         innerText={`${user ? '로그아웃' : '로그인'}`}
         position={[0.3, 3, -1]}
