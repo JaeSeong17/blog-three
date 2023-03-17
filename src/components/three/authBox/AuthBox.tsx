@@ -9,6 +9,17 @@ import RegisterButton from './RegisterButton';
 import { RootState } from 'root-state-types';
 import { authBoxOnAnim, authBoxOffAnim } from '../anim/AuthBoxAnim';
 import { Group } from 'three';
+import AuthHtmlRe from 'src/components/html/root/AuthHtmlRe';
+import {
+  changeField,
+  initializeForm,
+  login,
+  register,
+} from 'src/modules/auth/auth';
+import { AuthInputParams } from 'cert-state-types';
+import { AuthFormType } from 'preset-types';
+import { check, initializeUser } from 'src/modules/auth/user';
+import { LoginParams } from 'auth-type';
 
 const AuthBox = () => {
   const dispatch = useDispatch();
@@ -22,6 +33,19 @@ const AuthBox = () => {
       rootUser: user,
     }),
   );
+  const authStateCarrier = useSelector(({ auth }: RootState) => auth);
+  const authReducerCarrier = {
+    authLogin: (params: LoginParams) => dispatch(login(params)),
+    authRegister: (params: LoginParams) => dispatch(register(params)),
+    authChangeField: (params: AuthInputParams) => dispatch(changeField(params)),
+    authInitializeForm: (params: AuthFormType) =>
+      dispatch(initializeForm(params)),
+  };
+  const userStateCarrier = useSelector(({ userRe }: RootState) => userRe);
+  const userReducerCarrier = {
+    userCheck: () => dispatch(check()),
+    userInitialize: () => initializeUser(),
+  };
 
   const updateRootUser = (user: string) => {
     dispatch(setRootUser(user));
@@ -58,12 +82,13 @@ const AuthBox = () => {
           distanceFactor={5}
           rotation-x={Math.PI / 2}
           position={[0, -0.11, 0.26]}>
-          <AuthHtml
+          <AuthHtmlRe
             target={target}
-            rootUser={rootUser}
-            initRootUser={initRootUser}
-            updateRootUser={updateRootUser}
             setTargetToKey={setTargetToKey}
+            authStateCarrier={authStateCarrier}
+            authReducerCarrier={authReducerCarrier}
+            userStateCarrier={userStateCarrier}
+            userReducerCarrier={userReducerCarrier}
           />
         </Html>
       </mesh>

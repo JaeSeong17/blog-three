@@ -30,7 +30,7 @@ export function* userSaga() {
   yield takeLatest('user/logout', logoutSaga);
 }
 
-const user = createSlice({
+const userRe = createSlice({
   name: 'user',
   initialState: {
     user: null,
@@ -64,5 +64,5 @@ export const {
   checkSuccess,
   checkFailure,
   logout,
-} = user.actions;
-export default user.reducer;
+} = userRe.actions;
+export default userRe.reducer;
