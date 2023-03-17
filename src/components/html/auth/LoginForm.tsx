@@ -65,9 +65,8 @@ const LoginForm = ({
   }, [auth, authError]);
 
   useEffect(() => {
-    console.log('로그인 상태 확인');
     if (user) {
-      console.log('로그인 상태 확인 성공');
+      console.log('계정 토큰 확인 성공');
       setTargetToKey();
       try {
         localStorage.setItem('user', JSON.stringify(user));
