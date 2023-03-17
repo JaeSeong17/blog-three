@@ -2,23 +2,21 @@ import { Html } from '@react-three/drei';
 import { useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { setTarget } from '../../../modules/root/camController';
-import { setRootUser, completeSyncLogout } from '../../../modules/root/user';
-import AuthHtml from '../../html/root/AuthHtml';
 import GuestButton from './GuestButton';
 import RegisterButton from './RegisterButton';
 import { RootState } from 'root-state-types';
 import { authBoxOnAnim, authBoxOffAnim } from '../anim/AuthBoxAnim';
 import { Group } from 'three';
-import AuthHtmlRe from 'src/components/html/root/AuthHtmlRe';
+import AuthHtml from 'src/components/html/root/AuthHtml';
 import {
   changeField,
   initializeForm,
   login,
   register,
-} from 'src/modules/auth/auth';
-import { AuthInputParams } from 'cert-state-types';
+} from 'src/modules/root/auth';
+import { AuthInputParams } from 'root-state-types';
 import { AuthFormType } from 'preset-types';
-import { check, initializeUser } from 'src/modules/auth/user';
+import { check, initializeUser } from 'src/modules/root/user';
 import { LoginParams } from 'auth-type';
 
 const AuthBox = () => {
@@ -26,33 +24,27 @@ const AuthBox = () => {
   const boxRef = useRef<Group>(null);
   const btnRef = useRef<Group>(null);
   const formRef = useRef<HTMLDivElement>(null);
-  const activateTarget = ['login', 'register']; // AuthBox가 활성화 되는 타겟
-  const { target, rootUser } = useSelector(
-    ({ camController, user }: RootState) => ({
-      target: camController.target,
-      rootUser: user,
-    }),
+  const target = useSelector(
+    ({ camController }: RootState) => camController.target,
   );
-  const authStateCarrier = useSelector(({ auth }: RootState) => auth);
+  const activateTarget = ['login', 'register']; // AuthBox가 활성화 되는 타겟
+
+  // root store의 auth 리듀서를 authBox내 Html로 전달할 객체
   const authReducerCarrier = {
+    authState: useSelector(({ auth }: RootState) => auth),
     authLogin: (params: LoginParams) => dispatch(login(params)),
     authRegister: (params: LoginParams) => dispatch(register(params)),
     authChangeField: (params: AuthInputParams) => dispatch(changeField(params)),
     authInitializeForm: (params: AuthFormType) =>
       dispatch(initializeForm(params)),
   };
-  const userStateCarrier = useSelector(({ userRe }: RootState) => userRe);
+  // root store의 user 리듀서를 authBox내 Html로 전달할 객체
   const userReducerCarrier = {
+    userState: useSelector(({ user }: RootState) => user),
     userCheck: () => dispatch(check()),
     userInitialize: () => initializeUser(),
   };
 
-  const updateRootUser = (user: string) => {
-    dispatch(setRootUser(user));
-  };
-  const initRootUser = () => {
-    dispatch(completeSyncLogout());
-  };
   const setTargetToKey = () => {
     if (!activateTarget.includes(target)) return;
     dispatch(setTarget('loading'));
@@ -82,12 +74,10 @@ const AuthBox = () => {
           distanceFactor={5}
           rotation-x={Math.PI / 2}
           position={[0, -0.11, 0.26]}>
-          <AuthHtmlRe
+          <AuthHtml
             target={target}
             setTargetToKey={setTargetToKey}
-            authStateCarrier={authStateCarrier}
             authReducerCarrier={authReducerCarrier}
-            userStateCarrier={userStateCarrier}
             userReducerCarrier={userReducerCarrier}
           />
         </Html>

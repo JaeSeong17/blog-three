@@ -1,25 +1,68 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { RootUserState } from 'root-state-types';
+import { createSlice, createAction, PayloadAction } from '@reduxjs/toolkit';
+import createRequestSaga from '../../lib/createRequestSaga';
+import * as authAPI from '../../lib/api/auth';
+import { takeLatest, call } from 'redux-saga/effects';
+import { AxiosError } from 'axios';
+import { User } from 'auth-type';
+import { UserState } from 'root-state-types';
+
+// 사가 생성
+export const check = createAction('user/check');
+const checkSaga = createRequestSaga('user/check', authAPI.check);
+function checkFailureSaga() {
+  try {
+    localStorage.removeItem('user');
+  } catch (e) {
+    console.log('localStorage is not working');
+  }
+}
+function* logoutSaga() {
+  try {
+    yield call(authAPI.logout);
+    localStorage.removeItem('user');
+  } catch (e) {
+    console.log(e);
+  }
+}
+export function* userSaga() {
+  yield takeLatest('user/check', checkSaga);
+  yield takeLatest('user/checkFailure', checkFailureSaga);
+  yield takeLatest('user/logout', logoutSaga);
+}
 
 const user = createSlice({
   name: 'user',
   initialState: {
     user: null,
-    tryLogout: false,
-  } as RootUserState,
+    checkError: null,
+  } as UserState,
   reducers: {
-    setRootUser: (state, { payload: user }: PayloadAction<string>) => {
+    initializeUser: state => {
+      state.user = null;
+      state.checkError = null;
+    },
+    tempSetUser: (state, { payload: user }: PayloadAction<User>) => {
       state.user = user;
     },
-    rootLogout: state => {
-      state.user = null;
-      state.tryLogout = true;
+    checkSuccess: (state, { payload: user }: PayloadAction<{ data: User }>) => {
+      state.user = user.data;
+      state.checkError = null;
     },
-    completeSyncLogout: state => {
-      state.tryLogout = false;
+    checkFailure: (state, { payload: error }: PayloadAction<AxiosError>) => {
+      state.user = null;
+      state.checkError = error;
+    },
+    logout: state => {
+      state.user = null;
     },
   },
 });
 
-export const { setRootUser, rootLogout, completeSyncLogout } = user.actions;
+export const {
+  initializeUser,
+  tempSetUser,
+  checkSuccess,
+  checkFailure,
+  logout,
+} = user.actions;
 export default user.reducer;

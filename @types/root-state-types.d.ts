@@ -3,17 +3,16 @@ declare module 'root-state-types' {
   import { ModeSet, TargetSet } from 'preset-types';
   import { AxiosHeaders } from 'axios';
   import { LoadingState } from 'loading-state-types';
-  import { AuthState } from 'cert-state-types';
-  import { UserState } from 'cert-state-types';
+  import { User } from 'auth-type';
+  import { AxiosError } from 'axios';
 
   export interface RootState {
     boardController: BoardControllerState;
     camController: CamControllerState;
     screenController: ScreenControllerState;
-    user: RootUserState;
-    loading: LoadingState;
     auth: AuthState;
-    userRe: UserState;
+    user: UserState;
+    loading: LoadingState;
   }
 
   export interface BoardControllerState {
@@ -55,8 +54,29 @@ declare module 'root-state-types' {
     postId: string;
   }
 
-  export interface RootUserState {
-    user: string | null;
-    tryLogout: boolean;
+  export interface AuthState {
+    [index: string]: FormState | User | AxiosError | null;
+    register: FormState;
+    login: FormState;
+    auth: User | null;
+    authError: AxiosError | null;
+  }
+
+  export interface FormState {
+    [index: string]: string | undefined;
+    username: string;
+    password: string;
+    passwordConfirm?: string;
+  }
+
+  interface AuthInputParams {
+    form: 'register' | 'login';
+    key: 'username' | 'password' | 'passwordConfirm';
+    value: string;
+  }
+
+  export interface UserState {
+    user: User | null;
+    checkError: AxiosError | null;
   }
 }

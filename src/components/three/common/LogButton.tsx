@@ -3,14 +3,14 @@ import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect, useRef } from 'react';
 import { setTarget } from '../../../modules/root/camController';
-import { rootLogout } from '../../../modules/root/user';
 import { Text3dTemplate } from '../template/Text3DTemplate';
 import { RootState } from 'root-state-types';
-import { Group } from 'three';
+import { Group, Mesh } from 'three';
 import { clickAnim } from '../anim/CommonAnim';
 import { ThreeEvent } from '@react-three/fiber';
 import { logBtnOnAnim, logBtnOffAnim } from '../anim/SubObjectAnim';
-import { Mesh } from 'three';
+import {} from 'three';
+import { logout } from 'src/modules/root/user';
 
 const LogButton = () => {
   const dispatch = useDispatch();
@@ -26,7 +26,7 @@ const LogButton = () => {
     console.log(gltf);
     e.stopPropagation();
     if (user) {
-      dispatch(rootLogout());
+      dispatch(logout());
     }
     clickAnim(ref);
     dispatch(setTarget('login'));

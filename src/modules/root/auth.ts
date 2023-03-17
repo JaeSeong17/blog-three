@@ -4,7 +4,7 @@ import * as authAPI from '../../lib/api/auth';
 import { takeLatest } from 'redux-saga/effects';
 import { AxiosError } from 'axios';
 import { LoginParams, User } from 'auth-type';
-import { AuthState, AuthInputParams } from 'cert-state-types';
+import { AuthState, AuthInputParams } from 'root-state-types';
 
 export const login = createAction(
   'auth/login',

@@ -43,6 +43,8 @@
 - 로그아웃 버튼 버그 발견
   - 로그아웃 버튼 클릭시 reducer를 정상적으로 호출하지 못함 (localStorage에 저장된 토큰이 삭제되지 못함)
   - ts 마이그레이션 하는 과정에서 logout Button의 axios api 호출부에 변경이 발생한 듯 보임
+  - Canvas내부 Html에 redux가 연결되지 못하는 문제 해결(임시방편)을 위해 store를 여러개 두었던 구조로 두 store 간의 state를 동기 시켜야 하는 문제 발생
+  - 하나의 store로 통합하고 Canvas내부 Html의 속성으로 state와 action을 전달하는 방식으로 수정을 계획
 
 #### 2023.03.15
 

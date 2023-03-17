@@ -1,67 +1,57 @@
 import AuthTemplate from './AuthTemplate';
-import { useState, useEffect, ChangeEvent } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import {
-  changeField,
-  initializeAuth,
-  initializeForm,
-  login,
-} from 'src/modules/auth/auth';
-import { check, initializeUser } from 'src/modules/auth/user';
-import { RootUserState } from 'root-state-types';
-import { CertState } from 'cert-state-types';
+import { useState, ChangeEvent, useEffect } from 'react';
+import { AuthState, UserState, AuthInputParams } from 'root-state-types';
+import { AuthFormType } from 'preset-types';
+import { LoginParams } from 'auth-type';
 
 interface LoginFormParams {
-  rootUser: RootUserState;
-  initRootUser: () => void;
-  updateRootUser: (user: string) => void;
+  authReducerCarrier: {
+    authState: AuthState;
+    authLogin: (params: LoginParams) => void;
+    authChangeField: (params: AuthInputParams) => void;
+    authInitializeForm: (params: AuthFormType) => void;
+  };
+  userReducerCarrier: {
+    userState: UserState;
+    userCheck: () => void;
+    userInitialize: () => void;
+  };
   setTargetToKey: () => void;
 }
 
 const LoginForm = ({
-  rootUser,
-  initRootUser,
-  updateRootUser,
+  authReducerCarrier,
+  userReducerCarrier,
   setTargetToKey,
 }: LoginFormParams) => {
-  const dispatch = useDispatch();
-  const { form, auth, authError, user } = useSelector(
-    ({ auth, user }: CertState) => ({
-      form: auth.login,
-      auth: auth.auth,
-      authError: auth.authError,
-      user: user.user,
-    }),
-  );
+  const { login: form, auth, authError } = authReducerCarrier.authState;
+  const { user } = userReducerCarrier.userState;
   const [error, setError] = useState<string | null>(null);
 
   // 인풋 변경 이벤트 핸들러
   const onChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { value, name } = e.target;
-    dispatch(
-      changeField({
-        form: 'login',
-        key: name as 'username' | 'password',
-        value,
-      }),
-    );
+    authReducerCarrier.authChangeField({
+      form: 'login',
+      key: name as 'username' | 'password',
+      value,
+    });
   };
 
   // 폼 등록 이벤트 핸들러
   const onSubmit = (e: ChangeEvent<HTMLFormElement>) => {
     e.preventDefault();
     const { username, password } = form;
-    dispatch(login({ username, password }));
+    authReducerCarrier.authLogin({ username, password });
   };
 
   // 컴포넌트 처음 렌더링 시 form 초기화
   useEffect(() => {
-    dispatch(initializeForm('login'));
-  }, [dispatch]);
+    authReducerCarrier.authInitializeForm('login');
+  }, []);
 
   // 로그인 시도 후 결과에 따라
   useEffect(() => {
-    if (rootUser.tryLogout) return;
     if (authError) {
       console.log('오류 발생');
       console.log(authError);
@@ -70,21 +60,14 @@ const LoginForm = ({
     }
     if (auth) {
       console.log('로그인 성공');
-      dispatch(check());
+      userReducerCarrier.userCheck();
     }
-  }, [auth, authError, dispatch]);
+  }, [auth, authError]);
 
   useEffect(() => {
-    if (rootUser.tryLogout) {
-      dispatch(initializeAuth());
-      dispatch(initializeUser());
-      initRootUser();
-      return;
-    }
     console.log('로그인 상태 확인');
     if (user) {
       console.log('로그인 상태 확인 성공');
-      updateRootUser(user.username);
       setTargetToKey();
       try {
         localStorage.setItem('user', JSON.stringify(user));

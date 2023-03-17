@@ -1,44 +1,42 @@
 import AuthTemplate from './AuthTemplate';
 import { useState, useEffect, ChangeEvent } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import {
-  initializeForm,
-  register,
-  changeField,
-} from '../../../modules/auth/auth';
-import { check, initializeUser } from '../../../modules/auth/user';
-import { CertState } from 'cert-state-types';
+import { LoginParams } from 'auth-type';
+import { AuthInputParams, AuthState } from 'root-state-types';
+import { AuthFormType } from 'preset-types';
+import { UserState } from 'root-state-types';
 
 interface RegisterFormParams {
-  updateRootUser: (user: string) => void;
+  authReducerCarrier: {
+    authState: AuthState;
+    authRegister: (params: LoginParams) => void;
+    authChangeField: (params: AuthInputParams) => void;
+    authInitializeForm: (params: AuthFormType) => void;
+  };
+  userReducerCarrier: {
+    userState: UserState;
+    userCheck: () => void;
+    userInitialize: () => void;
+  };
   setTargetToKey: () => void;
 }
 
 const RegisterForm = ({
-  updateRootUser,
+  authReducerCarrier,
+  userReducerCarrier,
   setTargetToKey,
 }: RegisterFormParams) => {
-  const dispatch = useDispatch();
-  const { form, auth, authError, user } = useSelector(
-    ({ auth, user }: CertState) => ({
-      form: auth.register,
-      auth: auth.auth,
-      authError: auth.authError,
-      user: user.user,
-    }),
-  );
+  const { register: form, auth, authError } = authReducerCarrier.authState;
+  const { user } = userReducerCarrier.userState;
   const [error, setError] = useState<string | null>(null);
 
   // 인풋 변경 이벤트 핸들러
   const onChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { value, name } = e.target;
-    dispatch(
-      changeField({
-        form: 'register',
-        key: name as 'username' | 'password' | 'passwordConfirm',
-        value,
-      }),
-    );
+    authReducerCarrier.authChangeField({
+      form: 'register',
+      key: name as 'username' | 'password' | 'passwordConfirm',
+      value,
+    });
   };
 
   // 폼 등록 이벤트 핸들러
@@ -53,23 +51,26 @@ const RegisterForm = ({
     // 비밀번호 확인 불일치
     if (password !== passwordConfirm) {
       setError('비밀번호가 일치하지 않습니다.');
-      dispatch(changeField({ form: 'register', key: 'password', value: '' }));
-      dispatch(
-        changeField({ form: 'register', key: 'passwordConfirm', value: '' }),
-      );
+      authReducerCarrier.authChangeField({
+        form: 'register',
+        key: 'password',
+        value: '',
+      });
+      authReducerCarrier.authChangeField({
+        form: 'register',
+        key: 'passwordConfirm',
+        value: '',
+      });
       return;
     }
-    dispatch(register({ username, password }));
+    authReducerCarrier.authRegister({ username, password });
     // 구현 예정
   };
 
   // 컴포넌트 처음 렌더링 시 form 초기화
   useEffect(() => {
-    dispatch(initializeForm('register'));
-    return () => {
-      initializeUser();
-    };
-  }, [dispatch]);
+    authReducerCarrier.authInitializeForm('register');
+  }, []);
 
   useEffect(() => {
     if (authError) {
@@ -88,16 +89,15 @@ const RegisterForm = ({
     if (auth) {
       console.log('회원가입 성공');
       console.log(auth);
-      dispatch(check());
+      userReducerCarrier.userCheck();
     }
-  }, [auth, authError, dispatch]);
+  }, [auth, authError]);
 
   //user 값이 잘 설정되었는지 확인
   useEffect(() => {
     console.log('로그인 상태 확인');
     if (user) {
       console.log('로그인 상태 확인 성공');
-      updateRootUser(user.username);
       setTargetToKey();
       try {
         localStorage.setItem('user', JSON.stringify(user));

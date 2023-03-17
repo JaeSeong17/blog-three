@@ -11,13 +11,12 @@ import boardControllerReducer, {
   postsSaga,
 } from 'src/modules/root/boardController';
 import loadingReducer from 'src/modules/loading';
-import userReducer from 'src/modules/root/user';
-import authReducer, { authSaga } from 'src/modules/auth/auth';
-import userReReducer, {
+import userReducer, {
   userSaga,
   tempSetUser,
   check,
-} from 'src/modules/auth/user';
+} from 'src/modules/root/user';
+import authReducer, { authSaga } from 'src/modules/root/auth';
 
 export function* rootSaga() {
   yield all([postsSaga(), authSaga(), userSaga()]);
@@ -28,9 +27,8 @@ const store = configureStore({
     camController: camControllerReducer,
     screenController: screenControllerReducer,
     boardController: boardControllerReducer,
-    user: userReducer,
     auth: authReducer,
-    userRe: userReReducer,
+    user: userReducer,
     loading: loadingReducer,
   },
   devTools: true,
