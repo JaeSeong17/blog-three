@@ -15,7 +15,7 @@ declare module 'auth-type' {
     username: string;
   }
 
-  export interface AuthCarrier {
+  export interface AuthBoxReducerCarrier {
     target: TargetSet;
     setTargetToKey: () => void;
     authReducerCarrier: {
@@ -30,5 +30,35 @@ declare module 'auth-type' {
       userCheck: () => void;
       userInitialize: () => void;
     };
+  }
+
+  interface LoginReducerCarrier {
+    authReducerCarrier: {
+      authState: AuthState;
+      authLogin: (params: LoginParams) => void;
+      authChangeField: (params: AuthInputParams) => void;
+      authInitializeForm: (params: AuthFormType) => void;
+    };
+    userReducerCarrier: {
+      userState: UserState;
+      userCheck: () => void;
+      userInitialize: () => void;
+    };
+    setTargetToKey: () => void;
+  }
+
+  export interface RegisterReducerCarrier {
+    authReducerCarrier: {
+      authState: AuthState;
+      authRegister: (params: LoginParams) => void;
+      authChangeField: (params: AuthInputParams) => void;
+      authInitializeForm: (params: AuthFormType) => void;
+    };
+    userReducerCarrier: {
+      userState: UserState;
+      userCheck: () => void;
+      userInitialize: () => void;
+    };
+    setTargetToKey: () => void;
   }
 }

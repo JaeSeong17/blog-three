@@ -1,5 +1,4 @@
-import { useLoader, ThreeEvent } from '@react-three/fiber';
-import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
+import { ThreeEvent } from '@react-three/fiber';
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect, useRef } from 'react';
 import { setTarget } from '../../../modules/root/camController';
@@ -14,7 +13,6 @@ import { initializeAuth } from 'src/modules/root/auth';
 
 const LogButton = () => {
   const dispatch = useDispatch();
-  const gltf = useLoader(GLTFLoader, 'model/keycap.glb');
   const user = useSelector((state: RootState) => state.user.user);
   const target = useSelector((state: RootState) => state.camController.target);
   const ref = useRef<Group>(null);

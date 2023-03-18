@@ -1,30 +1,12 @@
 import AuthTemplate from './AuthTemplate';
 import { useState, useEffect, ChangeEvent } from 'react';
-import { LoginParams } from 'auth-type';
-import { AuthInputParams, AuthState } from 'root-state-types';
-import { AuthFormType } from 'preset-types';
-import { UserState } from 'root-state-types';
-
-interface RegisterFormParams {
-  authReducerCarrier: {
-    authState: AuthState;
-    authRegister: (params: LoginParams) => void;
-    authChangeField: (params: AuthInputParams) => void;
-    authInitializeForm: (params: AuthFormType) => void;
-  };
-  userReducerCarrier: {
-    userState: UserState;
-    userCheck: () => void;
-    userInitialize: () => void;
-  };
-  setTargetToKey: () => void;
-}
+import { RegisterReducerCarrier } from 'auth-type';
 
 const RegisterForm = ({
   authReducerCarrier,
   userReducerCarrier,
   setTargetToKey,
-}: RegisterFormParams) => {
+}: RegisterReducerCarrier) => {
   const { register: form, auth, authError } = authReducerCarrier.authState;
   const { user } = userReducerCarrier.userState;
   const [error, setError] = useState<string | null>(null);

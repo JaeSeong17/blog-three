@@ -1,13 +1,13 @@
 import LoginForm from '../auth/LoginForm';
 import RegisterForm from '../auth/RegisterForm';
-import { AuthCarrier } from 'auth-type';
+import { AuthBoxReducerCarrier } from 'auth-type';
 
 const AuthHtml = ({
   target,
   setTargetToKey,
   authReducerCarrier,
   userReducerCarrier,
-}: AuthCarrier) => {
+}: AuthBoxReducerCarrier) => {
   let currForm;
   if (target === 'login') {
     currForm = (
