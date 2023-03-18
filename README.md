@@ -20,6 +20,16 @@
 
 # Dev Report
 
+#### 2023.03.17
+
+- auth store를 root store로 병합 완료
+
+  - authBox내부 Html과 외부 Html간의 상태 정보를 동기 시켜주는 작업을 제거하고 하나의 state로 관리
+  - key target에서 logout 버튼으로 로그아웃 시도시 authbox내 스토어와 state를 동기화 해야 하는 작업 때문에 코드가 복잡해졌던 문제 해결
+
+- :heavy_exclamation_mark: 로그아웃시 LoginForm에서 로그인을 시도하는 작업이 수행됨 (check api가 호출)
+  - GET response가 401 에러를 보내는 것을 보아 로그아웃은 정상적으로 수행됨
+
 #### 2023.03.16
 
 - Keycap 리팩토링
@@ -40,7 +50,7 @@
   - 작성한 자신의 글 수정 기능
   - 글 검색 기능
 
-- 로그아웃 버튼 버그 발견
+- :heavy_check_mark: 로그아웃 버튼 버그 발견
   - 로그아웃 버튼 클릭시 reducer를 정상적으로 호출하지 못함 (localStorage에 저장된 토큰이 삭제되지 못함)
   - ts 마이그레이션 하는 과정에서 logout Button의 axios api 호출부에 변경이 발생한 듯 보임
   - Canvas내부 Html에 redux가 연결되지 못하는 문제 해결(임시방편)을 위해 store를 여러개 두었던 구조로 두 store 간의 state를 동기 시켜야 하는 문제 발생
