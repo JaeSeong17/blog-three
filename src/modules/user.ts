@@ -1,6 +1,6 @@
 import { createSlice, createAction, PayloadAction } from '@reduxjs/toolkit';
-import createRequestSaga from '../../lib/createRequestSaga';
-import * as authAPI from '../../lib/api/auth';
+import createRequestSaga from '../lib/createRequestSaga';
+import * as authAPI from '../lib/api/auth';
 import { takeLatest, call } from 'redux-saga/effects';
 import { AxiosError } from 'axios';
 import { User } from 'auth-type';

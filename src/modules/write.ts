@@ -102,6 +102,8 @@ export const {
   changeField,
   writePostSuccess,
   writePostFailure,
+  updatePostSuccess,
+  updatePostFailure,
   setOriginalPost,
 } = write.actions;
 export default write.reducer;
