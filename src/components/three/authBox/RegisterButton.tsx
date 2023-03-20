@@ -1,6 +1,6 @@
 import { Text3dTemplate } from '../template/Text3DTemplate';
 import { useDispatch, useSelector } from 'react-redux';
-import { setTarget } from '../../../modules/root/camController';
+import { setTarget } from '../../../modules/camController';
 import { RootState } from 'root-state-types';
 
 const RegisterButton = () => {
@@ -24,11 +24,12 @@ const RegisterButton = () => {
       </mesh>
       <Text3dTemplate
         innerText={target === 'login' ? '계정생성' : '로그인'}
-        position={[-0.4, -0.1, -0.07]}
+        position={[-0.4, -0.01, -0.07]}
         rotation={[Math.PI / 2, 0, 0]}
+        color={'white'}
         height={0.02}
         size={0.16}
-        bevelSize={0.008}
+        bevelSize={0.005}
         letterSpacing={-0.01}
       />
     </group>

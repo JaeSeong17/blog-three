@@ -1,5 +1,5 @@
 import { useDispatch } from 'react-redux';
-import { setTarget } from '../../../modules/root/camController';
+import { setTarget } from '../../../modules/camController';
 import { Text3dTemplate } from '../template/Text3DTemplate';
 
 const GuestButton = () => {
@@ -18,11 +18,12 @@ const GuestButton = () => {
       </mesh>
       <Text3dTemplate
         innerText={'게스트입장'}
-        position={[-0.5, -0.1, -0.07]}
+        position={[-0.5, -0.04, -0.07]}
         rotation={[Math.PI / 2, 0, 0]}
+        color={'white'}
         height={0.02}
         size={0.16}
-        bevelSize={0.008}
+        bevelSize={0.005}
         letterSpacing={-0.01}
       />
     </group>
