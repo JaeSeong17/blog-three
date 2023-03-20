@@ -1,5 +1,6 @@
 # Blog - THREE
 
+![스크린샷 2023-03-20 195704](https://user-images.githubusercontent.com/37216958/226325768-5eea1df9-2a45-4aeb-91de-460c3d1e5e2f.png)
 개인 블로그를 직접 만들어 봅니다. react, three.js, typescript 활용을 목표로 합니다.
 상태관리 redux -> reduxjs/toolkit 시도합니다.
 
@@ -270,12 +271,12 @@ gsap.timeline()
 .to(objectRef3, { value}, 'label');
 ```
 
-- ~~:pushpin: 로그인 박스 내 스토어와 three 전체의 스토어 두개에서 계정정보가 중복되어 저장되고 있어 동기화 작업이 필요함
-  - 이후 하나의 스토어에서 관리할 수 있도록 수정 필요~~
+- ~~:pushpin: 로그인 박스 내 스토어와 three 전체의 스토어 두개에서 계정정보가 중복되어 저장되고 있어 동기화 작업이 필요함~~
+  - ~~이후 하나의 스토어에서 관리할 수 있도록 수정 필요~~ 완료
 
 #### 2023.03.03
 
-- ~~:pushpin: 회원가입 구현: 가입 완료시 바로 로그인 되어 내부로 진입되도록 했으나 이후 수정하는 것이 필요~~
+- ~~:pushpin: 회원가입 구현: 가입 완료시 바로 로그인 되어 내부로 진입되도록 했으나 이후 수정하는 것이 필요~~ 완료
 - :pushpin: 회원가입과 로그인시 인증중임을 사용자가 확인 할 수 있도록 loading ui를 구현하는 것이 필요
 
 - :heavy_check_mark: auth store의 initialize reducer가 auth정보를 초기화 하지 못하는 문제 발견, 이 때문에 로그아웃을 하더라도 auth정보를 통해 다시 자동 로그인 되어 버리는 문제 발생.
