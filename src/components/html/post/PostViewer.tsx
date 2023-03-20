@@ -28,9 +28,15 @@ interface PostViewerParams {
   post: PostResponse | null;
   error: AxiosError | null;
   loading: boolean;
+  actionButtons: JSX.Element | null;
 }
 
-const PostViewer = ({ post, error, loading }: PostViewerParams) => {
+const PostViewer = ({
+  post,
+  error,
+  loading,
+  actionButtons,
+}: PostViewerParams) => {
   // 에러 발생 시
   if (error) {
     if (error.response && error.response.status === 404) {
@@ -57,6 +63,7 @@ const PostViewer = ({ post, error, loading }: PostViewerParams) => {
         />
         <Tags tags={tags} />
       </PostHead>
+      {actionButtons}
       <PostContent dangerouslySetInnerHTML={{ __html: body }} />
     </PostViewerBlock>
   );

@@ -37,12 +37,12 @@ interface EditorParams {
 }
 
 const Editor = ({ title, onChangeField, body }: EditorParams) => {
-  const quillElement = useRef<HTMLDivElement>(null);
+  const quillElement = useRef<HTMLDivElement>(null); // quill 에디터가 마운트될 DOM요소를 가리키는 ref
+  const quillInstance = useRef<Quill>(); // useEffect에서 생성한 Quill 에디터 인스턴스를 저장하는 ref
 
   useEffect(() => {
-    let quill: Quill;
     if (quillElement.current) {
-      quill = new Quill(quillElement.current, {
+      quillInstance.current = new Quill(quillElement.current, {
         theme: 'bubble',
         placeholder: '내용을 작성하세요...',
         modules: {
@@ -56,6 +56,7 @@ const Editor = ({ title, onChangeField, body }: EditorParams) => {
       }) as Quill;
 
       // quill에 test-change 이벤트 핸들러 등록
+      const quill = quillInstance.current;
       quill.on('text-change', (delta, oldDelta, source) => {
         if (source === 'user') {
           onChangeField({ key: 'body', value: quill.root.innerHTML });
@@ -68,12 +69,18 @@ const Editor = ({ title, onChangeField, body }: EditorParams) => {
     onChangeField({ key: 'title', value: e.target.value });
   };
 
+  useEffect(() => {
+    if (quillInstance.current) {
+      quillInstance.current.root.innerHTML = body;
+    }
+  }, []);
+
   return (
     <EditorBlock>
       <TitleInput
         placeholder="제목을 입력하세요"
         onChange={onChangeTitle}
-        value={title}
+        defaultValue={title}
       />
       <QuillWrapper>
         <div ref={quillElement} />

@@ -47,7 +47,7 @@ const TagForm = styled.form`
 
 const Tag = styled.div`
   margin-right: 0.5rem;
-  color: gray;
+  color: red;
   cursor: pointer;
   &:hover {
     opacity: 0.5;
