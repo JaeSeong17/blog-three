@@ -12,59 +12,69 @@
 
 ---
 
+# Dev Report
+
 - :pencil2: : 새로 알게 된 점
+- :wrench: : 추가한 작업
 - :pushpin: : 추가 필요 기능
-- :wrench: : 새롭게 시도한 작업
-- :heavy_exclamation_mark: : 발견된 버그 (수정 필요)
+- :heavy_exclamation_mark: : 버그
 - :heavy_check_mark: : 수정된 버그
 
-# Dev Report
+#### 2023.03.19
+
+- :wrench: 이전에 작성한 자신의 글을 수정/삭제 하는 기능 추가
+
+  - :pushpin: 삭제시 확인하는 모달 창 추가 필요
+
+- :heavy_check_mark: Quill Editor 사용과 title input의 중복 출력 현상 발생
+- :heavy_exclamation_mark: 삭제 후 board로 돌아왔을 때 업데이트 된 글 목록이 적용되지 않음
+  - 삭제 수행 후 board로 돌아올 때 loadPost api를 요청하고 현재 board에 업데이트 하는 작업이 필요
+- :heavy_exclamation_mark: target이 board인 상태에서 다른 key를 누르면 panel의 off 애니메이션이 수행되지 못하고 그대로 유지된 채로 on 애니메이션만 수행
 
 #### 2023.03.17
 
-- auth store를 root store로 병합 완료
+- :wrench: auth store를 root store로 병합 완료
 
   - authBox내부 Html과 외부 Html간의 상태 정보를 동기 시켜주는 작업을 제거하고 하나의 state로 관리
   - key target에서 logout 버튼으로 로그아웃 시도시 authbox내 스토어와 state를 동기화 해야 하는 작업 때문에 코드가 복잡해졌던 문제 해결
 
-- :heavy_exclamation_mark: 로그아웃시 LoginForm에서 로그인을 시도하는 작업이 수행됨 (check api가 호출)
+- :heavy_check_mark: 로그아웃시 LoginForm에서 로그인을 시도하는 작업이 수행됨 (check api가 호출)
   - GET response가 401 에러를 보내는 것을 보아 로그아웃은 정상적으로 수행됨
 
 #### 2023.03.16
 
-- Keycap 리팩토링
+- :wrench: Keycap 리팩토링
 
   - 초기에 태그 버튼을 위해 구현했던 Keycap을 KeyContainer에서 tags.map을 사용하여 태그 목록 버튼을 구현
   - 이후 글작성 버튼을 추가하면서 Keycap에 writeBtn:boolean 속성을 주어 조건부로 동작하도록 추가하면서 구현부가 복잡해짐
   - 키캡 3D메쉬 파일을 여러곳(로그아웃 버튼, 글쓰기 버튼, 태그 버튼)에서 사용하게 되면서 메쉬 로드 코드의 재사용성이 높아짐
   - 이후 키를 추가할 때마다 메쉬를 로드하고 중복된 스타일 속성의 반복을 피하기 위해 KeycapTemplate으로 메쉬 부분만 모듈화 하는 방식으로 리팩토링을 수행
 
-- Text3D 리팩토링
+- :wrench: Text3D 리팩토링
 
   - Text3D에 같은 속성으로 생성되는 컴포넌트 다수 존재 (Titles, MyProfile, RegisterButton, GuestButton)
   - 각 컴포넌트 별로 다르게 지정하는 속성 (position, scale 등)만을 받아 같은 스타일로 생성해주는 Text3DTemplate으로 모듈화
 
-- TS 마이그레이션 완료
-- 추가할 기능
+- :wrench: TS 마이그레이션 완료
 
-  - 작성한 자신의 글 수정 기능
-  - 글 검색 기능
+- ~~:pushpin:작성한 자신의 글 수정 기능~~
+- :pushpin:글 검색 기능
 
 - :heavy_check_mark: 로그아웃 버튼 버그 발견
   - 로그아웃 버튼 클릭시 reducer를 정상적으로 호출하지 못함 (localStorage에 저장된 토큰이 삭제되지 못함)
   - ts 마이그레이션 하는 과정에서 logout Button의 axios api 호출부에 변경이 발생한 듯 보임
   - Canvas내부 Html에 redux가 연결되지 못하는 문제 해결(임시방편)을 위해 store를 여러개 두었던 구조로 두 store 간의 state를 동기 시켜야 하는 문제 발생
-  - 하나의 store로 통합하고 Canvas내부 Html의 속성으로 state와 action을 전달하는 방식으로 수정을 계획
+  - 하나의 store로 통합하고 Canvas내부 Html의 속성으로 state와 action을 전달하는 방식으로 수정을 계획~~
 
 #### 2023.03.15
 
-- public 폴더와 src 폴더의 차이는? 정적 파일을 public에?
+- :pencil2: public 폴더와 src 폴더의 차이는? 정적 파일을 public에?
 
   - public폴더는 빌드시 변환되지 않고 그대로 복사된다. 이미지 파일과 같은 정적 파일은 public 폴더에 위치시켜 별도 처리 없이 사용할수 있음
   - src 폴더에 위치시키면 빌드 과정에서 변환되어 번들링 된 파일 내부에 포함되어 용량이 커지고 초기 로딩 시간이 늘어갈 가능성이 있음
   - 하지만 이미지 파일을 동적으로 로드해야 하는 경우 src 폴더에 위치시키는 것이 코드가 필요에 따라 동적으로 생성해서 관리 할 수 있어 이점이 있다.
 
-- RefObject와 ForwardedRef의 차이는?
+- :pencil2: RefObject와 ForwardedRef의 차이는?
   - ForwardedRef는 React.ForwardedRef<T> 제네릭 타입으로 선언, T타입의 참조 대상을 다루는 React.Ref 타입
   - RefObject타입이 ForwardedRef타입의 부분집합으로 RefObject를 ForwardedRef로 사용할 수 있음
   - 하지만 ForwardedRef가 더 구체적인 타입으로 RefObject와 같지는 않다
@@ -73,10 +83,10 @@
 
 #### 2023.03.14
 
-- gsap 애니메이션을 모듈화 해서 분리했는데 재사용성은 떨어져 보임
-- 각 컴포넌트에 적용할 On/Off애니메이션을 일일이 다 만드는것 보다 움직임에 필요한 x, y, z 값을 전달받아 움직이는 애니메이션 하나를 두는게 관리 측면에서 용이해 보임
+- :pencil2: gsap 애니메이션을 모듈화 해서 분리했는데 재사용성은 떨어져 보임
+- :pencil2: 각 컴포넌트에 적용할 On/Off애니메이션을 일일이 다 만드는것 보다 움직임에 필요한 x, y, z 값을 전달받아 움직이는 애니메이션 하나를 두는게 관리 측면에서 용이해 보임
 
-- GLTF mesh파일을 사용하는 방식 참조
+- :pencil2: GLTF mesh파일을 사용하는 방식 참조
 
 ```C
 const gltf = useLoader(GLTFLoader, '/path/to/file.gltf');
@@ -93,16 +103,17 @@ const loadedObj = () => {
 
 #### 2023.03.13
 
-- @types/Three 타입 모듈 설치
+- :pencil2: @types/Three 타입 모듈 설치
   -> GroupProps와 Group 타입 차이가 있음, Group 컴포넌트는 THREE.Group 타입을 상속하기 때문에 ref에 RefObject<GroupProps>를 등록하면 오류 발생
-- Pagination Button을 Panel들이 업데이트 완료되기 전에 누르면 Page 숫자만 올라가고 board가 업데이트 되지 못함
-  -> panels이 loading중 일때 pagination button이 클릭되지 못하게 막아야함
-- gsap의 yoyo속성을 가지는 애니메이션은 kill을 하기 전까지 반복 재생 - 자원소모
+- :pencil2: gsap의 yoyo속성을 가지는 애니메이션은 kill을 하기 전까지 반복 재생 - 자원소모
+
+- :heavy_exclamation_mark: Pagination Button을 Panel들이 업데이트 완료되기 전에 누르면 Page 숫자만 올라가고 board가 업데이트 되지 못함
+  - panels이 loading중 일때 pagination button이 클릭되지 못하게 막아야함
 
 #### 2023.03.12
 
-- useEffect의 의존성 배열에 중첩객체를 넣는다면 해당 객체의 최상위에 위치한 값만 추적되고 내부 객체의 값은 감지하지 못함
-- 의존성 배열에 추적하려는 값에는 중첩객체 까지 모두 명시해주어야 한다.
+- :pencil2: useEffect의 의존성 배열에 중첩객체를 넣는다면 해당 객체의 최상위에 위치한 값만 추적되고 내부 객체의 값은 감지하지 못함
+  - 의존성 배열에 추적하려는 값에는 중첩객체 까지 모두 명시해주어야 한다.
 
 ```C
 const obj = {
@@ -118,7 +129,7 @@ useEffect(() => {
 }, [obj, obj.nestedObj]); // 중첩객체도 추가해주어야 함
 ```
 
-- Board 구조에서 전체 동작 애니메이션을 Container쪽에서 모두 처리하고자 Board와 panels의 ref를 모두 BoardContainer까지 끌어올려 제어하려고 리팩토링을 시도
+- :wrench: Board 구조에서 전체 동작 애니메이션을 Container쪽에서 모두 처리하고자 Board와 panels의 ref를 모두 BoardContainer까지 끌어올려 제어하려고 리팩토링을 시도
 
 ```C
 const Parent = () => {
@@ -149,10 +160,10 @@ const GrandChild = forwardRef(() => {
 - 하지만 코드의 의존성이 심하게 높아짐 (컴포넌트 계층간 연결성이 높아지면서 본인도 헷갈리기 시작)
 - 컴포넌트 본인의 요소를 컨트롤하는 애니메이션 함수를 생성해서 함수자체를 넘겨주는 방식으로 구현하는것이 좋아보임 (직접 요소의 속성을 제어하지 않고 함수에게 제어권을 넘김)
 
-- 부모 컴포넌트에서 이벤트 핸들링을 하더라도 Html 클릭시 부모로 이벤트 버블링이 되지 않아 이벤트 처리를 하지 못함
-- Canvas 내부에서 생성된 Html은 전체 DOM트리와 연결되어 있지 않아 발생하는 현상으로 보임
-- 부모 컴포넌트에서 이벤트 핸들러를 속성으로 전달하여 Html 내부에서 실행 하도록 별도 처리가 필요함
-  -> PostItem 클릭시 Html요소가 이벤트 객체를 가로채면서 Screen으로 넘어가는 동작을 수행하지 못하던 문제 해결
+- :pencil2: 부모 컴포넌트에서 이벤트 핸들링을 하더라도 Html 클릭시 부모로 이벤트 버블링이 되지 않아 이벤트 처리를 하지 못함
+  - Canvas 내부에서 생성된 Html은 전체 DOM트리와 연결되어 있지 않아 발생하는 현상으로 보임
+  - 부모 컴포넌트에서 이벤트 핸들러를 속성으로 전달하여 Html 내부에서 실행 하도록 별도 처리가 필요함
+    - PostItem 클릭시 Html요소가 이벤트 객체를 가로채면서 Screen으로 넘어가는 동작을 수행하지 못하던 문제 해결
 
 ```C
 const ThreeComponent = () => {
@@ -174,8 +185,8 @@ const ThreeComponent = () => {
 
 #### 2023.03.11
 
-- useRef로 생성한 ObjectRef 객체는 등록한 요소의 실시간 변경을 추적할 수 있다. 하지만 ref 객체의 current 값은 해당 객체의 현재 값을 참조할 뿐 추적하는 기능은 상실하게 된다.
-- 따라서 만약 useImperativeHandle로 자식의 여러 값을 부모의 forwardRef로 연결하고 싶을 때에는 반드시 자식에서 생성되는 ref 객체 자체를 넘겨주어야 한다.
+- :pencil2: useRef로 생성한 ObjectRef 객체는 등록한 요소의 실시간 변경을 추적할 수 있다. 하지만 ref 객체의 current 값을 직접 전달한다면 현재 상태를 추적하는 기능은 없는 단순한 값을 전달하므로 새로운 값이 갱신된다는 보장이 없다.
+  - 따라서 만약 useImperativeHandle로 자식의 여러 값을 부모의 forwardRef로 연결하고 싶을 때에는 반드시 자식에서 생성되는 ref 객체 자체를 넘겨주어야 한다.
 
 ```C
 type ChildRef = {
@@ -216,9 +227,10 @@ const Parent = () => {
 
 #### 2023.03.09
 
-- Typescript의 .d.ts에 타입들을 별도로 모듈화 수행
-- .d.ts 파일 내 declare module 'module-name' 키워드로 타입 모듈을 선언할 수 있다
-- .d.ts 파일은 js로 컴파일 되지 않는 타입만 정의된 파일로 module 블럭 외부에 import 키워드 사용시 읽어오지 못함
+- :pencil2: .d.ts 파일 내 declare module 'module-name' 키워드로 타입 모듈을 선언할 수 있다
+- :pencil2: .d.ts 파일은 js로 컴파일 되지 않는 타입만 정의된 파일로 module 블럭 외부에 import 키워드 사용시 읽어오지 못함
+
+- :wrench: Typescript의 .d.ts에 타입들을 별도로 모듈화 수행
 
 ```C
 // type.d.ts
@@ -234,7 +246,7 @@ declare module 'inner-types' {
 
 #### 2023.03.08
 
-Typesciprt 도입 시도
+:wrench: Typesciprt 도입 시도
 
 - redux 모듈과 api쪽부터 마이그레이션
 - type, interface중 interface로 타입 선언하자 (확장성 관련 문서 참조)
@@ -243,15 +255,12 @@ Typesciprt 도입 시도
   - 해당 작업에 사용되는 변수의 타입을 type assertion로 확정해주기
 - .d.ts파일로 프로젝트의 타입들을 별도 모듈로 분리하여 관리할 수 있음 (.d.ts 파일은 .ts파일과 달리 .js로 컴파일 하지 않음, .d.ts 관련 문서 참조)
 
-###### 수정 필요
-
-- 글 에디터로 Quill을 사용중인데 markdown을 이해하지 못하는 것 같다. 찾아보니 markdown 확장 라이브러리가 있는것으로 보임 (추가 요망)
+- :pushpin: 글 에디터로 Quill을 사용중인데 markdown을 이해하지 못하는 것 같다. 찾아보니 markdown 확장 라이브러리가 있는것으로 보임
 
 #### 2023.03.04
 
-- forwardRef가 두 계층 이상을 통과하지 못하는 것으로 보임, 부모-자식 계층을 하나만 연결할 수 있음
-
-- gsap timeline으로 순차 애니메이션 적용시 value로 넘겨주는 두번째 인자 뒤에 세번쨰 인자로 label을 넘겨 병렬로 처리할 수 있음
+- :pencil2: forwardRef가 두 계층 이상을 통과하지 못하는 것으로 보임, 부모-자식 계층을 하나만 연결할 수 있음
+- :pencil2: gsap timeline으로 순차 애니메이션 적용시 value로 넘겨주는 두번째 인자 뒤에 세번쨰 인자로 label을 넘겨 병렬로 처리할 수 있음
 
 ```C
 // 1번 이후 (2, 3)번이 묶여 병렬로 수행
@@ -261,24 +270,20 @@ gsap.timeline()
 .to(objectRef3, { value}, 'label');
 ```
 
-###### 수정 필요
-
-- 로그인 박스 내 스토어와 three 전체의 스토어 두개에서 계정정보가 중복되어 저장되고 있어 동기화 작업이 필요했음
-- 이후 하나의 스토어에서 관리할 수 있도록 수정 필요
+- ~~:pushpin: 로그인 박스 내 스토어와 three 전체의 스토어 두개에서 계정정보가 중복되어 저장되고 있어 동기화 작업이 필요함
+  - 이후 하나의 스토어에서 관리할 수 있도록 수정 필요~~
 
 #### 2023.03.03
 
-- 회원가입 구현: 가입 완료시 바로 로그인 되어 내부로 진입되도록 했으나 이후 수정하는 것이 필요
-- 회원가입과 로그인시 인증중임을 사용자가 확인 할 수 있도록 loading ui를 구현하는 것이 필요
+- ~~:pushpin: 회원가입 구현: 가입 완료시 바로 로그인 되어 내부로 진입되도록 했으나 이후 수정하는 것이 필요~~
+- :pushpin: 회원가입과 로그인시 인증중임을 사용자가 확인 할 수 있도록 loading ui를 구현하는 것이 필요
 
-- 로그아웃시 root store랑 auth store 둘다 user를 비워주도록 적용해야함
-
-- auth store의 initialize reducer가 auth정보를 초기화 하지 못하는 문제 발견 (수정완료)
+- :heavy_check_mark: auth store의 initialize reducer가 auth정보를 초기화 하지 못하는 문제 발견, 이 때문에 로그아웃을 하더라도 auth정보를 통해 다시 자동 로그인 되어 버리는 문제 발생.
+  - 로그아웃시 root store랑 auth store 둘다 user를 비워주도록 적용해야함
 
 #### 2023.03.02
 
-- Screen 화면을 url을 활용한 Navigator 방식으로 전환하던 것에서 redux-store값에 따라 조건부 컴포넌트로 전환하는 방식으로 변경 완료
-- reducer의 action을 dispatch할때 payload로 정보를 담아 보낼때 여러값을 보내야 한다면 객체 타입으로 감싸야함
+- :pencil2: reducer의 action을 dispatch할때 payload로 정보를 담아 보낼때 여러값을 보내야 한다면 객체 타입으로 감싸야함
 
 ```C
 // 이렇게 보내면 payload에는 data1만 담김
@@ -288,13 +293,15 @@ dispatch(action(data1, data2));
 dispatch(action({data1, data2}));
 ```
 
+- :wrench: Screen 화면을 url을 활용한 Navigator 방식으로 전환하던 것에서 redux-store값에 따라 조건부 컴포넌트로 전환하는 방식으로 변경 완료
+
 #### 2023.03.01
 
-- LoginBox에 threejs와 html이 한번에 들어가있던 구조를 분리하는 작업 진행
-  -> LoginBox에서 AuthBox로 전환, 내부에서 LoginForm이 같이 구현되어있던 부분을 html 파일로 분리
-
-- LoginBox에서 로그인창과 회원가입 창 전환을 위한 Router, Screen에서 포스트 뷰어를 위한 Router 동시 사용시 하나만 작동함
+- :pencil2: LoginBox에서 로그인창과 회원가입 창 전환을 위한 Router, Screen에서 포스트 뷰어를 위한 Router 동시 사용시 하나만 작동함
   -> BrowserRouter는 하나만 사용이 가능하다, 중첩 라우터를 사용하거나 라우터 하나는 다른 방식으로 구현이 필요함
+
+- :wrench: LoginBox에 threejs와 html이 한번에 들어가있던 구조를 분리하는 작업 진행
+  -> LoginBox에서 AuthBox로 전환, 내부에서 LoginForm이 같이 구현되어있던 부분을 html 파일로 분리
 
 #### 2023.02.27
 
@@ -305,7 +312,8 @@ dispatch(action({data1, data2}));
 
 - 로그인한 계정 ID를 띄우는 텍스트와 로그아웃 버튼 & 로직 추가
 - 로그아웃시 로그인 박스 화면으로 진입하면 기존 화면에 있던 버튼들이 바닥 패널 밑으로 내려가는게 늦음
-  -> 컴포넌트들이 바닥 밑으로 바로 내려가도록 수정 필요함
+  -> 컴포넌트들이 바닥 밑으로 바로 내려가도록 수
+  정 필요함
 
 #### 2023.02.25
 
@@ -315,15 +323,15 @@ dispatch(action({data1, data2}));
 
 #### 2023.02.24
 
-- 글쓰기 완료 후 스크린에서 나갔을 때 버튼 목록으로 바로 이동하지 못하고 글 목록으로 넘어가는 문제
+- :heavy_check_mark: 글쓰기 완료 후 스크린에서 나갔을 때 버튼 목록으로 바로 이동하지 못하고 글 목록으로 넘어가는 문제
 - 원인 : '포스트 등록' 버튼 클릭 시 currMode를 write에서 post로 바꾸는 로직 존재
 - 해결 : 포스트 등록 완료 후 작성 모드에서 뷰어 모드로 전환하는 것은 currMode 전환에서 담당하지 않고 포스트 등록 버튼의 navigate 동작으로 수행되므로 해당 로직 제거
 
 #### 2023.02.23
 
-- 글쓰기 완료 후 다시 글쓰기 창 진입시 이전 글작성 완료 창이 계속 나타나는 문제
-- 원인 : '포스트 등록' 버튼이 store의 post값을 참조하여 뷰어로 전환하는 로직이 존재하는데 첫 글쓰기 완료 후 다시 글쓰기로 재 진입시 이전 post 등록 완료 정보가 초기화 되지 않아 그대로 참조함
-- 해결 : 글쓰기 페이지 진입시 store.write 정보를 initialize 함
+- :heavy_check_mark: 글쓰기 완료 후 다시 글쓰기 창 진입시 이전 글작성 완료 창이 계속 나타나는 문제
+  - 원인 : '포스트 등록' 버튼이 store의 post값을 참조하여 뷰어로 전환하는 로직이 존재하는데 첫 글쓰기 완료 후 다시 글쓰기로 재 진입시 이전 post 등록 완료 정보가 초기화 되지 않아 그대로 참조함
+  - 해결 : 글쓰기 페이지 진입시 store.write 정보를 initialize 함
 
 ---
 
