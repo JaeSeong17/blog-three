@@ -29,17 +29,22 @@ declare module 'screen-state-types' {
     tags: Array<string>;
     post: PostResponse | null;
     postError: AxiosError | null;
+    originalPostId: string | null;
   }
 
-  interface InputParams {
+  interface WriteInputParams {
     key: 'title' | 'body' | 'tags';
     value: string | Array<string>;
   }
 
-  interface WriteParams {
+  interface WriteRequestParams {
     title: string;
     body: string;
     tags: Array<string>;
+  }
+
+  interface UpdateRequestParams extends WriteRequestParams {
+    id: string;
   }
 
   interface WriteResponse {

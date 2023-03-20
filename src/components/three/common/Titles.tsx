@@ -1,7 +1,7 @@
 import { Group, Mesh, MeshStandardMaterial } from 'three';
 import { useRef, useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { setTarget } from '../../../modules/root/camController';
+import { setTarget } from '../../../modules/camController';
 import { RootState } from 'root-state-types';
 import {
   titleIdleAnim,

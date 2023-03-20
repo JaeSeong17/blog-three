@@ -1,7 +1,7 @@
 import { useRef, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import gsap from 'gsap';
-import { setTarget } from '../../../modules/root/camController';
+import { setTarget } from '../../../modules/camController';
 import { Mesh } from 'three';
 import { connectBoxesOff, connectBoxesOn } from '../anim/SubObjectAnim';
 import { RootState } from 'root-state-types';

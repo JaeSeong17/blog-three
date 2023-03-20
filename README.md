@@ -15,17 +15,17 @@
 
 # Dev Report
 
-- :pencil2: : 새로 알게 된 점
-- :wrench: : 추가한 작업
-- :pushpin: : 추가 필요 기능
-- :heavy_exclamation_mark: : 버그
-- :heavy_check_mark: : 수정된 버그
+:pencil2: : 새로 알게 된 점
+:wrench: : 추가한 작업
+:pushpin: : 추가 필요 기능
+:heavy_exclamation_mark: : 버그
+:heavy_check_mark: : 수정된 버그
 
 #### 2023.03.19
 
 - :wrench: 이전에 작성한 자신의 글을 수정/삭제 하는 기능 추가
 
-  - :pushpin: 삭제시 확인하는 모달 창 추가 필요
+  - ~~:pushpin: 삭제시 확인하는 모달 창 추가 필요~~ 완료
 
 - :heavy_check_mark: Quill Editor 사용과 title input의 중복 출력 현상 발생
 - :heavy_exclamation_mark: 삭제 후 board로 돌아왔을 때 업데이트 된 글 목록이 적용되지 않음
@@ -58,14 +58,14 @@
 
 - :wrench: TS 마이그레이션 완료
 
-- ~~:pushpin:작성한 자신의 글 수정 기능~~
-- :pushpin:글 검색 기능
+- ~~:pushpin: 작성한 자신의 글 수정 기능~~ 완료
+- :pushpin: 글 검색 기능
 
 - :heavy_check_mark: 로그아웃 버튼 버그 발견
   - 로그아웃 버튼 클릭시 reducer를 정상적으로 호출하지 못함 (localStorage에 저장된 토큰이 삭제되지 못함)
   - ts 마이그레이션 하는 과정에서 logout Button의 axios api 호출부에 변경이 발생한 듯 보임
   - Canvas내부 Html에 redux가 연결되지 못하는 문제 해결(임시방편)을 위해 store를 여러개 두었던 구조로 두 store 간의 state를 동기 시켜야 하는 문제 발생
-  - 하나의 store로 통합하고 Canvas내부 Html의 속성으로 state와 action을 전달하는 방식으로 수정을 계획~~
+  - 하나의 store로 통합하고 Canvas내부 Html의 속성으로 state와 action을 전달하는 방식으로 수정을 계획
 
 #### 2023.03.15
 

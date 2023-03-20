@@ -1,15 +1,15 @@
 import { ThreeEvent } from '@react-three/fiber';
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect, useRef } from 'react';
-import { setTarget } from '../../../modules/root/camController';
+import { setTarget } from '../../../modules/camController';
 import { Text3dTemplate } from '../template/Text3DTemplate';
 import { RootState } from 'root-state-types';
 import { Group } from 'three';
 import { clickAnim } from '../anim/CommonAnim';
 import { logBtnOnAnim, logBtnOffAnim } from '../anim/SubObjectAnim';
-import { logout } from 'src/modules/root/user';
+import { logout } from 'src/modules/user';
 import KeycapTemplate from '../template/KeycapTemplate';
-import { initializeAuth } from 'src/modules/root/auth';
+import { initializeAuth } from 'src/modules/auth';
 
 const LogButton = () => {
   const dispatch = useDispatch();

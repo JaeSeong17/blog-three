@@ -1,5 +1,5 @@
 import { useDispatch, useSelector } from 'react-redux';
-import { setTarget } from '../../../modules/root/camController';
+import { setTarget } from '../../../modules/camController';
 import BoardPanel from './BoardPanel';
 import { forwardRef, RefObject, useImperativeHandle, useRef } from 'react';
 import { RootState } from 'root-state-types';

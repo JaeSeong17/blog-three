@@ -5,7 +5,7 @@ import {
   decreasePage,
   increasePage,
   loadWaiting,
-} from '../../../modules/root/boardController';
+} from '../../../modules/boardController';
 import { forwardRef, useImperativeHandle } from 'react';
 import { RootState } from 'root-state-types';
 import { Group, Mesh } from 'three';

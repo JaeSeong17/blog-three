@@ -1,11 +1,8 @@
 import { useDispatch } from 'react-redux';
-import { setTarget } from '../../../modules/root/camController';
+import { setTarget } from '../../../modules/camController';
 import { Html } from '@react-three/drei';
 import PostItem from '../../html/postPanel/PostItem';
-import {
-  setCurrPost,
-  setCurrMode,
-} from '../../../modules/root/screenController';
+import { setCurrPost, setCurrMode } from '../../../modules/screenController';
 import {
   ForwardedRef,
   forwardRef,

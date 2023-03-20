@@ -1,9 +1,9 @@
 import { forwardRef, ForwardedRef, useRef, useImperativeHandle } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { setTarget } from '../../../modules/root/camController';
+import { setTarget } from '../../../modules/camController';
 import { ThreeEvent } from '@react-three/fiber';
-import { setIndex } from 'src/modules/root/boardController';
-import { setComplete, setCurrTag } from 'src/modules/root/boardController';
+import { setIndex } from 'src/modules/boardController';
+import { setComplete, setCurrTag } from 'src/modules/boardController';
 import { Mesh } from 'three';
 import { keyClickAnim } from '../anim/CommonAnim';
 import { RootState } from 'root-state-types';

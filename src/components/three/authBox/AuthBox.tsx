@@ -1,22 +1,17 @@
 import { Html } from '@react-three/drei';
 import { useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { setTarget } from '../../../modules/root/camController';
+import { setTarget } from '../../../modules/camController';
 import GuestButton from './GuestButton';
 import RegisterButton from './RegisterButton';
 import { RootState } from 'root-state-types';
 import { authBoxOnAnim, authBoxOffAnim } from '../anim/AuthBoxAnim';
 import { Group } from 'three';
 import AuthHtml from 'src/components/html/root/AuthHtml';
-import {
-  changeField,
-  initializeForm,
-  login,
-  register,
-} from 'src/modules/root/auth';
+import { changeField, initializeForm, login, register } from 'src/modules/auth';
 import { AuthInputParams } from 'root-state-types';
 import { AuthFormType } from 'preset-types';
-import { check, initializeUser } from 'src/modules/root/user';
+import { check, initializeUser } from 'src/modules/user';
 import { LoginParams } from 'auth-type';
 
 const AuthBox = () => {

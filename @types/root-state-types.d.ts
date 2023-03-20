@@ -1,5 +1,5 @@
 declare module 'root-state-types' {
-  import { PostResponse } from 'screen-state-types';
+  import { PostResponse, WriteState, PostState } from 'screen-state-types';
   import { ModeSet, TargetSet } from 'preset-types';
   import { AxiosHeaders } from 'axios';
   import { LoadingState } from 'loading-state-types';
@@ -12,6 +12,8 @@ declare module 'root-state-types' {
     screenController: ScreenControllerState;
     auth: AuthState;
     user: UserState;
+    write: WriteState;
+    post: PostState;
     loading: LoadingState;
   }
 
