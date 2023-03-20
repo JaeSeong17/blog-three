@@ -1,6 +1,6 @@
 import { RefObject, useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { listPosts, loadComplete } from '../../../modules/root/boardController';
+import { listPosts, loadComplete } from '../../../modules/boardController';
 import Board, { BoardForwardRef } from '../board/Board';
 import Pagination, { PaginationForwardRef } from '../board/Pagination';
 import gsap from 'gsap';
