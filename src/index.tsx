@@ -5,21 +5,18 @@ import createSagaMiddleware from 'redux-saga';
 import { configureStore } from '@reduxjs/toolkit';
 import App from './App';
 import './index.css';
-import camControllerReducer from 'src/modules/root/camController';
-import screenControllerReducer from 'src/modules/root/screenController';
-import boardControllerReducer, {
-  postsSaga,
-} from 'src/modules/root/boardController';
+import camControllerReducer from 'src/modules/camController';
+import screenControllerReducer from 'src/modules/screenController';
+import boardControllerReducer, { postsSaga } from 'src/modules/boardController';
 import loadingReducer from 'src/modules/loading';
-import userReducer, {
-  userSaga,
-  tempSetUser,
-  check,
-} from 'src/modules/root/user';
-import authReducer, { authSaga } from 'src/modules/root/auth';
+import userReducer, { userSaga, tempSetUser, check } from 'src/modules/user';
+import authReducer, { authSaga } from 'src/modules/auth';
+import writeReducer, { writeSaga } from 'src/modules/write';
+import postReducer, { postSaga } from 'src/modules/post';
+import { HelmetProvider } from 'react-helmet-async';
 
 export function* rootSaga() {
-  yield all([postsSaga(), authSaga(), userSaga()]);
+  yield all([authSaga(), userSaga(), writeSaga(), postsSaga(), postSaga()]);
 }
 const sagaMiddleware = createSagaMiddleware();
 const store = configureStore({
@@ -29,6 +26,8 @@ const store = configureStore({
     boardController: boardControllerReducer,
     auth: authReducer,
     user: userReducer,
+    write: writeReducer,
+    post: postReducer,
     loading: loadingReducer,
   },
   devTools: true,
@@ -60,7 +59,9 @@ const root = ReactDOM.createRoot(
 );
 root.render(
   <Provider store={store}>
-    <App />
+    <HelmetProvider>
+      <App />
+    </HelmetProvider>
   </Provider>,
 );
 
