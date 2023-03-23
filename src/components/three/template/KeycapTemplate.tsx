@@ -8,15 +8,17 @@ interface KeyCapParams {
   scale: number;
   color: string;
   emissive: string;
+  longType?: boolean;
   clickHandler?: (e: ThreeEvent<MouseEvent>) => void;
 }
 
 const KeycapTemplate = forwardRef(
   (
-    { position, scale, color, emissive, clickHandler }: KeyCapParams,
+    { position, scale, color, emissive, longType, clickHandler }: KeyCapParams,
     ref: ForwardedRef<Mesh>,
   ) => {
-    const gltf = useLoader(GLTFLoader, '/model/keycap.glb'); // 키캡 메쉬 로드
+    const meshType = longType ? '/model/keycap_long.glb' : '/model/keycap.glb';
+    const gltf = useLoader(GLTFLoader, meshType); // 키캡 메쉬 로드
     const cube = gltf.scene.children.find(
       child => child.name === 'Cube',
     ) as Mesh;
