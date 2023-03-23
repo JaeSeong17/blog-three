@@ -1,6 +1,6 @@
 import { forwardRef, ForwardedRef, useRef, useImperativeHandle } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { setTarget } from '../../../modules/camController';
+import { setHistory, setTarget } from '../../../modules/camController';
 import { ThreeEvent } from '@react-three/fiber';
 import { setIndex } from 'src/modules/boardController';
 import { setCurrMode } from 'src/modules/screenController';
@@ -48,6 +48,7 @@ const WriteKey = forwardRef(
       e.stopPropagation();
       if (!user) return; // 비 로그인시 클릭 비활성화
       dispatch(setIndex(-1)); // 글쓰기 모드 진입시 태그 키 비 활성화
+      dispatch(setHistory('key')); // 스크린 탈출시 key로 돌아오도록 history 설정
       dispatch(setCurrMode('write'));
       dispatch(setTarget('screen'));
       keyClickAnim(innerRef);

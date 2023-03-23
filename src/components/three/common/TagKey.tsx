@@ -1,6 +1,6 @@
 import { forwardRef, ForwardedRef, useRef, useImperativeHandle } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { setTarget } from '../../../modules/camController';
+import { setHistory, setTarget } from '../../../modules/camController';
 import { ThreeEvent } from '@react-three/fiber';
 import { setIndex } from 'src/modules/boardController';
 import { setComplete, setCurrTag } from 'src/modules/boardController';
@@ -40,14 +40,17 @@ const TagKey = forwardRef(
       btnEmissive = '#ff0000';
     }
 
+    const clickableTaget = ['key', 'board'];
     function tagKeyClickHandler(e: ThreeEvent<MouseEvent>) {
       e.stopPropagation();
+      if (!clickableTaget.includes(target)) return;
       if (current === index) {
         dispatch(setComplete());
       } else {
         dispatch(setIndex(index));
       }
       dispatch(setCurrTag(tag));
+      dispatch(setHistory('board')); // 스크린 탈출 시 돌아올 history 설정
       dispatch(setTarget('board'));
       keyClickAnim(innerRef);
     }
