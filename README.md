@@ -15,11 +15,32 @@
 
 # Dev Report
 
-:pencil2: : 새로 알게 된 점
-:wrench: : 추가한 작업
-:pushpin: : 추가 필요 기능
-:heavy_exclamation_mark: : 버그
-:heavy_check_mark: : 수정된 버그
+- :pencil2: : 새로 알게 된 점
+- :wrench: : 추가한 작업
+- :pushpin: : 추가 필요 기능
+- :heavy_exclamation_mark: : 버그
+- :heavy_check_mark: : 수정된 버그
+
+#### 2023.03.23
+
+:wrench: 검색 창 기능 구현 (프론트)
+:wrench: 페이지네이션 버튼의 활성화/비활성화로 포스트 로드 미완료 중 요청을 막기
+:heavy_exclamation_mark: 특정 사용자의 포스트 목록으로 이미 로드 된 포스트가 작성자 또는 관리자에 의해 삭제되었을 경우, 해당 포스트에 접근시 '삭제되었거나 없는 글입니다'와 같은 오류 처리가 필요
+:heavy_exclamation_mark: board가 on 되어 있는 상태에서 다른 tag 버튼를 누르는 경우
+
+- 애니메이션 작동 오류 (Panel On/Off 애니메이션이 작동 X)
+- 이전 tag에서 페이지가 넘어가 있는 경우 다른 태그로 이동시 페이지 수가 초기화 되지 않음
+- board on 상태에서 다른 태그로 이동후 key로 탈출했을때 board가 off되지 않음
+  - board on 중에는 아예 다른 tag 키 클릭을 막거나
+  - tag변환시 tag에 의존하는 useEffect 내부 로직을 수정할 필요
+
+#### 2023.03.22
+
+:wrench: 검색 창 기능 구현 (백엔드)
+
+#### 2023.03.20
+
+:pencil2: 타입 스크립트의 상속을 활용하기
 
 #### 2023.03.19
 
@@ -30,7 +51,6 @@
 - :heavy_check_mark: Quill Editor 사용과 title input의 중복 출력 현상 발생
 - :heavy_exclamation_mark: 삭제 후 board로 돌아왔을 때 업데이트 된 글 목록이 적용되지 않음
   - 삭제 수행 후 board로 돌아올 때 loadPost api를 요청하고 현재 board에 업데이트 하는 작업이 필요
-- :heavy_exclamation_mark: target이 board인 상태에서 다른 key를 누르면 panel의 off 애니메이션이 수행되지 못하고 그대로 유지된 채로 on 애니메이션만 수행
 
 #### 2023.03.17
 
@@ -108,7 +128,7 @@ const loadedObj = () => {
   -> GroupProps와 Group 타입 차이가 있음, Group 컴포넌트는 THREE.Group 타입을 상속하기 때문에 ref에 RefObject<GroupProps>를 등록하면 오류 발생
 - :pencil2: gsap의 yoyo속성을 가지는 애니메이션은 kill을 하기 전까지 반복 재생 - 자원소모
 
-- :heavy_exclamation_mark: Pagination Button을 Panel들이 업데이트 완료되기 전에 누르면 Page 숫자만 올라가고 board가 업데이트 되지 못함
+- :heavy_check_mark: Pagination Button을 Panel들이 업데이트 완료되기 전에 누르면 Page 숫자만 올라가고 board가 업데이트 되지 못함
   - panels이 loading중 일때 pagination button이 클릭되지 못하게 막아야함
 
 #### 2023.03.12
