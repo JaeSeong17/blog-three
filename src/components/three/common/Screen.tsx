@@ -24,9 +24,10 @@ import {
 
 const Screen = () => {
   const dispatch = useDispatch();
-  const { target, currMode, user } = useSelector(
+  const { target, history, currMode, user } = useSelector(
     ({ camController, screenController, user }: RootState) => ({
       target: camController.target,
+      history: camController.history,
       currMode: screenController.currMode,
       user: user.user,
     }),
@@ -62,11 +63,12 @@ const Screen = () => {
 
   // 스크린 닫기 버튼 클릭 이벤트 핸들러
   function escClickHandler() {
-    if (currMode === 'write') {
-      dispatch(setTarget('key'));
-    } else if (currMode === 'post') {
-      dispatch(setTarget('board'));
-    }
+    // if (currMode === 'write') {
+    //   dispatch(setTarget('key'));
+    // } else if (currMode === 'post') {
+    //   dispatch(setTarget('board'));
+    // }
+    dispatch(setTarget(history));
     dispatch(setCurrMode('none'));
   }
 

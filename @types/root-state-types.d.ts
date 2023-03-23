@@ -1,6 +1,6 @@
 declare module 'root-state-types' {
   import { PostResponse, WriteState, PostState } from 'screen-state-types';
-  import { ModeSet, TargetSet } from 'preset-types';
+  import { HistorySet, ModeSet, TargetSet } from 'preset-types';
   import { AxiosHeaders } from 'axios';
   import { LoadingState } from 'loading-state-types';
   import { User } from 'auth-type';
@@ -14,6 +14,7 @@ declare module 'root-state-types' {
     user: UserState;
     write: WriteState;
     post: PostState;
+    search: SearchState;
     loading: LoadingState;
   }
 
@@ -43,6 +44,7 @@ declare module 'root-state-types' {
     camAngle: { x: number; y: number; z: number }; // 카메라가 바라보는 방향
     camPos: { x: number; y: number; z: number }; // 카메라의 위치
     target: TargetSet; // 타겟 값에 따라 카메라 위치 설정
+    history: HistorySet; // 스크린을 닫았을 때 돌아올 위치
   }
 
   export interface ScreenControllerState {
@@ -71,7 +73,7 @@ declare module 'root-state-types' {
     passwordConfirm?: string;
   }
 
-  interface AuthInputParams {
+  export interface AuthInputParams {
     form: 'register' | 'login';
     key: 'username' | 'password' | 'passwordConfirm';
     value: string;
@@ -80,5 +82,18 @@ declare module 'root-state-types' {
   export interface UserState {
     user: User | null;
     checkError: AxiosError | null;
+  }
+
+  export interface SearchInputParams {
+    page: number;
+    keyword: string;
+  }
+
+  export interface SearchState {
+    keyword: string;
+    lastPage: number;
+    currPage: number;
+    posts: Array<PostResponse> | null;
+    error: AxiosError | null;
   }
 }
