@@ -14,9 +14,17 @@ import authReducer, { authSaga } from 'src/modules/auth';
 import writeReducer, { writeSaga } from 'src/modules/write';
 import postReducer, { postSaga } from 'src/modules/post';
 import { HelmetProvider } from 'react-helmet-async';
+import searchReducer, { searchSaga } from './modules/search';
 
 export function* rootSaga() {
-  yield all([authSaga(), userSaga(), writeSaga(), postsSaga(), postSaga()]);
+  yield all([
+    authSaga(),
+    userSaga(),
+    writeSaga(),
+    postsSaga(),
+    postSaga(),
+    searchSaga(),
+  ]);
 }
 const sagaMiddleware = createSagaMiddleware();
 const store = configureStore({
@@ -28,6 +36,7 @@ const store = configureStore({
     user: userReducer,
     write: writeReducer,
     post: postReducer,
+    search: searchReducer,
     loading: loadingReducer,
   },
   devTools: true,

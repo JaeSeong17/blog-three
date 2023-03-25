@@ -23,12 +23,16 @@ const camSetting: CamSetting = {
     pos: { x: 0, y: -30, z: 3 },
   },
   key: {
-    angle: { x: 0, y: 3, z: 0 },
-    pos: { x: 15, y: 4, z: 20 },
+    angle: { x: 0, y: -0.5, z: 0 },
+    pos: { x: 15, y: 0, z: 20 },
   },
   board: {
     angle: { x: 4, y: 6, z: 0 },
-    pos: { x: 10, y: 7, z: 15 },
+    pos: { x: 10, y: 6.5, z: 15 },
+  },
+  search: {
+    angle: { x: -10, y: 14, z: 7 },
+    pos: { x: -4, y: 14.5, z: 12 },
   },
   connect: {
     angle: { x: 0, y: 16, z: 5 },

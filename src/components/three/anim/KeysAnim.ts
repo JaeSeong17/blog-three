@@ -1,6 +1,6 @@
 import gsap from 'gsap';
 import CustomEase from 'gsap/CustomEase';
-import { Mesh, Vector3 } from 'three';
+import { Group, Mesh, Vector3 } from 'three';
 
 export const keysOnAnim = (keys: Array<Mesh>, texts: Array<Mesh>) => {
   const keysPos: Array<Vector3> = [];
@@ -88,7 +88,6 @@ export const keyOnAnim = (key: Mesh, text: Mesh) => {
       'writeLabel',
     );
 };
-
 export const keyOffAnim = (key: Mesh, text: Mesh) => {
   return gsap
     .timeline()
@@ -98,7 +97,7 @@ export const keyOffAnim = (key: Mesh, text: Mesh) => {
         z: -3,
         duration: 1,
       },
-      'closeLabel',
+      'writeLabel',
     )
     .to(
       text.position,
@@ -106,6 +105,14 @@ export const keyOffAnim = (key: Mesh, text: Mesh) => {
         z: -3,
         duration: 1,
       },
-      'closeLabel',
+      'writeLabel',
     );
+};
+
+export const keyOffAnimRe = (key: Group) => {
+  return gsap.to(key.position, { z: -3, duration: 1 });
+};
+
+export const keyOnAnimRe = (key: Group) => {
+  return gsap.to(key.position, { z: 1.1, duration: 1 });
 };

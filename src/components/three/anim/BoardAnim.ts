@@ -3,13 +3,16 @@ import CustomEase from 'gsap/CustomEase';
 import { RefObject } from 'react';
 import { Group, Vector3 } from 'three';
 
-export function panelOnAnim(panels: Array<RefObject<Group>>) {
+export function panelOnAnim(panels: Array<RefObject<Group> | null>) {
   const panelsPos: Array<Vector3> = [];
   panels.forEach(panel => {
-    if (panel.current) {
+    if (panel && panel.current) {
       panelsPos.push(panel.current.position);
     }
   });
+  if (panelsPos.length === 0) {
+    return gsap.to({}, {});
+  }
   return gsap.to(panelsPos, {
     z: 1,
     ease: CustomEase.create(
@@ -21,13 +24,16 @@ export function panelOnAnim(panels: Array<RefObject<Group>>) {
   });
 }
 
-export function panelOffAnim(panels: Array<RefObject<Group>>) {
+export function panelOffAnim(panels: Array<RefObject<Group> | null>) {
   const panelsPos: Array<Vector3> = [];
   panels.forEach(panel => {
-    if (panel.current) {
+    if (panel && panel.current) {
       panelsPos.push(panel.current.position);
     }
   });
+  if (panelsPos.length === 0) {
+    return gsap.to({}, {});
+  }
   return gsap.to(panelsPos, {
     z: 0,
     stagger: 0.1,
@@ -37,14 +43,14 @@ export function panelOffAnim(panels: Array<RefObject<Group>>) {
 
 export const boardOnAnim = (board: Group) => {
   return gsap.to(board.position, {
-    z: 2,
+    z: 0,
     duration: 0.4,
   });
 };
 
 export const boardOffAnim = (board: Group) => {
   return gsap.to(board.position, {
-    z: 0,
+    z: -2,
     duration: 0.1,
   });
 };
@@ -58,4 +64,18 @@ export const panelClickAnim = (panel: Group | null) => {
       yoyo: true,
     });
   }
+};
+
+export const searchBoardOnAnim = (board: Group) => {
+  return gsap.to(board.position, {
+    z: 4,
+    duration: 1.2,
+  });
+};
+
+export const searchBoardOffAnim = (board: Group) => {
+  return gsap.to(board.position, {
+    z: -5,
+    duration: 1,
+  });
 };

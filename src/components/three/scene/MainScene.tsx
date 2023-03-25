@@ -7,6 +7,7 @@ import { useFrame } from '@react-three/fiber';
 import { useSelector } from 'react-redux';
 import * as THREE from 'three';
 import { RootState } from 'root-state-types';
+import SearchBoardContainer from '../container/SearchBoardContainer';
 
 const vec = new THREE.Vector3();
 const lookAtPos = new THREE.Vector3();
@@ -27,6 +28,7 @@ const MainScene = () => {
       <FrontContainer />
       <KeyContainer />
       <BoardContainer />
+      <SearchBoardContainer />
       <ConnectBoxes />
       <Screen />
     </scene>

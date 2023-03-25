@@ -94,6 +94,8 @@ declare module 'root-state-types' {
     lastPage: number;
     currPage: number;
     posts: Array<PostResponse> | null;
+    waiting: boolean;
+    complete: boolean;
     error: AxiosError | null;
   }
 }
