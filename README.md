@@ -12,39 +12,47 @@
 
 # Proejct Spec
 
-![스크린샷 2023-03-26 192649](https://user-images.githubusercontent.com/37216958/227769728-831c91a4-85e5-4a26-bc1d-ed5544b6ff4e.png)
-
 ```bash
-? ?? ??? ?? ?? ??? ?????.
-?? ?? ??? 607F-F693???.
-D:.
-??components
-?  ??html
-?  ?  ??auth
-?  ?  ??common
-?  ?  ??pages
-?  ?  ??post
-?  ?  ??postPanel
-?  ?  ??root
-?  ?  ??search
-?  ?  ??write
-?  ??three
-?      ??anim
-?      ??authBox
-?      ??board
-?      ??canvas
-?      ??common
-?      ??container
-?      ??scene
-?      ??search
-?      ??template
-??lib
-?  ??api
-??modules
-??static
+src
+├─components
+│  ├─html       // Canvas 내부 html
+│  │  ├─auth        // AuthBox의 로그인/회원가입 화면
+│  │  ├─common      // 각 화면 구성에 사용되는 최소 단위 컴포넌트
+│  │  ├─pages       // Screen의 포스트 뷰어, 글 작성 화면
+│  │  ├─post        // 포스트 뷰어
+│  │  ├─postPanel   // Board의 Panel에 부착되는 단일 화면
+│  │  ├─root        // canvas의 three component와 연결 부
+│  │  ├─search      // SearchBox 검색 패널측에 부착되는 단일 화면
+│  │  └─write       // 글 작성
+│  └─three      // Canvas 내부 3d 컴포넌트
+│      ├─anim       // 애니메이션 모듈
+│      ├─authBox    // 로그인 Box
+│      ├─board      // 글 목록 Board
+│      ├─canvas     // 최상위 Canvas
+│      ├─common     // 화면 구성 최소 단위 컴포넌트 및 단일 컴포넌트
+│      ├─container  // 컨테이너 - 관계별 단위 컴포넌트
+│      ├─scene      // 화면 구성 Scene
+│      ├─search     // 글 검색 Board
+│      └─template   // 컴포넌트 세팅 값 재사용을 위한 템플릿
+├─lib
+│  └─api    // axios-api http request 연결 부
+├─modules   // redux/toolkit - reducer modules
+└─static    // 정적 데이터 저장 camSetting
+
 ```
 
----
+## html
+
+## three
+
+![스크린샷 2023-03-26 192649](https://user-images.githubusercontent.com/37216958/227769728-831c91a4-85e5-4a26-bc1d-ed5544b6ff4e.png)
+
+- 카메라 컨트롤
+
+  - camController.target에 따라 camSetting에 설정된 position과 angle값으로 카메라 컨트롤
+
+- 글 목록, 검색 보드의 패널 업데이트 로직
+  ![스크린샷 2023-03-26 202947](https://user-images.githubusercontent.com/37216958/227772734-2b9c24c1-0c21-4c37-ac91-38242a121abe.png)
 
 # Dev Report
 
@@ -54,15 +62,60 @@ D:.
 - :heavy_exclamation_mark: : 버그
 - :heavy_check_mark: : 수정된 버그
 
+#### 2023.03.26
+
+- :wrench: 검색 결과가 없는 경우 None 글자가 나타나도록 추가
+  - SearchBoard에서 Panel과 NoneMark를 조건부로 전환하도록 구현
+
 #### 2023.03.25
 
 - :wrench: 새로고침 정책 수정
   - 글 또는 검색 목록에서 특정 포스트를 선택하여 Screen으로 진입 후 별도의 작업을 수행한 뒤 다시 목록으로 돌아왔을 때 자동으로 목록을 새로고침 하도록 변경
     - 자기 글 삭제 시 다시 목록으로 돌아왔을 때 삭제된 포스트가 목록에 그대로 남아 있기 때문에 새로 고침 해주는 것이 일반적이라 판단
+- :wrench: 새로고침 로직 수정
+  - 페이지 로드 요청을 `loadWaiting()` 하나로 일치시키고 모든 새로고침이 필요한 위치에서 `loadWaiting()`을 호출 하도록 수정
+  - Board와 SearchBoard에 동일하게 적용
+  - ![스크린샷 2023-03-26 202947](https://user-images.githubusercontent.com/37216958/227772734-2b9c24c1-0c21-4c37-ac91-38242a121abe.png)
+- :wrench: Screen에서 exit시 돌아갈 시점을 기억하기 위해 history 추가
+  - Screen으로 진입한 시점을 기억하고 이후 Screen에서 나왔을 때 이전 시점으로 돌아갈 수 있도록 camController에서 history를 기억하도록 추가 (board에서 panel를 클릭하여 screen으로 들어간 경우 screen에서 나올 때 board로 돌아갈 수 있도록 함)
 
 #### 2023.03.24
 
-- :pencil2: reducer의 액션 처리 순서
+- :pencil2: useEffect의 비동기 처리
+
+  - useEffect 내부에서 처리되는 작업은 모두 비동기로 수행되기 때문에 처리 순서를 보장할 수 없음
+
+  ```C
+  // setA가 setB보다 먼저 처리된다는 보장이 없다.
+  useEffect(() => {
+    dispatch(setA('a'));
+    dispatch(setB('b'));
+  },[]);
+  ```
+
+  - 따라서 처리 순서를 보장하고 싶다면 두 함수를 직렬화 하는 작업이 필요
+  - dispatch는 Promise타입의 결과를 반환하지 않기 때문에 바로 async/await을 사용할 수 는 없지만 Thunk, Saga와 같은 미들웨어를 사용하여 Promise 타입을 반환하도록 한 뒤 async/await을 사용하여 직렬화 할 수 있음
+
+  ```C
+  import { createAsyncThunk } from '@reduxjs/toolkit'
+  export const fetchUser = createAsyncThunk(
+    'user/fetchUser',
+    async (userId, thunkAPI) => {
+      const response = await fetch(`/api/user/${userId}`)
+      const data = await response.json()
+      return data
+    }
+  )
+  async function getUser(userId) {
+    try {
+      const result = await dispatch(fetchUser(userId))
+      console.log(result) // 비동기 작업의 결과값
+    } catch(error) {
+      console.log(error)
+    }
+  }
+  ```
+
 - :wrench: 컴포넌트들의 축을 일치시키고 rotation으로 돌려서 사용하는것이 이후 애니메이션의 재사용성에 유리하다
   - SearchBoard의 축을 Board의 축과 일치 시켜 board의 애니메이션을 재사용 할 수 있도록 수정
 - :heavy_check_mark: PanelsOn/Off 애니메이션에서 파라미터로 전달받은 RefObject<Group>[] 중 요소에 null이 있는 경우를 처리하지 못함
@@ -72,6 +125,7 @@ D:.
 
 - :wrench: 검색 창 기능 구현 (프론트)
 - :wrench: 페이지네이션 버튼의 활성화/비활성화로 포스트 로드 미완료 중 요청을 막기
+  - waiting, complete state를 참조하여 두 값 모두가 false인 경우에만 클릭이 가능하도록 활성화
 - :heavy_exclamation_mark: 특정 사용자의 포스트 목록으로 이미 로드 된 포스트가 작성자 또는 관리자에 의해 삭제되었을 경우, 해당 포스트에 접근시 '삭제되었거나 없는 글입니다'와 같은 오류 처리가 필요
 - :heavy_check_mark: board가 on 되어 있는 상태에서 다른 tag 버튼를 누르는 경우
   - 애니메이션 작동 오류 (Panel On/Off 애니메이션이 작동 X)
@@ -88,11 +142,47 @@ D:.
 
 - :pencil2: 타입 스크립트의 상속을 활용하기
 
+  - 타입 스크립트의 interface도 상속이 가능하다
+  - 부모 인터페이스에서 선언한 특정 속성을 자식 인터페이스에서 옵셔널로 바꿀 수 있을까? -> No
+    - 인터페이스를 상속하는 경우 부모 인터페이스에서 정의된 속성과 그 타입이 일치해야 한다
+  - 그렇다면 부모 인터페이스를 상속받아 특정 속성을 제거, 변경하려면? -> 유틸리티 타입을 사용하자
+
+  ```C
+  interface Person {
+    name: string;
+    age: number;
+  }
+
+  <!-- interface Student extends Person {
+    name?: string; 특정 속성의 타입을 변경, 옵셔널 여부를 변경 할 수 없다
+    age: number;
+  } -->
+  // Omit같은 유틸리티 타입으로 타입에 정의된 속성을 변경 할 수 있다
+  // Omit으로 받은 타입을 부모 타입으로 상속 받을 수 있음
+  type Student = Omit<Person, 'name'>
+  <!-- type Student = Omit<Person, 'name'> & {
+    student: number;
+  } -->
+  ```
+
+  - extends로 조건부 작업을 수행할 수 있음
+
+  ```C
+  // authReducerCarrier의 타입을 FormReducerCarrier 제네릭의 파라미터 타입에 따라 결정
+  export interface FormReducerCarrier<T extends AuthFormType> {
+    authReducerCarrier: T extends 'login'
+      ? Omit<AuthReducerCarrier, 'authRegister'>
+      : Omit<AuthReducerCarrier, 'authLogin'>;
+    userReducerCarrier: UserReducerCarrier;
+    setTargetToKey: () => void;
+  }
+  ```
+
 #### 2023.03.19
 
 - :wrench: 이전에 작성한 자신의 글을 수정/삭제 하는 기능 추가
 
-  - ~~:pushpin: 삭제시 확인하는 모달 창 추가 필요~~ 완료
+- ~~:pushpin: 삭제시 확인하는 모달 창 추가 필요~~ 완료
 
 - :heavy_check_mark: Quill Editor 사용과 title input의 중복 출력 현상 발생
 - :heavy_exclamation_mark: 삭제 후 board로 돌아왔을 때 업데이트 된 글 목록이 적용되지 않음
@@ -125,7 +215,7 @@ D:.
 - :wrench: TS 마이그레이션 완료
 
 - ~~:pushpin: 작성한 자신의 글 수정 기능~~ 완료
-- :pushpin: 글 검색 기능
+- ~~:pushpin: 글 검색 기능~~ 완료
 
 - :heavy_check_mark: 로그아웃 버튼 버그 발견
   - 로그아웃 버튼 클릭시 reducer를 정상적으로 호출하지 못함 (localStorage에 저장된 토큰이 삭제되지 못함)
@@ -164,7 +254,7 @@ const object = gltf.scene.childre.find(obj => obj.name === '찾고자 하는 메
 // 여기서 할당되는 객체의 타입을 추론하지 못하기 떄문에 단언 필요
 // 이후 <mesh> 컴포넌트에서 geometry 속성으로 사용할 수 있음
 const loadedObj = () => {
-  return <mesh geometry={object.geometry} />
+return <mesh geometry={object.geometry} />
 }
 ```
 
@@ -372,27 +462,29 @@ dispatch(action({data1, data2}));
 
 #### 2023.02.27
 
-- localstorage에 계정 정보 있을 경우 자동 로그인 수행시 첫 화면 스킵
-  -> '재성의 정보저장소' 텍스트 단계가 스킵되지 않도록 수정
-- 원인 : 자동 로그인 로직에서 화면 전환 명령이 포함되어 있음
-- 해결 : 자동 로그인은 수행하되 화면 전환 로직을 분리 (첫 텍스트 클릭시 로그인화면 or 키화면 전환을 로그인 여부에 따라 결정)
+- :wrench: 로그인한 계정 ID를 띄우는 텍스트와 로그아웃 버튼 & 로직 추가
 
-- 로그인한 계정 ID를 띄우는 텍스트와 로그아웃 버튼 & 로직 추가
-- 로그아웃시 로그인 박스 화면으로 진입하면 기존 화면에 있던 버튼들이 바닥 패널 밑으로 내려가는게 늦음
+- ~~:pushpin:localstorage에 계정 정보 있을 경우 자동 로그인 수행시 첫 화면 스킵~~ 완료
+  -> '재성의 정보저장소' 텍스트 단계가 스킵되지 않도록 수정
+
+  - 원인 : 자동 로그인 로직에서 화면 전환 명령이 포함되어 있음
+  - 해결 : 자동 로그인은 수행하되 화면 전환 로직을 분리 (첫 텍스트 클릭시 로그인화면 or 키화면 전환을 로그인 여부에 따라 결정)
+
+- ~~:pushpin: 로그아웃시 로그인 박스 화면으로 진입하면 기존 화면에 있던 버튼들이 바닥 패널 밑으로 내려가는게 늦음~~ 완료
   -> 컴포넌트들이 바닥 밑으로 바로 내려가도록 수
   정 필요함
 
 #### 2023.02.25
 
-- eslint, prettier 적용 (적용했다고 생각했었는데 적용이 안되고 있었음)
+- :wrench: eslint, prettier 적용 (적용했다고 생각했었는데 적용이 안되고 있었음)
   -> 컴파일시 스타일에 어긋나는 것도 마치 오류처럼 띄워줌
-- typescript 적용 시도
+- :wrench: typescript 적용 시도
 
 #### 2023.02.24
 
 - :heavy_check_mark: 글쓰기 완료 후 스크린에서 나갔을 때 버튼 목록으로 바로 이동하지 못하고 글 목록으로 넘어가는 문제
-- 원인 : '포스트 등록' 버튼 클릭 시 currMode를 write에서 post로 바꾸는 로직 존재
-- 해결 : 포스트 등록 완료 후 작성 모드에서 뷰어 모드로 전환하는 것은 currMode 전환에서 담당하지 않고 포스트 등록 버튼의 navigate 동작으로 수행되므로 해당 로직 제거
+  - 원인 : '포스트 등록' 버튼 클릭 시 currMode를 write에서 post로 바꾸는 로직 존재
+  - 해결 : 포스트 등록 완료 후 작성 모드에서 뷰어 모드로 전환하는 것은 currMode 전환에서 담당하지 않고 포스트 등록 버튼의 navigate 동작으로 수행되므로 해당 로직 제거
 
 #### 2023.02.23
 
