@@ -1,7 +1,7 @@
 import gsap from 'gsap';
 import CustomEase from 'gsap/CustomEase';
 import { RefObject } from 'react';
-import { Group, Vector3 } from 'three';
+import { Group, Mesh, Vector3 } from 'three';
 
 export function panelOnAnim(panels: Array<RefObject<Group> | null>) {
   const panelsPos: Array<Vector3> = [];
@@ -77,5 +77,17 @@ export const searchBoardOffAnim = (board: Group) => {
   return gsap.to(board.position, {
     z: -5,
     duration: 1,
+  });
+};
+
+export const markOnAnim = (mark: Mesh) => {
+  return gsap.to(mark.position, {
+    z: 2,
+  });
+};
+
+export const markOffAnim = (mark: Mesh) => {
+  return gsap.to(mark.position, {
+    z: 0,
   });
 };

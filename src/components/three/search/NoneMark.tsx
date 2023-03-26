@@ -1,3 +1,5 @@
+import { forwardRef, useImperativeHandle, useRef } from 'react';
+import { Mesh } from 'three';
 import { Text3dTemplate } from '../template/Text3DTemplate';
 
 interface NoneMarkPamrams {
@@ -5,9 +7,12 @@ interface NoneMarkPamrams {
   rotation: [x: number, y: number, z: number];
 }
 
-const NoneMark = ({ position, rotation }: NoneMarkPamrams) => {
+const NoneMark = forwardRef(({ position, rotation }: NoneMarkPamrams, ref) => {
+  const innerRef = useRef<Mesh>(null);
+  useImperativeHandle(ref, () => innerRef.current);
   return (
     <Text3dTemplate
+      ref={innerRef}
       innerText="None"
       position={position}
       rotation={rotation}
@@ -17,6 +22,6 @@ const NoneMark = ({ position, rotation }: NoneMarkPamrams) => {
       letterSpacing={-0.06}
     />
   );
-};
+});
 
 export default NoneMark;

@@ -12,9 +12,14 @@ import {
   loadComplete,
 } from 'src/modules/search';
 import SearchPanel from './SearchPanel';
-import { Group } from 'three';
+import { Group, Mesh } from 'three';
 import SearchPagination from './SearchPagination';
-import { panelOffAnim, panelOnAnim } from '../anim/BoardAnim';
+import {
+  markOffAnim,
+  markOnAnim,
+  panelOffAnim,
+  panelOnAnim,
+} from '../anim/BoardAnim';
 import gsap from 'gsap';
 import { paginationOnAnim } from '../anim/PaginationAnim';
 import NoneMark from './NoneMark';
@@ -33,6 +38,7 @@ const SearchBoard = () => {
     }));
   const panelRefs = useRef<(RefObject<Group> | null)[]>([]);
   const pgRef = useRef<Group>(null);
+  const markRef = useRef<Mesh>(null);
 
   const onSubmit = (e: ChangeEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -54,23 +60,41 @@ const SearchBoard = () => {
   // Panel On/Off 애니메이션, 검색 결과 요청 컨트롤
   useEffect(() => {
     if (!panelRefs || !pgRef) return;
+    const tl = gsap.timeline();
     if (waiting && !complete) {
       // animation off를 수행하고 post정보 서버로 요청
-      gsap
-        .timeline()
-        .add(panelOffAnim(panelRefs.current))
-        .add(() => {
-          dispatch(searchPosts({ page: currPage, keyword }));
-        });
+      // gsap
+      //   .timeline()
+      //   .add(panelOffAnim(panelRefs.current))
+      //   .add(() => {
+      //     dispatch(searchPosts({ page: currPage, keyword }));
+      //   });
+      if (!posts || posts.length == 0) {
+        tl.add(markOffAnim(markRef.current as Mesh));
+      } else {
+        tl.add(panelOffAnim(panelRefs.current));
+      }
+      tl.add(() => {
+        dispatch(searchPosts({ page: currPage, keyword }));
+      });
     } else if (waiting && complete) {
-      gsap
-        .timeline()
-        .add(panelOnAnim(panelRefs.current))
-        .add(paginationOnAnim(pgRef.current as Group))
-        .add(() => {
-          dispatch(loadComplete());
-        });
+      // gsap
+      //   .timeline()
+      //   .add(panelOnAnim(panelRefs.current))
+      //   .add(paginationOnAnim(pgRef.current as Group))
+      //   .add(() => {
+      //     dispatch(loadComplete());
+      //   });
+      if (!posts || posts.length == 0) {
+        tl.add(markOnAnim(markRef.current as Mesh));
+      } else {
+        tl.add(panelOnAnim(panelRefs.current));
+      }
+      tl.add(() => {
+        dispatch(loadComplete());
+      });
     }
+    tl.play();
   }, [waiting, complete]);
 
   // search onTarget이 아닌경우 Panel Off
@@ -115,7 +139,11 @@ const SearchBoard = () => {
             position={[-3.5 + idx * 1.8, 0, 0]}
           />
         ))}
-      <NoneMark position={[0.5, -1.2, 0]} rotation={[0, 0, Math.PI * 0.5]} />
+      <NoneMark
+        ref={markRef}
+        position={[0.5, -1.2, 0]}
+        rotation={[0, 0, Math.PI * 0.5]}
+      />
       <SearchPagination ref={pgRef} position={[5.1, 0, 0]} />
     </group>
   );
