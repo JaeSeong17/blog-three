@@ -4,9 +4,45 @@
 개인 블로그를 직접 만들어 봅니다. react, three.js, typescript 활용을 목표로 합니다.
 상태관리 redux -> reduxjs/toolkit 시도합니다.
 
-| 개발 문서                                   | 개인 기록                                                                                                                                                                                                 |
-| :------------------------------------------ | :-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Project Spec <br> [Dev Report](#dev-report) | [react](#react) <br> [react-redux/toolkit](#reduxjstoolkit) <br> [typescript](#typescript) <br> [three.js](#threejs) <br> [useFrame의 효율적인 코드 작성법](#useFrame의-효율적인-작업을-위한-코드-작성법) |
+| 개발 문서                                                        | 개인 기록                                                                                                                                                                                                           |
+| :--------------------------------------------------------------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| - [Project Spec](#proejct-spec) <br> - [Dev Report](#dev-report) | - [react](#react) <br> - [react-redux/toolkit](#reduxjstoolkit) <br> - [typescript](#typescript) <br> - [three.js](#threejs) <br> - [useFrame의 효율적인 코드 작성법](#useFrame의-효율적인-작업을-위한-코드-작성법) |
+
+---
+
+# Proejct Spec
+
+![스크린샷 2023-03-26 192649](https://user-images.githubusercontent.com/37216958/227769728-831c91a4-85e5-4a26-bc1d-ed5544b6ff4e.png)
+
+```bash
+? ?? ??? ?? ?? ??? ?????.
+?? ?? ??? 607F-F693???.
+D:.
+??components
+?  ??html
+?  ?  ??auth
+?  ?  ??common
+?  ?  ??pages
+?  ?  ??post
+?  ?  ??postPanel
+?  ?  ??root
+?  ?  ??search
+?  ?  ??write
+?  ??three
+?      ??anim
+?      ??authBox
+?      ??board
+?      ??canvas
+?      ??common
+?      ??container
+?      ??scene
+?      ??search
+?      ??template
+??lib
+?  ??api
+??modules
+??static
+```
 
 ---
 
