@@ -4,13 +4,13 @@
 개인 블로그를 직접 만들어 봅니다. react, three.js, typescript 활용을 목표로 합니다.
 상태관리 redux -> reduxjs/toolkit 시도합니다.
 
-| 개발 문서                                                        | 개인 기록                                                                                                                                                                                                           |
-| :--------------------------------------------------------------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| - [Project Spec](#proejct-spec) <br> - [Dev Report](#dev-report) | - [react](#react) <br> - [react-redux/toolkit](#reduxjstoolkit) <br> - [typescript](#typescript) <br> - [three.js](#threejs) <br> - [useFrame의 효율적인 코드 작성법](#useFrame의-효율적인-작업을-위한-코드-작성법) |
+| 개발 문서                                                                 | 개인 기록                                                                                                                                                                                                           |
+| :------------------------------------------------------------------------ | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| - [Project Spec](#proejct-specification) <br> - [Dev Report](#dev-report) | - [react](#react) <br> - [react-redux/toolkit](#reduxjstoolkit) <br> - [typescript](#typescript) <br> - [three.js](#threejs) <br> - [useFrame의 효율적인 코드 작성법](#useFrame의-효율적인-작업을-위한-코드-작성법) |
 
 ---
 
-# Proejct Spec
+# Proeject Specification
 
 ```bash
 src
@@ -41,18 +41,62 @@ src
 
 ```
 
+---
+
 ## html
+
+- Canvas 내부에서 3D 상에 배치되는 html 화면
+
+#### auth
+
+#### common
+
+#### pages
+
+#### post
+
+#### postPanel
+
+#### root
+
+#### search
+
+#### write
+
+---
 
 ## three
 
-![스크린샷 2023-03-26 192649](https://user-images.githubusercontent.com/37216958/227769728-831c91a4-85e5-4a26-bc1d-ed5544b6ff4e.png)
+3D 화면을 구성하는 컴포넌트
 
-- 카메라 컨트롤
+- Canvas 내부 컴포넌트 배치
+  ![스크린샷 2023-03-26 192649](https://user-images.githubusercontent.com/37216958/227769728-831c91a4-85e5-4a26-bc1d-ed5544b6ff4e.png)
 
-  - camController.target에 따라 camSetting에 설정된 position과 angle값으로 카메라 컨트롤
+#### authBox
 
-- 글 목록, 검색 보드의 패널 업데이트 로직
+로그인/회원가입 컴포넌트
+
+#### board & search
+
+글 목록(Board), 글 검색 결과 목록을 보여주는 컴포넌트
+
+- 일반 글 목록(Board)과 검색 글 목록(SearchBoard)가 같은 형태로 구성되어 있음
+- 패널 업데이트 로직
   ![스크린샷 2023-03-26 202947](https://user-images.githubusercontent.com/37216958/227772734-2b9c24c1-0c21-4c37-ac91-38242a121abe.png)
+
+#### common
+
+화면 구성 최소 단위 컴포넌트 및 단일 컴포넌트
+
+#### container
+
+화면 구간 분할 단위 컴포넌트
+
+#### template
+
+3D 컴포넌트 생성 시 동일 속성 재사용을 위한 템플릿
+
+---
 
 # Dev Report
 
@@ -74,8 +118,7 @@ src
     - 자기 글 삭제 시 다시 목록으로 돌아왔을 때 삭제된 포스트가 목록에 그대로 남아 있기 때문에 새로 고침 해주는 것이 일반적이라 판단
 - :wrench: 새로고침 로직 수정
   - 페이지 로드 요청을 `loadWaiting()` 하나로 일치시키고 모든 새로고침이 필요한 위치에서 `loadWaiting()`을 호출 하도록 수정
-  - Board와 SearchBoard에 동일하게 적용
-  - ![스크린샷 2023-03-26 202947](https://user-images.githubusercontent.com/37216958/227772734-2b9c24c1-0c21-4c37-ac91-38242a121abe.png)
+  - Board와 SearchBoard에 동일하게 적용 (Proj-spec의 패널 업데이트 로직 참조)
 - :wrench: Screen에서 exit시 돌아갈 시점을 기억하기 위해 history 추가
   - Screen으로 진입한 시점을 기억하고 이후 Screen에서 나왔을 때 이전 시점으로 돌아갈 수 있도록 camController에서 history를 기억하도록 추가 (board에서 panel를 클릭하여 screen으로 들어간 경우 screen에서 나올 때 board로 돌아갈 수 있도록 함)
 
@@ -153,16 +196,17 @@ src
     age: number;
   }
 
-  <!-- interface Student extends Person {
-    name?: string; 특정 속성의 타입을 변경, 옵셔널 여부를 변경 할 수 없다
-    age: number;
-  } -->
+  //interface Student extends Person {
+  //  name?: string; 특정 속성의 타입을 변경, 옵셔널 여부를 변경 할 수 없다
+  //  age: number;
+  //}
+
   // Omit같은 유틸리티 타입으로 타입에 정의된 속성을 변경 할 수 있다
   // Omit으로 받은 타입을 부모 타입으로 상속 받을 수 있음
   type Student = Omit<Person, 'name'>
-  <!-- type Student = Omit<Person, 'name'> & {
-    student: number;
-  } -->
+  //type Student = Omit<Person, 'name'> & {
+  //  student: number;
+  //}
   ```
 
   - extends로 조건부 작업을 수행할 수 있음
