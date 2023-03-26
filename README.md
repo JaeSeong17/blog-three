@@ -1,15 +1,12 @@
 # Blog - THREE
 
-![스크린샷 2023-03-20 195704](https://user-images.githubusercontent.com/37216958/226325768-5eea1df9-2a45-4aeb-91de-460c3d1e5e2f.png)
+![스크린샷 2023-03-26 143802](https://user-images.githubusercontent.com/37216958/227757466-e9c58bfd-7a33-46ef-8172-90ba91032825.png)
 개인 블로그를 직접 만들어 봅니다. react, three.js, typescript 활용을 목표로 합니다.
 상태관리 redux -> reduxjs/toolkit 시도합니다.
 
-- [Dev Report](#dev-report)
-- [react](#react)
-- [react-redux/toolkit](#reduxjstoolkit)
-- [typescript](#typescript)
-- [three.js](#threejs)
-- [useFrame의 효율적인 코드 작성법](#useFrame의-효율적인-작업을-위한-코드-작성법)
+| 개발 문서                                   | 개인 기록                                                                                                                                                                                                 |
+| :------------------------------------------ | :-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Project Spec <br> [Dev Report](#dev-report) | [react](#react) <br> [react-redux/toolkit](#reduxjstoolkit) <br> [typescript](#typescript) <br> [three.js](#threejs) <br> [useFrame의 효율적인 코드 작성법](#useFrame의-효율적인-작업을-위한-코드-작성법) |
 
 ---
 
@@ -21,12 +18,26 @@
 - :heavy_exclamation_mark: : 버그
 - :heavy_check_mark: : 수정된 버그
 
+#### 2023.03.25
+
+- :wrench: 새로고침 정책 수정
+  - 글 또는 검색 목록에서 특정 포스트를 선택하여 Screen으로 진입 후 별도의 작업을 수행한 뒤 다시 목록으로 돌아왔을 때 자동으로 목록을 새로고침 하도록 변경
+    - 자기 글 삭제 시 다시 목록으로 돌아왔을 때 삭제된 포스트가 목록에 그대로 남아 있기 때문에 새로 고침 해주는 것이 일반적이라 판단
+
+#### 2023.03.24
+
+- :pencil2: reducer의 액션 처리 순서
+- :wrench: 컴포넌트들의 축을 일치시키고 rotation으로 돌려서 사용하는것이 이후 애니메이션의 재사용성에 유리하다
+  - SearchBoard의 축을 Board의 축과 일치 시켜 board의 애니메이션을 재사용 할 수 있도록 수정
+- :heavy_check_mark: PanelsOn/Off 애니메이션에서 파라미터로 전달받은 RefObject<Group>[] 중 요소에 null이 있는 경우를 처리하지 못함
+  - null type check 필요
+
 #### 2023.03.23
 
 - :wrench: 검색 창 기능 구현 (프론트)
 - :wrench: 페이지네이션 버튼의 활성화/비활성화로 포스트 로드 미완료 중 요청을 막기
 - :heavy_exclamation_mark: 특정 사용자의 포스트 목록으로 이미 로드 된 포스트가 작성자 또는 관리자에 의해 삭제되었을 경우, 해당 포스트에 접근시 '삭제되었거나 없는 글입니다'와 같은 오류 처리가 필요
-- :heavy_exclamation_mark: board가 on 되어 있는 상태에서 다른 tag 버튼를 누르는 경우
+- :heavy_check_mark: board가 on 되어 있는 상태에서 다른 tag 버튼를 누르는 경우
   - 애니메이션 작동 오류 (Panel On/Off 애니메이션이 작동 X)
   - 이전 tag에서 페이지가 넘어가 있는 경우 다른 태그로 이동시 페이지 수가 초기화 되지 않음
   - board on 상태에서 다른 태그로 이동후 key로 탈출했을때 board가 off되지 않음
@@ -35,11 +46,11 @@
 
 #### 2023.03.22
 
-:wrench: 검색 창 기능 구현 (백엔드)
+- :wrench: 검색 창 기능 구현 (백엔드)
 
 #### 2023.03.20
 
-:pencil2: 타입 스크립트의 상속을 활용하기
+- :pencil2: 타입 스크립트의 상속을 활용하기
 
 #### 2023.03.19
 
