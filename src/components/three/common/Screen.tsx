@@ -24,11 +24,10 @@ import {
 
 const Screen = () => {
   const dispatch = useDispatch();
-  const { target, history, currMode, user } = useSelector(
-    ({ camController, screenController, user }: RootState) => ({
+  const { target, history, user } = useSelector(
+    ({ camController, user }: RootState) => ({
       target: camController.target,
       history: camController.history,
-      currMode: screenController.currMode,
       user: user.user,
     }),
   );
@@ -63,12 +62,7 @@ const Screen = () => {
 
   // 스크린 닫기 버튼 클릭 이벤트 핸들러
   function escClickHandler() {
-    // if (currMode === 'write') {
-    //   dispatch(setTarget('key'));
-    // } else if (currMode === 'post') {
-    //   dispatch(setTarget('board'));
-    // }
-    dispatch(setTarget(history));
+    dispatch(setTarget(history)); // 탈출 시 진입 위치로 이동하도록 history값 참조
     dispatch(setCurrMode('none'));
   }
 
