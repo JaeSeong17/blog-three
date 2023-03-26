@@ -57,6 +57,9 @@ const boardController = createSlice({
     decreasePage: state => {
       state.currPage -= 1;
     },
+    initializePage: state => {
+      state.currPage = 1;
+    },
     loadWaiting: state => {
       state.waiting = true;
       console.log('waiting new posts list');
@@ -80,6 +83,7 @@ export const {
   setIndex,
   increasePage,
   decreasePage,
+  initializePage,
   loadWaiting,
   loadComplete,
   setComplete,

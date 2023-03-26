@@ -16,10 +16,12 @@ export interface PaginationForwardRef {
 }
 
 const Pagination = forwardRef((_, ref) => {
-  const { currPage, lastPage } = useSelector(
+  const { currPage, lastPage, waiting, complete } = useSelector(
     ({ boardController }: RootState) => ({
       currPage: boardController.currPage,
       lastPage: boardController.lastPage,
+      waiting: boardController.waiting,
+      complete: boardController.waiting,
     }),
   );
   const dispatch = useDispatch();
@@ -41,13 +43,14 @@ const Pagination = forwardRef((_, ref) => {
         position={[0, -2, 0]}
         rotation={[Math.PI * 0.5, 0, 0]}
         onClick={() => {
+          if (waiting || complete) return; // 로드중 이동 버튼 비활성화
           if (currPage > 1) {
             clickAnim(leftBtnRef);
             dispatch(decreasePage());
             dispatch(loadWaiting());
           }
         }}>
-        <cylinderGeometry args={[0.7, 0.7, 0.7, 3]} />
+        <cylinderGeometry args={[0.6, 0.7, 0.7, 3]} />
         <meshStandardMaterial color={currPage > 1 ? 'red' : 'gray'} />
       </mesh>
       <Text
@@ -62,13 +65,14 @@ const Pagination = forwardRef((_, ref) => {
         position={[0, 2, 0]}
         rotation={[Math.PI * 0.5, Math.PI * 1, 0]}
         onClick={() => {
+          if (waiting || complete) return; // 로드중 이동 버튼 비활성화
           if (currPage < lastPage) {
             clickAnim(rightBtnRef);
             dispatch(increasePage());
             dispatch(loadWaiting());
           }
         }}>
-        <cylinderGeometry args={[0.7, 0.7, 0.7, 3]} />
+        <cylinderGeometry args={[0.6, 0.7, 0.7, 3]} />
         <meshStandardMaterial color={currPage < lastPage ? 'red' : 'gray'} />
       </mesh>
     </group>

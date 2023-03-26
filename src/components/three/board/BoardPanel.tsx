@@ -50,7 +50,7 @@ const BoardPanel = forwardRef(
             style={{
               opacity: 1,
             }}
-            position={[0, 0, 0.1001]}
+            position={[0, 0, 0.101]}
             rotation={[0, 0, Math.PI / 2]}>
             <PostItem post={post} panelClickHandler={panelClickHandler} />
           </Html>
