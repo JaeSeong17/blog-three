@@ -16,7 +16,7 @@ const LogButton = () => {
   const user = useSelector((state: RootState) => state.user.user);
   const target = useSelector((state: RootState) => state.camController.target);
   const ref = useRef<Group>(null);
-  const onTarget = ['key', 'board', 'connect', 'screen'];
+  const onTarget = ['key', 'search', 'board', 'connect', 'screen'];
 
   // 클릭 이벤트 핸들러
   function logBtnClickHandler(e: ThreeEvent<MouseEvent>) {

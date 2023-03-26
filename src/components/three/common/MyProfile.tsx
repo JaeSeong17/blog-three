@@ -12,7 +12,7 @@ const MyProfile = () => {
   const textRef2 = useRef<Mesh>(null);
   useEffect(() => {
     if (textRef1.current && textRef2.current) {
-      const onTarget = ['key', 'board', 'connect', 'screen'];
+      const onTarget = ['key', 'search', 'board', 'connect', 'screen'];
       if (onTarget.includes(target)) {
         profileOnAnim(textRef1.current, textRef2.current).play();
       } else {
