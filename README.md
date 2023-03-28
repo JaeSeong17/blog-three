@@ -1,8 +1,8 @@
 # Blog - THREE
 
 ![스크린샷 2023-03-26 143802](https://user-images.githubusercontent.com/37216958/227757466-e9c58bfd-7a33-46ef-8172-90ba91032825.png)
-개인 블로그를 만들어 봅니다. react, three.js, typescript 활용을 목표로 합니다.
-상태관리 redux -> reduxjs/toolkit 시도합니다.
+1인 프로젝트로 개인 블로그를 개발합니다.<br>
+사용 기술: React, reduxjs/toolkit, redux-saga, Typescript, three.js, gsap
 
 | 개발 문서                                                                 | 개인 기록                                                                                                                                                                                                           |
 | :------------------------------------------------------------------------ | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
@@ -34,7 +34,7 @@ src
 │      ├─search     // 글 검색 Board
 │      └─template   // 컴포넌트 세팅 값 재사용을 위한 템플릿
 ├─lib
-│  └─api    // axios-api http request 연결 부
+│  └─api    // axios-api http request 연결
 ├─modules   // redux/toolkit - reducer modules
 └─static    // 정적 데이터 저장 camSetting
 
@@ -42,84 +42,156 @@ src
 
 ---
 
-## html
+## html - Canvas 내부에서 3D 상에 배치되는 html
 
-Canvas 내부에서 3D 상에 배치되는 html
+아래의 폴더 내 명세는 상위컴포넌트 -> 하위 컴포넌트 순서로 작성되었습니다.
 
-#### auth
+### auth - 로그인 & 회원가입 html
 
-로그인 & 회원가입 화면
+- `LoginForm` : 로그인 화면
+- `RegisterForm` : 회원가입 화면
+- `AuthTemplate` : 로그인과 회원가입 화면의 중복 구현부 모듈화
 
-##### `AuthTemplate`
+### common - 화면 구성에 재사용되는 컴포넌트
 
-##### `LoginForm`
+- `AskModal` : 작업 재확인 모달
+- `Button` : 공통 버튼 테마
+- `HtmlWrapper` : Screen의 각 페이지 최상위 여백 설정
 
-##### `RegisterForm`
+### post - Screen의 글 뷰어 html
 
-#### common
+- `PostPage` : `ScreenHtml` 내 뷰어 최상위 페이지
+- `PostViewerContainer` : 뷰어의 글 로드, 수정/삭제 이벤트 핸들러 구현부
+- `PostViewer` : 뷰어 내부 구현부
+- `PostActionButton` : 사용자 본인 글에서 나타나는 수정/삭제 버튼
+- `AskRemoveModal` : 삭제 재확인 Modal
 
-화면 구성에 재사용되는 컴포넌트
+### postPanel - Board의 Panel에 사용되는 html
 
-- `AskModal`
-- `Button`
-- `HtmlWrapper`
+- `PostItem` : 포스트 패널에 부착되는 글 목록의 단일 html
+- `SubInfo` : 세부 정보를 위한 컴포넌트 (글 작성자, 날짜)
+- `Tags` : 태그 표시을 위한 컴포넌트
 
-#### post
+### root - AuthBox, Screen의 3D Mesh에 적용되는 최상위 html
 
-Screen의 글 뷰어 html
+- `AuthHtml` : AuthBox에 부착되는 최상위 html
+  - `LoginForm`과 `RegisterForm`을 state.auth.form에 따른 조건부로 화면 전환
+- `ScreenHtml` : Screen에 부착되는 최상위 html
+  - `PostPage`와 `WritePage`를 state.screenController.currMode에 따른 조건부로 화면 전환
 
-#### postPanel
+### search - SearchBoard에 사용되는 html
 
-Board의 Panel에 사용되는 html
+- `SearchInput` : 검색 창
+- `SearchItem` : SearchPanel에 부착되는 검색 글 목록의 단일 html
 
-#### root
+### write - Screen의 글 작성 html
 
-AuthBox, Screen의 3D Mesh에 적용되는 최상위 html
-
-#### search
-
-SearchBoard에 사용되는 html
-
-#### write
-
-Screen의 글 작성 html
+- `WritePage` : 글 작성 최상위 html
+- `EditorContainer` : 에디터 이벤트 핸들러, value 업데이트 구현부
+- `Editor` : 글 작성 에디터 구현부
+  - Quill 라이브러리 사용
+- `TagBoxContainer` : 태그박스 이벤트 핸들러, value 업데이트 구현부
+- `TagBox` : 태그박스 구현부
+- `WriteActionButtonContainer` : 글 작성 확인 버튼의 이벤트 핸들러, WriteButton 속성 지정 구현부
+- `WriteActionButton` : 글 작성 확인 버튼 구현부, 작성/수정 조건부로 전환
 
 ---
 
-## three
+## three - 3D 화면을 구성하는 컴포넌트
 
-3D 화면을 구성하는 컴포넌트
+Canvas 내부 컴포넌트 배치도
+![image](https://user-images.githubusercontent.com/37216958/228201328-a29c60dc-2dd7-4590-9650-0435adfb820a.png)
 
-- Canvas 내부 컴포넌트 배치
-  ![스크린샷 2023-03-26 192649](https://user-images.githubusercontent.com/37216958/227769728-831c91a4-85e5-4a26-bc1d-ed5544b6ff4e.png)
+### anim - 3D 컴포넌트에 적용되는 애니메이션
 
-#### authBox
+### authBox - 로그인/회원가입 컴포넌트
 
-로그인/회원가입 컴포넌트
+- `AuthBox` : 로그인/회원가입 상자 컴포넌트
+  - `AuthHtml`을 통해 로그인/회원가입 화면을 보여줌
+- `GuestButton` : 비로그인 상태로 진입 버튼(글 작성 비활성화)
+- `RegisterButton` : 로그인/회원가입 화면전환을 위한 버튼
 
-#### board, search
+### board, search - 글 목록(Board), 글 검색 결과 목록을 보여주는 컴포넌트
 
-글 목록(Board), 글 검색 결과 목록을 보여주는 컴포넌트
+일반 글 목록(Board)과 검색 글 목록(SearchBoard)가 같은 형태로 구성
 
-<br>
-<img src="https://user-images.githubusercontent.com/37216958/228158441-3d837a02-67b5-4624-af96-1b70aaaef25c.png" width="40%" title="board-struct-img" alt="RubberDuck"></img>
-<br>
+- `Board` : 태그별 글 목록을 보여주는 컴포넌트 (Search는 검색 결과)
+  - Panel On/Off 애니메이션 구현부 (패널 업데이트 로직 참고)
+  - 패널 업데이트 로직
+    ![image](https://user-images.githubusercontent.com/37216958/228200497-c8b38c2f-f9bd-465d-b53d-1cdba8983281.png)
+- `BoardPanel` : Board 글 목록의 각 단위
+  - Panel의 클릭 애니메이션 구현부
+- `Pagination` : 이전/다음 페이지 전환을 위한 페이지 버튼
 
-- 일반 글 목록(Board)과 검색 글 목록(SearchBoard)가 같은 형태로 구성
-- 패널 업데이트 로직
-  ![스크린샷 2023-03-26 202947](https://user-images.githubusercontent.com/37216958/227772734-2b9c24c1-0c21-4c37-ac91-38242a121abe.png)
+### common - 화면 구성 재사용 단위 컴포넌트 및 단일 컴포넌트
 
-#### common
+- `ConnectBoxes` : Board와 Screen를 시각적으로 연결하는 컴포넌트
+- `DataTower` : 진입부 좌측 컴포넌트
+- `LogButton` : 블로그 내부의 로그인/로그아웃 버튼
+- `MyProgile` : 현재 로그인한 사용자의 이름 표시
+  - 비로그인시 Guest로 표시
+- `Plane` : Canvas 공간 내 바닥
+- `Screen` : 포스트 뷰어, 포스트 작성 화면이 부착되는 컴포넌트
+- `SearchKey` : 검색 모드 진입을 위한 검색 키
+- `Tagkey` : 태그별 글 목록 Board를 불러오는 태그 키
+- `Titles` : 웹 진입부 제목 3D 텍스트
+- `WriteKey` : 글 작성을 위한 작성 키
 
-화면 구성 최소 단위 컴포넌트 및 단일 컴포넌트
+### container - 화면 구간 분할 단위 컴포넌트
 
-#### container
+- `FrontContainer` : 웹 진입부 컴포넌트 그룹
+  - `Title`, `AuthBox`, `MyProfile`, `LogButton`을 포함하며 계정 관리 관련 컴포넌트를 포함하고 있음
+- `KeyContainer` : 키 컴포넌트 그룹
+  - `TagKey`, `WriteKey`, `SearchKey`를 포함하고 있음
+  - state.camController.target에 따라 Key 전체 On/Off 애니메이션 컨트롤 구현
+- `BoardContainer` : 글 목록을 보여주는 Board 컴포넌트 그룹
+  - state.camController.target에 따라 Board 전체 On/Off 애니메이션 컨트롤 구현
+  - `TagKey` 클릭을 통해 진입
+- `SearchBoardContainer` : 검색창, 검색 결과를 보여주는 SearchBoard 컴포넌트 그룹
+  - state.camController.target에 따라 SearchBoard 전체 On/Off 애니메이션 컨트롤 구현
+  - `SearchKey` 클릭을 통해 진입
 
-화면 구간 분할 단위 컴포넌트
+### template - 3D 컴포넌트 생성 시 동일 속성 재사용을 위한 템플릿
 
-#### template
+- `KeycapTemplate` : 키캡 메쉬 재사용을 위한 템플릿
+  - Long/Short 타입을 지정하여 사용할 수 있음
+- `Text3DTempalte` : 3D 텍스트 중복 속성 재사용을 위한 템플릿
 
-3D 컴포넌트 생성 시 동일 속성 재사용을 위한 템플릿
+---
+
+## lib - http request api (Axios)
+
+- `createRequestSaga` : request에 대한 success/failure 후처리 로직 재사용 템플릿
+  - request/response 처리중 loading state 업데이트
+  - request 응답 수신 결과에 따라 $`{action}`Success / $`{action}`Failure 리듀서 호출
+
+### api - 서버 요청 api
+
+- `auth` : 로그인, 계정 api
+- `client` : axios 인스턴스 생성
+- `posts` : post 요청 api
+  - 태그별 글 목록, 검색 결과 목록, 특정 포스트 내용 요청
+
+---
+
+## modules - redux
+
+- `auth` : 로그인/회원가입 상태 관리
+- `boardController` : (태그) 글 목록 상태 관리
+- `camController` : 카메라 컨트롤 상태 관ㄹ;
+- `loading` : 모든 서버 요청 api의 loading 로직(재사용)
+- `post` : 포스트 뷰어 상태 관리
+- `screenController` : 스크린 상태 관리
+- `search` : 검색 목록 상태 관리
+- `user` : 현재 로그인 정보 관리
+- `write` : 글 작성 상태 관리
+
+---
+
+## static
+
+- `camSetting` : 화면 전환시 카메라 위치, 각도 설정 값
+- `tags` : 태그 목록
 
 ---
 
