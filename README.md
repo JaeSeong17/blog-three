@@ -100,7 +100,7 @@ src
 ## three - 3D 화면을 구성하는 컴포넌트
 
 Canvas 내부 컴포넌트 배치도
-![image](https://user-images.githubusercontent.com/37216958/228201328-a29c60dc-2dd7-4590-9650-0435adfb820a.png)
+![image](https://user-images.githubusercontent.com/37216958/228236249-3fdccdf1-c734-4b64-8aec-7fa2bb40ad60.png)
 
 ### anim - 3D 컴포넌트에 적용되는 애니메이션
 
@@ -118,7 +118,7 @@ Canvas 내부 컴포넌트 배치도
 - `Board` : 태그별 글 목록을 보여주는 컴포넌트 (Search는 검색 결과)
   - Panel On/Off 애니메이션 구현부 (패널 업데이트 로직 참고)
   - 패널 업데이트 로직
-    ![image](https://user-images.githubusercontent.com/37216958/228200497-c8b38c2f-f9bd-465d-b53d-1cdba8983281.png)
+    ![image](https://user-images.githubusercontent.com/37216958/228236484-90999e78-a42d-4c04-8bf3-d53c36098a3a.png)
 - `BoardPanel` : Board 글 목록의 각 단위
   - Panel의 클릭 애니메이션 구현부
 - `Pagination` : 이전/다음 페이지 전환을 위한 페이지 버튼
