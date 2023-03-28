@@ -195,6 +195,12 @@ Canvas 내부 컴포넌트 배치도
 
 ---
 
+## User Flow
+
+![image](https://user-images.githubusercontent.com/37216958/228249894-f5835e53-e95b-4a83-8b77-6b9e577c77cb.png)
+
+---
+
 # Dev Report
 
 - :pencil2: : 새로 알게 된 점
@@ -326,7 +332,7 @@ Canvas 내부 컴포넌트 배치도
 - ~~:pushpin: 삭제시 확인하는 모달 창 추가 필요~~ 완료
 
 - :heavy_check_mark: Quill Editor 사용과 title input의 중복 출력 현상 발생
-- :heavy_exclamation_mark: 삭제 후 board로 돌아왔을 때 업데이트 된 글 목록이 적용되지 않음
+- :heavy_check_mark: 삭제 후 board로 돌아왔을 때 업데이트 된 글 목록이 적용되지 않음
   - 삭제 수행 후 board로 돌아올 때 loadPost api를 요청하고 현재 board에 업데이트 하는 작업이 필요
 
 #### 2023.03.17
