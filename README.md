@@ -1,7 +1,7 @@
 # Blog - THREE
 
 ![스크린샷 2023-03-26 143802](https://user-images.githubusercontent.com/37216958/227757466-e9c58bfd-7a33-46ef-8172-90ba91032825.png)
-개인 블로그를 직접 만들어 봅니다. react, three.js, typescript 활용을 목표로 합니다.
+개인 블로그를 만들어 봅니다. react, three.js, typescript 활용을 목표로 합니다.
 상태관리 redux -> reduxjs/toolkit 시도합니다.
 
 | 개발 문서                                                                 | 개인 기록                                                                                                                                                                                                           |
@@ -18,11 +18,10 @@ src
 │  ├─html       // Canvas 내부 html
 │  │  ├─auth        // AuthBox의 로그인/회원가입 화면
 │  │  ├─common      // 각 화면 구성에 사용되는 최소 단위 컴포넌트
-│  │  ├─pages       // Screen의 포스트 뷰어, 글 작성 화면
 │  │  ├─post        // 포스트 뷰어
-│  │  ├─postPanel   // Board의 Panel에 부착되는 단일 화면
+│  │  ├─postPanel   // Board의 패널 화면
 │  │  ├─root        // canvas의 three component와 연결 부
-│  │  ├─search      // SearchBox 검색 패널측에 부착되는 단일 화면
+│  │  ├─search      // SearchBoard 검색 패널 화면과 검색창 화면
 │  │  └─write       // 글 작성
 │  └─three      // Canvas 내부 3d 컴포넌트
 │      ├─anim       // 애니메이션 모듈
@@ -45,23 +44,45 @@ src
 
 ## html
 
-- Canvas 내부에서 3D 상에 배치되는 html 화면
+Canvas 내부에서 3D 상에 배치되는 html
 
 #### auth
 
+로그인 & 회원가입 화면
+
+##### `AuthTemplate`
+
+##### `LoginForm`
+
+##### `RegisterForm`
+
 #### common
 
-#### pages
+화면 구성에 재사용되는 컴포넌트
+
+- `AskModal`
+- `Button`
+- `HtmlWrapper`
 
 #### post
 
+Screen의 글 뷰어 html
+
 #### postPanel
+
+Board의 Panel에 사용되는 html
 
 #### root
 
+AuthBox, Screen의 3D Mesh에 적용되는 최상위 html
+
 #### search
 
+SearchBoard에 사용되는 html
+
 #### write
+
+Screen의 글 작성 html
 
 ---
 
@@ -76,11 +97,12 @@ src
 
 로그인/회원가입 컴포넌트
 
-#### board & search
+#### board, search
 
 글 목록(Board), 글 검색 결과 목록을 보여주는 컴포넌트
+<img src="https://user-images.githubusercontent.com/37216958/228158441-3d837a02-67b5-4624-af96-1b70aaaef25c.png" width="40%" height="30%" title="board-struct-img" alt="RubberDuck"></img>
 
-- 일반 글 목록(Board)과 검색 글 목록(SearchBoard)가 같은 형태로 구성되어 있음
+- 일반 글 목록(Board)과 검색 글 목록(SearchBoard)가 같은 형태로 구성
 - 패널 업데이트 로직
   ![스크린샷 2023-03-26 202947](https://user-images.githubusercontent.com/37216958/227772734-2b9c24c1-0c21-4c37-ac91-38242a121abe.png)
 
