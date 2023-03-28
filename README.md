@@ -95,8 +95,6 @@ src
 - `WriteActionButtonContainer` : 글 작성 확인 버튼의 이벤트 핸들러, WriteButton 속성 지정 구현부
 - `WriteActionButton` : 글 작성 확인 버튼 구현부, 작성/수정 조건부로 전환
 
----
-
 ## three - 3D 화면을 구성하는 컴포넌트
 
 Canvas 내부 컴포넌트 배치도
@@ -157,8 +155,6 @@ Canvas 내부 컴포넌트 배치도
   - Long/Short 타입을 지정하여 사용할 수 있음
 - `Text3DTempalte` : 3D 텍스트 중복 속성 재사용을 위한 템플릿
 
----
-
 ## lib - http request api (Axios)
 
 - `createRequestSaga` : request에 대한 success/failure 후처리 로직 재사용 템플릿
@@ -172,8 +168,6 @@ Canvas 내부 컴포넌트 배치도
 - `posts` : post 요청 api
   - 태그별 글 목록, 검색 결과 목록, 특정 포스트 내용 요청
 
----
-
 ## modules - redux
 
 - `auth` : 로그인/회원가입 상태 관리
@@ -186,18 +180,14 @@ Canvas 내부 컴포넌트 배치도
 - `user` : 현재 로그인 정보 관리
 - `write` : 글 작성 상태 관리
 
----
-
 ## static
 
 - `camSetting` : 화면 전환시 카메라 위치, 각도 설정 값
 - `tags` : 태그 목록
 
----
-
 ## User Flow
 
-![image](https://user-images.githubusercontent.com/37216958/228249894-f5835e53-e95b-4a83-8b77-6b9e577c77cb.png)
+![image](https://user-images.githubusercontent.com/37216958/228266142-303b6221-e009-4613-9fc8-97073679df22.png)
 
 ---
 
