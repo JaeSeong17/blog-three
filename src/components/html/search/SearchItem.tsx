@@ -1,4 +1,4 @@
-import { PostResponse } from 'screen-state-types';
+import { Post } from 'screen-state-types';
 import styled from 'styled-components';
 // import Tags from './Tags';
 
@@ -22,7 +22,7 @@ const SubInfo = styled.div`
 `;
 
 interface PostItemParams {
-  post: PostResponse;
+  post: Post;
   panelClickHandler: (props: any) => void;
 }
 const SearchItem = ({ post, panelClickHandler }: PostItemParams) => {
@@ -30,12 +30,6 @@ const SearchItem = ({ post, panelClickHandler }: PostItemParams) => {
   return (
     <SearchItemBlock onClick={panelClickHandler}>
       <h2>{title}</h2>
-      {/* <SubInfo
-        username={user.username}
-        publishedDate={new Date(publishedDate)}
-      />
-      <Tags tags={tags} />
-      <p>{body}</p> */}
       <SubInfo>
         <span>{user.username}</span>
         <span>{new Date(publishedDate).toLocaleDateString()}</span>

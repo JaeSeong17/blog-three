@@ -2,6 +2,7 @@ import styled from 'styled-components';
 
 const TagsBlock = styled.div`
   margin-top: 0.5rem;
+  display: flex;
   .tag {
     display: inline-block;
     color: red;
@@ -17,7 +18,9 @@ const Tags = ({ tags }: { tags: Array<string> }) => {
   return (
     <TagsBlock>
       {tags.map(tag => (
-        <div key={tag}>#{tag}</div>
+        <div className="tag" key={tag}>
+          #{tag}
+        </div>
       ))}
     </TagsBlock>
   );

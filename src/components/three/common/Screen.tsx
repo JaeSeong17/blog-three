@@ -7,7 +7,13 @@ import { setTarget } from '../../../modules/camController';
 import { setCurrMode, setCurrPost } from '../../../modules/screenController';
 import { CurrPostParams, RootState } from 'root-state-types';
 import { ModeSet, TargetSet } from 'preset-types';
-import { readPost, unloadPost } from 'src/modules/post';
+import {
+  readPost,
+  removeComment,
+  unloadPost,
+  updateComment,
+  writeComment,
+} from 'src/modules/post';
 import {
   changeField,
   initialize,
@@ -16,8 +22,10 @@ import {
   writePost,
 } from 'src/modules/write';
 import {
-  PostResponse,
+  Post,
+  UpdateCommentRequestParams,
   UpdateRequestParams,
+  WriteCommentRequestParams,
   WriteInputParams,
   WriteRequestParams,
 } from 'screen-state-types';
@@ -45,12 +53,16 @@ const Screen = () => {
     initialize: () => dispatch(initialize()),
     writePost: (params: WriteRequestParams) => dispatch(writePost(params)),
     updatePost: (params: UpdateRequestParams) => dispatch(updatePost(params)),
-    setOriginalPost: (params: PostResponse) =>
-      dispatch(setOriginalPost(params)),
+    setOriginalPost: (params: Post) => dispatch(setOriginalPost(params)),
   };
   const postReducerCarrier = {
     postState: useSelector((state: RootState) => state.post),
     readPost: (param: string) => dispatch(readPost(param)),
+    writeComment: (params: WriteCommentRequestParams) =>
+      dispatch(writeComment(params)),
+    removeComment: (param: string) => dispatch(removeComment(param)),
+    updateComment: (params: UpdateCommentRequestParams) =>
+      dispatch(updateComment(params)),
     unloadPost: () => dispatch(unloadPost()),
   };
   const loadingReducerCarrier = {

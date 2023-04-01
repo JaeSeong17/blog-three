@@ -15,8 +15,10 @@ declare module 'reducer-carrier-types' {
     PostState,
     WriteInputParams,
     WriteRequestParams,
-    PostResponse,
     UpdateRequestParams,
+    Post,
+    WriteCommentRequestParams,
+    UpdateCommentRequestParams,
   } from 'screen-state-types';
 
   // AuthBox 내부로 리듀서 전달을 위한 캐리어 타입
@@ -61,6 +63,9 @@ declare module 'reducer-carrier-types' {
   interface PostReducerCarrier {
     postState: PostState;
     readPost: (param: string) => void;
+    writeComment: (params: WriteCommentRequestParams) => void;
+    removeComment: (param: string) => void;
+    updateComment: (params: UpdateCommentRequestParams) => void;
     unloadPost: () => void;
   }
   interface WriteReducerCarrier {
@@ -69,13 +74,13 @@ declare module 'reducer-carrier-types' {
     initialize: () => void;
     writePost: (params: WriteRequestParams) => void;
     updatePost: (params: UpdateRequestParams) => void;
-    setOriginalPost: (params: PostResponse) => void;
+    setOriginalPost: (params: Post) => void;
   }
   interface LoadingReducerCarrier {
     loadingState: LoadingState;
   }
 
-  export interface ScreenReducerCarrier {
+  export interface ScreenHtmlParams {
     user: User | null;
     camReducerCarrier: CamReducerCarrier;
     scReducerCarrier: SCReducerCarrier;

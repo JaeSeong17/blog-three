@@ -45,6 +45,7 @@ const search = createSlice({
       state.complete = true;
     },
     searchPostsFailure: (state, { payload: error }: PayloadAction<any>) => {
+      state.complete = true;
       state.error = error;
     },
     setKeyword: (state, { payload: input }: PayloadAction<string>) => {

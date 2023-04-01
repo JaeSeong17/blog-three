@@ -63,31 +63,22 @@ const SearchBoard = () => {
     const tl = gsap.timeline();
     if (waiting && !complete) {
       // animation off를 수행하고 post정보 서버로 요청
-      // gsap
-      //   .timeline()
-      //   .add(panelOffAnim(panelRefs.current))
-      //   .add(() => {
-      //     dispatch(searchPosts({ page: currPage, keyword }));
-      //   });
       if (!posts || posts.length == 0) {
+        // 현재 None일 경우
         tl.add(markOffAnim(markRef.current as Mesh));
       } else {
+        // 현재 posts 데이터가 있는 경우
         tl.add(panelOffAnim(panelRefs.current));
       }
       tl.add(() => {
         dispatch(searchPosts({ page: currPage, keyword }));
       });
     } else if (waiting && complete) {
-      // gsap
-      //   .timeline()
-      //   .add(panelOnAnim(panelRefs.current))
-      //   .add(paginationOnAnim(pgRef.current as Group))
-      //   .add(() => {
-      //     dispatch(loadComplete());
-      //   });
       if (!posts || posts.length == 0) {
+        // 현재 None일 경우
         tl.add(markOnAnim(markRef.current as Mesh));
       } else {
+        // 현재 posts 데이터가 있는 경우
         tl.add(panelOnAnim(panelRefs.current));
       }
       tl.add(() => {

@@ -1,5 +1,10 @@
 import { ListPostsParams, SearchInputParams } from 'root-state-types';
-import { UpdateRequestParams, WriteRequestParams } from 'screen-state-types';
+import {
+  UpdateRequestParams,
+  WriteRequestParams,
+  WriteCommentRequestParams,
+  UpdateCommentRequestParams,
+} from 'screen-state-types';
 import client from './client';
 
 export const writePost = ({ title, body, tags }: WriteRequestParams) =>
@@ -23,3 +28,15 @@ export const searchPosts = ({ page, keyword }: SearchInputParams) => {
     params: { page, keyword },
   });
 };
+
+export const writeComment = ({ postId, body }: WriteCommentRequestParams) =>
+  client.post('/api/posts/comment', { postId, body });
+
+export const removeComment = (commentId: string) =>
+  client.delete(`/api/posts/comment/${commentId}`);
+
+export const updateComment = ({
+  commentId,
+  body,
+}: UpdateCommentRequestParams) =>
+  client.patch(`/api/posts/comment/${commentId}`, { body });

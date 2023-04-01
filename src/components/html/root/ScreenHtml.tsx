@@ -1,6 +1,6 @@
-import WritePage from '../pages/WritePage';
-import PostPage from '../pages/PostPage';
-import { ScreenReducerCarrier } from 'reducer-carrier-types';
+import WritePage from '../write/WritePage';
+import PostPage from '../post/PostPage';
+import { ScreenHtmlParams } from 'reducer-carrier-types';
 
 const ScreenHtml = ({
   camReducerCarrier,
@@ -9,7 +9,7 @@ const ScreenHtml = ({
   postReducerCarrier,
   loadingReducerCarrier,
   user,
-}: ScreenReducerCarrier) => {
+}: ScreenHtmlParams) => {
   let currScreen;
   const { currMode, currPostUsername, currPostId } = scReducerCarrier.scState;
   if (currMode === 'post' && currPostUsername && currPostId) {

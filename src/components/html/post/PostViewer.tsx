@@ -1,5 +1,5 @@
 import { AxiosError } from 'axios';
-import { PostResponse } from 'screen-state-types';
+import { Post } from 'screen-state-types';
 import styled from 'styled-components';
 import SubInfo from '../postPanel/SubInfo';
 import Tags from '../postPanel/Tags';
@@ -10,7 +10,7 @@ const PostViewerBlock = styled.div`
 
 const PostHead = styled.div`
   border-bottom: 1px solid gray;
-  padding-bottom: 3rem;
+  padding-bottom: 2rem;
   margin-bottom: 3rem;
   h1 {
     font-size: 3rem;
@@ -20,12 +20,15 @@ const PostHead = styled.div`
 `;
 
 const PostContent = styled.div`
-  font-size: 1.3125rem;
-  color: gray;
+  font-size: 1.2rem;
+  color: black;
+  border-bottom: 1px solid gray;
+  padding-bottom: 3rem;
+  margin-bottom: 1rem;
 `;
 
 interface PostViewerParams {
-  post: PostResponse | null;
+  post: Post | null;
   error: AxiosError | null;
   loading: boolean;
   actionButtons: JSX.Element | null;

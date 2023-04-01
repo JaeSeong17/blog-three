@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { PostPageParams } from 'reducer-carrier-types';
-import { PostResponse } from 'screen-state-types';
+import { Post } from 'screen-state-types';
 import { removePost } from 'src/lib/api/posts';
 import PostActionButtons from './PostActionButtons';
 import PostViewer from './PostViewer';
@@ -19,7 +19,7 @@ const PostViewerContainer = ({
 
   // 수정 버튼 클릭 이벤트 핸들러
   function onEdit() {
-    writeReducerCarrier.setOriginalPost(post as PostResponse);
+    writeReducerCarrier.setOriginalPost(post as Post);
     scReducerCarrier.setCurrMode('write');
   }
   // 삭제 버튼 클릭 이벤트 핸들러

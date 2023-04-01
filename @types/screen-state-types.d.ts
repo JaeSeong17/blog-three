@@ -9,11 +9,12 @@ declare module 'screen-state-types' {
   }
 
   export interface PostState {
-    post: PostResponse | null;
+    post: Post | null;
+    comments: Array<Comment>;
     error: AxiosError | null;
   }
 
-  export interface PostResponse {
+  export interface Post {
     user: User;
     _id: string;
     title: string;
@@ -22,12 +23,34 @@ declare module 'screen-state-types' {
     tags: Array<string>;
   }
 
+  export interface Comment {
+    _id: string;
+    user: User;
+    body: string;
+    publishedDate: Date;
+  }
+
+  export interface WriteCommentRequestParams {
+    postId: string;
+    body: string;
+  }
+
+  export interface UpdateCommentRequestParams {
+    commentId: string;
+    body: string;
+  }
+
+  export interface PostResponse {
+    post: Post;
+    comments: Array<Comment>;
+  }
+
   export interface WriteState {
     [index: string]: any;
     title: string;
     body: string;
     tags: Array<string>;
-    post: PostResponse | null;
+    post: Post | null;
     postError: AxiosError | null;
     originalPostId: string | null;
   }

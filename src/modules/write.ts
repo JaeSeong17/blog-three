@@ -9,6 +9,7 @@ import {
   WriteResponse,
   WriteRequestParams,
   UpdateRequestParams,
+  Post,
 } from 'screen-state-types';
 
 export const writePost = createAction(
@@ -88,7 +89,7 @@ const write = createSlice({
     ) => {
       state.postError = postError;
     },
-    setOriginalPost: (state, { payload: post }) => {
+    setOriginalPost: (state, { payload: post }: PayloadAction<Post>) => {
       state.title = post.title;
       state.body = post.body;
       state.tags = post.tags;

@@ -68,7 +68,7 @@ const KeyContainer = () => {
         )
         .add(keyOffAnimRe(searchRef.current), 'closeLabel');
     }
-  }, [target, boxesRef.current, textsRef.current]);
+  }, [target]);
 
   return (
     <group position={[0, -4, 0]}>

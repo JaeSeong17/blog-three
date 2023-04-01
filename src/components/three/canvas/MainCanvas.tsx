@@ -1,24 +1,14 @@
 import styled from 'styled-components';
 import * as THREE from 'three';
 import { Canvas } from '@react-three/fiber';
-import { Loader } from '@react-three/drei';
+import { Loader, OrbitControls } from '@react-three/drei';
 import Plane from '../common/Plane';
 import MainScene from '../scene/MainScene';
-import { Suspense } from 'react';
 
 const Wrapper = styled.div`
   width: 100vw;
   height: 100vh;
 `;
-
-// function Loader() {
-//   const { active, progress, errors, item, loaded, total } = useProgress()
-//   return <Html center>
-//     <div>
-//       {progress} % loaded
-//     </div>
-//     </Html>
-// }
 
 const MainCanvas = () => {
   const backColor = new THREE.Color('#fcfafa');
@@ -53,9 +43,7 @@ const MainCanvas = () => {
           intensity={0.3}
           castShadow
         />
-        <Suspense fallback={null}>
-          <MainScene />
-        </Suspense>
+        <MainScene />
         <Plane />
         {/* <OrbitControls /> */}
       </Canvas>

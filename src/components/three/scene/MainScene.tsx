@@ -17,6 +17,7 @@ const MainScene = () => {
     camPos: state.camController.camPos,
   }));
 
+  // target 업데이트에 따른 카메라 위치 이동
   useFrame(state => {
     state.camera.position.lerp(vec.set(camPos.x, camPos.y, camPos.z), 0.015);
     lookAtPos.lerp(vec.set(camAngle.x, camAngle.y, camAngle.z), 0.015);

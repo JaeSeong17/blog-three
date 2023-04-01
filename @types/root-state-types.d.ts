@@ -1,5 +1,5 @@
 declare module 'root-state-types' {
-  import { PostResponse, WriteState, PostState } from 'screen-state-types';
+  import { WriteState, PostState, Post } from 'screen-state-types';
   import { HistorySet, ModeSet, TargetSet } from 'preset-types';
   import { AxiosHeaders } from 'axios';
   import { LoadingState } from 'loading-state-types';
@@ -19,7 +19,7 @@ declare module 'root-state-types' {
   }
 
   export interface BoardControllerState {
-    posts: Array<PostResponse> | null;
+    posts: Array<Post> | null;
     index: number;
     currTag: string | null;
     currPage: number;
@@ -36,7 +36,7 @@ declare module 'root-state-types' {
   }
 
   export interface ListPostsResponse {
-    data: Array<PostResponse>;
+    data: Array<Post>;
     meta: { headers: AxiosHeaders };
   }
 
@@ -93,7 +93,7 @@ declare module 'root-state-types' {
     keyword: string;
     lastPage: number;
     currPage: number;
-    posts: Array<PostResponse> | null;
+    posts: Array<Post> | null;
     waiting: boolean;
     complete: boolean;
     error: AxiosError | null;

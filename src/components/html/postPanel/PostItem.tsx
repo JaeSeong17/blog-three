@@ -1,4 +1,4 @@
-import { PostResponse } from 'screen-state-types';
+import { Post } from 'screen-state-types';
 import styled from 'styled-components';
 import SubInfo from './SubInfo';
 import Tags from './Tags';
@@ -12,7 +12,7 @@ const PostItemBlock = styled.div`
 `;
 
 interface PostItemParams {
-  post: PostResponse;
+  post: Post;
   panelClickHandler: (props: any) => void;
 }
 const PostItem = ({ post, panelClickHandler }: PostItemParams) => {

@@ -10,14 +10,14 @@ import {
   useImperativeHandle,
   useRef,
 } from 'react';
-import { PostResponse } from 'screen-state-types';
+import { Post } from 'screen-state-types';
 import { panelClickAnim } from '../anim/BoardAnim';
 import { ThreeEvent } from '@react-three/fiber';
 import { Group } from 'three';
 
 interface BoardPanelParams {
   position: [x: number, y: number, z: number];
-  post: PostResponse;
+  post: Post;
 }
 
 const BoardPanel = forwardRef(

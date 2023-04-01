@@ -1,8 +1,8 @@
 import { WritePageParams } from 'reducer-carrier-types';
 import HtmlWrapper from '../common/HtmlWrapper';
-import EditorContainer from '../write/EditorContainer';
-import TagBoxContainer from '../write/TagBoxContainer';
-import WriteActionButtonsContainer from '../write/WriteActionButtonContainer';
+import EditorContainer from './EditorContainer';
+import TagBoxContainer from './TagBoxContainer';
+import WriteActionButtonsContainer from './WriteActionButtonContainer';
 
 const WritePage = ({
   scReducerCarrier,

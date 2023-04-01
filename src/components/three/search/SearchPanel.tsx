@@ -8,7 +8,7 @@ import {
   useRef,
 } from 'react';
 import { useDispatch } from 'react-redux';
-import { PostResponse } from 'screen-state-types';
+import { Post } from 'screen-state-types';
 import SearchItem from 'src/components/html/search/SearchItem';
 import { setTarget } from 'src/modules/camController';
 import { setCurrMode, setCurrPost } from 'src/modules/screenController';
@@ -17,7 +17,7 @@ import { panelClickAnim } from '../anim/BoardAnim';
 
 interface BoardPanelParams {
   position: [x: number, y: number, z: number];
-  post: PostResponse;
+  post: Post;
 }
 
 const SearchPanel = forwardRef(

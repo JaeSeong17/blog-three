@@ -38,7 +38,7 @@ const LogButton = () => {
         logBtnOffAnim(ref.current);
       }
     }
-  }, [target, ref]);
+  }, [target, ref.current]);
 
   return (
     <group ref={ref} onClick={logBtnClickHandler}>

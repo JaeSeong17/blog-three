@@ -46,6 +46,7 @@ const boardController = createSlice({
       state.complete = true;
     },
     listPostsFailure: (state, { payload: error }: PayloadAction<any>) => {
+      state.complete = true;
       state.error = error;
     },
     setIndex: (state, { payload }: PayloadAction<number>) => {
@@ -62,7 +63,6 @@ const boardController = createSlice({
     },
     loadWaiting: state => {
       state.waiting = true;
-      console.log('waiting new posts list');
     },
     loadComplete: state => {
       state.waiting = false;
