@@ -13,7 +13,6 @@ import userReducer, { userSaga, tempSetUser, check } from 'src/modules/user';
 import authReducer, { authSaga } from 'src/modules/auth';
 import writeReducer, { writeSaga } from 'src/modules/write';
 import postReducer, { postSaga } from 'src/modules/post';
-import { HelmetProvider } from 'react-helmet-async';
 import searchReducer, { searchSaga } from './modules/search';
 
 export function* rootSaga() {
@@ -68,9 +67,7 @@ const root = ReactDOM.createRoot(
 );
 root.render(
   <Provider store={store}>
-    <HelmetProvider>
-      <App />
-    </HelmetProvider>
+    <App />
   </Provider>,
 );
 
