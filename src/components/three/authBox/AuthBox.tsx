@@ -55,7 +55,7 @@ const AuthBox = () => {
         authBoxOffAnim(boxRef.current, formRef.current, btnRef.current); // 비활성화
       }
     }
-  }, [target, boxRef, formRef, btnRef]);
+  }, [target, boxRef.current, formRef.current, btnRef.current]);
 
   return (
     <group position={[3, -3, -3]} ref={boxRef}>
