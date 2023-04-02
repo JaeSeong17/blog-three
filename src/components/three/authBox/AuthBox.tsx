@@ -68,6 +68,7 @@ const AuthBox = () => {
           occlude={true}
           distanceFactor={5}
           rotation-x={Math.PI / 2}
+          style={{ opacity: 0 }}
           position={[0, -0.11, 0.26]}>
           <AuthHtml
             target={target}
