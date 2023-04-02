@@ -26,7 +26,7 @@ interface PostItemParams {
   panelClickHandler: (props: any) => void;
 }
 const SearchItem = ({ post, panelClickHandler }: PostItemParams) => {
-  const { publishedDate, user, tags, title, body } = post;
+  const { publishedDate, user, title } = post;
   return (
     <SearchItemBlock onClick={panelClickHandler}>
       <h2>{title}</h2>

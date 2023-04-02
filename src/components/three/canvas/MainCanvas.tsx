@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import * as THREE from 'three';
 import { Canvas } from '@react-three/fiber';
-import { Loader, OrbitControls } from '@react-three/drei';
+import { Loader } from '@react-three/drei';
 import Plane from '../common/Plane';
 import MainScene from '../scene/MainScene';
 
