@@ -65,6 +65,11 @@ src
 - `PostViewer` : 뷰어 내부 구현부
 - `PostActionButton` : 사용자 본인 글에서 나타나는 수정/삭제 버튼
 - `AskRemoveModal` : 삭제 재확인 Modal
+- `CommentContainer`: 댓글 최상위 컴포넌트
+- `CommentViewer`: 댓글 뷰어
+- `CommentEditor`: 댓글 수정/작성
+- `CommentEditActionButtons`: 댓글 뷰어에서 나타나는 본인 댓글 수정, 삭제 버튼
+- `AskRemoveCommentModal`: 댓글 삭제 재확인 Modal
 
 ### postPanel - Board의 Panel에 사용되는 html
 
@@ -182,12 +187,15 @@ Canvas 내부 컴포넌트 배치도
 
 ## static
 
-- `camSetting` : 화면 전환시 카메라 위치, 각도 설정 값
+- `camSetting` : 화면 전환시 카메라 위치, 시야 각도 설정 값
 - `tags` : 태그 목록
 
 ## User Flow
 
 ![image](https://user-images.githubusercontent.com/37216958/228266142-303b6221-e009-4613-9fc8-97073679df22.png)
+
+- 화면 전환은 각 컴포넌트 클릭시 camController.target 값을 갱신하는 방식으로 동작
+- MainScene의 useFrame에서 target 값이 갱신됨에 따라 static/camSetting에 설정 되어있는 각 target의 위치와 각도로 카메라 이동
 
 ---
 
@@ -198,6 +206,176 @@ Canvas 내부 컴포넌트 배치도
 - :pushpin: : 추가 필요 기능
 - :heavy_exclamation_mark: : 버그
 - :heavy_check_mark: : 수정된 버그
+
+#### 2023.04.01
+
+- :wrench: 카메라 제어 최적화
+
+  - 카메라 움직임 제어 방식을 useFrame에서 useEffect + gsap으로 변경
+  - 카메라 움직임이 없는 상태에도 useFrame에 의해 불필요한 연산이 수행되고 있음을 확인
+    - useFrame은 React Three Fiber에서 제공하는 훅으로, 매 프레임마다 호출됩니다. useFrame은 requestAnimationFrame에 의해 호출되며, 캔버스의 렌더링 주기에 따라 호출 빈도가 결정됩니다.
+
+  ```C
+  useFrame(state => {
+    state.camera.position.lerp(vec.set(camPos.x, camPos.y, camPos.z), 0.015);
+    lookAtPos.lerp(vec.set(camAngle.x, camAngle.y, camAngle.z), 0.015);
+    state.camera.lookAt(lookAtPos);
+  });
+  ```
+
+  - Camera 객체의 위치는 동일한 방식으로 제어 가능하나 카메라가 바라보는 각도를 회전하는 방식이 다르므로 주의
+    - 이전에는 lookAt 메서드를 활용해서 바라볼 좌표를 주는 방식
+    - lookAt은 메서드이므로 gsap의 target으로 전달 불가능
+    - 따라서 Camera 객체의 회전 값(quaternion)을 변경해주는 방식으로 변경
+
+  ```C
+  useEffect(() => {
+    // 카메라 위치 이동
+    gsap.to(camera.position, {
+      x: camPosVec.x,
+      y: camPosVec.y,
+      z: camPosVec.z,
+    });
+
+    // 카메라 회전을 위한 quarternion 계산
+    const cameraQuaternion = new THREE.Quaternion();
+    const upDirection = new THREE.Vector3(0, 0, 1); // 카메라 상단 방향
+    const cameraRotationMatrix = new THREE.Matrix4().lookAt(
+      camPosVec,
+      tarPosVec,
+      upDirection,
+    ); // 카메라위치 좌표, 바라볼 좌표, 카메라 상단 방향으로 바라보는 각도 계산
+    cameraQuaternion.setFromRotationMatrix(cameraRotationMatrix); // quarternion 변환
+    cameraQuaternion.normalize(); // 정규화
+
+    // 카메라 회전
+    gsap.to(camera.quaternion, {
+      x: cameraQuaternion.x,
+      y: cameraQuaternion.y,
+      z: cameraQuaternion.z,
+      w: cameraQuaternion.w,
+    });
+  }, [target]);
+  ```
+
+- :pushpin: 모바일을 고려한 화면 개발 필요
+- :heavy_exclamation_mark: 모바일에서 회원가입 후 register()는 작동하나, check()가 정상적으로 작동하지 않음
+
+#### 2023.03.31
+
+- :pencil2: 최적화와 관련된 React의 훅
+
+  - useMemo(() => fn, [deps]): deps값의 변경 시 () => fn 함수를 실행하고 그 반환값을 반환
+
+    - 의존성 배열내 값이 변경되지 않더라도 같은 컴포넌트 내 다른 값의 변경에 의해 해당 컴포넌트가 리렌더링 된다면 컴포넌트 내 모든 로직이 재 실행 되기 때문에 변경이 없는 연산 결과를 무의미하게 다시 연산하게 되는 경우가 발생
+    - 해당 함수의 결과가 달라지는 의존 값의 변경 시에만 함수를 다시 실행하도록 하고 이외에는 메모이제이션 해둔 이전 결과를 그대로 반환하는 방법
+
+    ```C
+    function App() {
+      const [x, setX] = useState(0);
+      const [y, setY] = useState(0);
+
+      // x값이 변경될때만 x 로그를 찍도록 함
+      // useMemo를 사용하지 않으면 y값이 변경되더라도 App 컴포넌트가 리렌더링 되면서 console.log가 수행되어 버림
+      // 함수의 연산 결과를 그대로 사용하는 방법으로도 사용
+      useMemo(() => {console.log(x)}, [x]);
+      // temp = useMemo(() => operate(x), [x]);
+
+      // 두 개의 버튼을 설정했다. X버튼만이 x를 변화시킨다.
+      return (
+        <>
+          <button onClick={() => setX((curr) => (curr + 1))}>X</button>
+          <button onClick={() => setY((curr2) => (curr2 + 1))}>Y</button>
+        </>
+      );
+    }
+    ```
+
+    - 공식문서에서는 useMemo는 성능 최적화를 위해 사용할 수는 있지만 의미상으로 보장이 있다고 생각하지 않도록 권장
+    - 가까운 미래에 useMemo 기능 수정 가능성이 있으므로 최대한 사용하지 않고도 동작하도록 코드 작성을 권장
+
+  - useCallback: useMome를 기반으로 callback 함수를 메모이제이션 하는 훅
+
+    - useCallback(fn, deps)은 useMemo(() => fn, deps)와 같습니다.
+    - 그렇다면 왜 굳이 별도로 다른 훅을 만들었을까?
+
+      - 자식 컴포넌트에 함수 자체를 props로 전달하는 경우
+
+        - 함수는 같은 값을 반환하더라도 함수 자체의 참조로 비교되기 때문에 다르다고 판단
+
+        ```C
+        const funcA = function() {
+          return 1;
+        };
+        const funcB = function() {
+          return 1;
+        };
+        // 서로의 참조가 다르기 때문에 false
+        console.log(funcA === funcB);
+        ```
+
+        - 따라서 특정 함수를 props로 전달하는 경우 해당 컴포넌트 리렌더링 시 함수가 재 선언 되고 자식 컴포넌트에서는 전달받은 함수가 새로운 함수로 인식, 리렌더링 수행
+
+        ```C
+        function App() {
+          const [name, setName] = useState('');
+          const onSave = useCallback(() => {
+            console.log(name);
+          }, [name]);
+
+          return (
+            <div className="App">
+              <input
+                type="text"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+              />
+              <Profile onSave={onSave} />
+            </div>
+          );
+        }
+        ```
+
+      - 특정 함수 자체를 의존성 배열의 값으로 사용하는 경우
+
+        ```C
+        const [user, setUser] = useState(null);
+
+        const fetchUser = useCallback(
+          () =>
+            fetch(`https://your-api.com/users/${userId}`)
+              .then((response) => response.json())
+              .then(({ user }) => user),
+          [userId]
+        );
+
+        useEffect(() => {
+          fetchUser().then((user) => setUser(user));
+        }, [fetchUser]);
+        ```
+
+  - React.memo: 렌더링 결과를 재사용하는 방법 (이전과 똑같은 컴포넌트를 렌더링 해야하는 경우)
+    ```C
+    // React.memo를 사용해 tag값이 바뀔 때만 리렌더링되도록 처리
+    // onRemove함수까지 useCallback 처리해야 기대한 최적화 효과 나타남
+    const TagItem = React.memo(
+      ({ tag, onRemove }: { tag: string; onRemove: (tag: string) => void }) => (
+        <Tag onClick={() => onRemove(tag)}>#{tag}</Tag>
+      ),
+    );
+    ```
+    - 해당 의존성 props의 비교는 `얕은비교`이므로 깊은 비교 혹은 다른 비교가 필요하다면 두번쨰 인자로 비교함수 전달 가능
+    ```C
+    export default React.memo(MyComponent, areEqual);
+    ```
+    - 공식문서에는 렌더링 `방지`를 위해 사용하지 않을 것을 권장
+
+- :wrench: 댓글 기능
+  - 포스트 뷰어 하부에 댓글 기능을 추가
+  - 포스트 뷰어에 글을 불러 올 때 댓글 정보(comment)도 같이 불러오도록 수정
+  - 새 댓글 작성, 자신의 댓글 수정, 삭제 기능 포함
+  - 글 삭제시 해당 글에 있는 댓글도 같이 삭제 되도록 함 (백엔드에서 처리)
+  - :pushpin: 대댓글 기능을 추가해봐도 좋을 것 같음
 
 #### 2023.03.26
 
