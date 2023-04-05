@@ -3,6 +3,7 @@
 ![스크린샷 2023-03-26 143802](https://user-images.githubusercontent.com/37216958/227757466-e9c58bfd-7a33-46ef-8172-90ba91032825.png)
 1인 프로젝트로 개인 블로그를 개발합니다.<br>
 사용 기술: React, reduxjs/toolkit, redux-saga, Typescript, three.js, gsap
+프로젝트 배포 주소: https://blog.jsdatabase.site/
 
 | 개발 문서                                                                 | 개인 기록                                                                                                                                                                                                           |
 | :------------------------------------------------------------------------ | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
@@ -41,6 +42,8 @@ src
 ```
 
 ---
+
+![diagram](https://user-images.githubusercontent.com/37216958/230162081-17674ae9-b102-43d7-add5-47a09c2219d5.png)
 
 ## html - Canvas 내부에서 3D 상에 배치되는 html
 
@@ -195,7 +198,7 @@ Canvas 내부 컴포넌트 배치도
 ![image](https://user-images.githubusercontent.com/37216958/228266142-303b6221-e009-4613-9fc8-97073679df22.png)
 
 - 화면 전환은 각 컴포넌트 클릭시 camController.target 값을 갱신하는 방식으로 동작
-- MainScene의 useFrame에서 target 값이 갱신됨에 따라 static/camSetting에 설정 되어있는 각 target의 위치와 각도로 카메라 이동
+- MainScene에서 target 값이 갱신됨에 따라 static/camSetting에 설정 되어있는 각 target의 위치와 각도로 카메라 이동
 
 ---
 
@@ -258,6 +261,7 @@ Canvas 내부 컴포넌트 배치도
   }, [target]);
   ```
 
+- :wrench: CLOUDTYPE 호스팅 완료
 - :pushpin: 모바일을 고려한 화면 개발 필요
 - :heavy_exclamation_mark: 모바일에서 회원가입 후 register()는 작동하나, check()가 정상적으로 작동하지 않음
 
