@@ -2,7 +2,7 @@
 
 ![스크린샷 2023-03-26 143802](https://user-images.githubusercontent.com/37216958/227757466-e9c58bfd-7a33-46ef-8172-90ba91032825.png)
 1인 프로젝트로 개인 블로그를 개발합니다.<br>
-사용 기술: React, reduxjs/toolkit, redux-saga, Typescript, three.js, gsap
+사용 기술: React, reduxjs/toolkit, redux-saga, Typescript, three.js, gsap<br>
 프로젝트 배포 주소: https://blog.jsdatabase.site/
 
 | 개발 문서                                                                 | 개인 기록                                                                                                                                                                                                           |
