@@ -9,7 +9,9 @@ const WritePage = ({
   writeReducerCarrier,
 }: WritePageParams) => {
   return (
-    <HtmlWrapper>
+    <HtmlWrapper
+      onClick={e => e.stopPropagation()}
+      onMouseOver={e => e.stopPropagation()}>
       <EditorContainer writeReducerCarrier={writeReducerCarrier} />
       <TagBoxContainer writeReducerCarrier={writeReducerCarrier} />
       <WriteActionButtonsContainer

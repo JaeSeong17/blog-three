@@ -34,7 +34,7 @@ const ScreenHtml = ({
     currScreen = null;
   }
 
-  return currScreen;
+  return <div onClick={e => e.stopPropagation()}>{currScreen}</div>;
 };
 
 export default ScreenHtml;
