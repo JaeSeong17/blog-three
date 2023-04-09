@@ -210,6 +210,35 @@ Canvas 내부 컴포넌트 배치도
 - :heavy_exclamation_mark: : 버그
 - :heavy_check_mark: : 수정된 버그
 
+#### 2023.04.10
+
+- :pencil2: react-three-fiber의 Raycast
+
+  - 일반적으로 html은 원근법이 존재 하지 않기 때문에 화면상에 나타나는 클릭 위치가 보장됨
+  - 그러나 3D 공간 상에선 원근법이 존재하기 때문에 클릭하는 위치가 특정한 좌표임을 보장할 수 없다
+  - 그래서 마우스로부터 카메라에서 광선(Raycast)가 지나가는 object가 클릭 되었다고 판단하는 방식을 사용
+  - fiber는 광선이 통과하는 모든 object에 트리거를 발생시킴 (카메라로부터 가까운 순서대로)
+  - z-index 우선순위 차이로 마우스 클릭 이벤트를 막는 개념과 다름
+  - e.stopPropagation()은 부모로 버블링을 막을 뿐 아니라 해당 객체 뒤에 있는 Raycast 된 객체 트리거를 막을 수 있음
+
+- :pencil2: react-three-fiber와 DOM의 이벤트 버블링
+
+  - Three.js와 같은 3D 라이브러리에서는 2D 요소를 표시하기 위해 HTML 요소를 사용할 수 있다
+    - 3D 공간 안에 HTML 요소를 배치할 수 있고 DOM 요소 사용이 가능하다는 이점
+  - 하지만 이는 Three.js 내부에서 렌더링 되는 것이 아니라, HTML 요소를 적절한 위치와 크키로 배치한 후 HTML 캔버스에 렌더링 되며, 이 HTML 캔버스는 Three.js의 WebGL 캔버스 위에 겹쳐짐
+  - 따라서 HTML 요소에 대한 이벤트 핸들러를 등록할 때 일반적인 DOM요소와 같이 event.target을 사용할 수 없다. -> PointerEvent 객체를 사용
+  - PointerEvent 객체의 target은 이벤트가 발생한 HTML 요소가 아닌 Three.js의 Object3D 요소
+  - 따라서 HTML요소와 같은 부모(ex: group) 아래 존재하는 3Dobject(ex: mesh)의 경우 group에 이벤트 전파, group 요소의 이벤트 핸들러가 실행되면서 Mesh 요소의 이벤트 핸들러도 함께 실행
+  - 이는 DOM요소와 Object3D 요소가 모두 이벤트를 수신할 수 있도록 하기 위함
+
+- :heavy_check_mark: Screen write mode에서 화면 특정 부분 클릭 시 의도치 않게 Screen에서 나가지는 문제 수정
+
+  - 형제 컴포넌트인 exit 버튼에 이벤트 버블링이 되기 때문에 전파를 막는 방법으로 해결
+
+- :heavy_check_mark: 수정모드 한번 접근 시 수정 완료 이후에도 수정모드가 해제되지 않는 문제 수정
+  - 수정 모드를 추가하면서 state에 추가했던 originalPostId가 수정모드를 나갔을때 dispatch되는 write/initialize에서 초기화 시키지 못하고 있었음
+  - initialize에 originalPost도 초기화 시키도록 추가
+
 #### 2023.04.01
 
 - :wrench: 카메라 제어 최적화
