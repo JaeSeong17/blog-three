@@ -52,6 +52,7 @@ const write = createSlice({
       state.tags = [];
       state.post = null;
       state.postError = null;
+      state.originalPostId = null;
     },
     changeField: (
       state,
