@@ -16,11 +16,11 @@
 
 | 개발 문서                                                                 | 개인 기록                                                                                                                                                                                                           |
 | :------------------------------------------------------------------------ | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| - [Project Spec](#proejct-specification) <br> - [Dev Report](#dev-report) | - [react](#react) <br> - [react-redux/toolkit](#reduxjstoolkit) <br> - [typescript](#typescript) <br> - [three.js](#threejs) <br> - [useFrame의 효율적인 코드 작성법](#useFrame의-효율적인-작업을-위한-코드-작성법) |
+| - [Project Spec](#project-specification) <br> - [Dev Report](#dev-report) | - [react](#react) <br> - [react-redux/toolkit](#reduxjstoolkit) <br> - [typescript](#typescript) <br> - [three.js](#threejs) <br> - [useFrame의 효율적인 코드 작성법](#useFrame의-효율적인-작업을-위한-코드-작성법) |
 
 ---
 
-# Proeject Specification
+# Project Specification
 
 ```bash
 src
