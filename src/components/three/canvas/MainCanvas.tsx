@@ -1,21 +1,33 @@
 import styled from 'styled-components';
 import * as THREE from 'three';
 import { Canvas } from '@react-three/fiber';
-import { Loader } from '@react-three/drei';
 import Plane from '../common/Plane';
 import MainScene from '../scene/MainScene';
+import { useEffect, useRef } from 'react';
+import { gsap } from 'gsap';
 
 const Wrapper = styled.div`
   width: 100vw;
   height: 100vh;
+  opacity: 0;
 `;
 
 const MainCanvas = () => {
   const backColor = new THREE.Color('#fcfafa');
   const lightColor = new THREE.Color('rgba(240, 40, 40, 1)');
+  const wrapperRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (wrapperRef.current) {
+      gsap.to(wrapperRef.current, {
+        opacity: 1,
+        duration: 2,
+      });
+    }
+  }, []);
 
   return (
-    <Wrapper>
+    <Wrapper ref={wrapperRef}>
       <Canvas
         camera={{
           position: [0, -33, 3],
@@ -47,7 +59,6 @@ const MainCanvas = () => {
         <Plane />
         {/* <OrbitControls /> */}
       </Canvas>
-      <Loader />
     </Wrapper>
   );
 };
