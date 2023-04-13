@@ -80,11 +80,13 @@ const Screen = () => {
 
   // 스크린 활성화/비활성화 애니메이션
   useEffect(() => {
-    gsap.to(screenRef.current, {
-      autoAlpha: target === 'screen' ? 1 : 0,
-      duration: 1,
-    });
-  }, [target]);
+    if (screenRef.current) {
+      gsap.to(screenRef.current, {
+        autoAlpha: target === 'screen' ? 1 : 0,
+        duration: 1,
+      });
+    }
+  }, [target, screenRef]);
 
   return (
     <group position={[0, 40, 12]}>
