@@ -1,5 +1,4 @@
 import styled from 'styled-components';
-import * as THREE from 'three';
 import { Canvas } from '@react-three/fiber';
 import Plane from '../common/Plane';
 import MainScene from '../scene/MainScene';
@@ -13,15 +12,15 @@ const Wrapper = styled.div`
 `;
 
 const MainCanvas = () => {
-  const backColor = new THREE.Color('#fcfafa');
-  const lightColor = new THREE.Color('rgba(240, 40, 40, 1)');
+  const backColor = '#fcfafa';
+  const lightColor = 'rgba(240, 40, 40, 1)';
   const wrapperRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     if (wrapperRef.current) {
       gsap.to(wrapperRef.current, {
         opacity: 1,
-        duration: 2,
+        duration: 2.5,
       });
     }
   }, []);
@@ -30,7 +29,7 @@ const MainCanvas = () => {
     <Wrapper ref={wrapperRef}>
       <Canvas
         camera={{
-          position: [0, -33, 3],
+          position: [0, -35, 3],
           castShadow: true,
           up: [0, 0, 1],
         }}>
