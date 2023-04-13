@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import SubInfo from '../postPanel/SubInfo';
 import Tags from '../postPanel/Tags';
 import Prism from 'prismjs';
-import 'prismjs/components/';
+import 'prismjs/components/prism-javascript';
 import 'prismjs/themes/prism-tomorrow.css';
 
 const PostViewerBlock = styled.div`
@@ -23,7 +23,8 @@ const PostHead = styled.div`
 `;
 
 const PostContent = styled.div`
-  font-size: 1.1rem;
+  font-size: 1rem;
+  line-height: 1.6;
   color: black;
   border-bottom: 1px solid gray;
   padding-bottom: 3rem;
@@ -69,7 +70,7 @@ const PostContent = styled.div`
     padding: 0.4rem 1em 0.4rem;
     color: #585858;
     font-weight: bold;
-    font-size: 1.2rem;
+    font-size: 1.1rem;
     font-style: italic;
     border-left: 0.25em solid #ff5757;
     background-color: #dddddd;

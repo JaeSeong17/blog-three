@@ -22,8 +22,8 @@ const QuillWrapper = styled.div`
   .ql-editor {
     padding: 0;
     min-height: 290px;
-    font-size: 1.1rem;
-    line-height: 1.4;
+    font-size: 1rem;
+    line-height: 1.6;
   }
   .ql-editor .ql-blank::before {
     left: 0px;
@@ -49,18 +49,6 @@ const Editor = ({ title, onChangeField, body }: EditorParams) => {
           toolbar: [
             [{ header: '1' }, { header: '2' }],
             ['bold', 'italic', 'underline', 'strike'],
-            [
-              {
-                background: [
-                  '#bbbbbb',
-                  '#f06666',
-                  '#ffc266',
-                  '#66b966',
-                  '#66a3e0',
-                  '#c285ff',
-                ],
-              },
-            ],
             [{ list: 'ordered' }, { list: 'bullet' }],
             ['blockquote', 'code-block', 'link', 'image'],
             ['clean'],
