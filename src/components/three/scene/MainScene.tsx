@@ -5,7 +5,7 @@ import Screen from '../common/Screen';
 import ConnectBoxes from '../common/ConnectBoxes';
 import { useThree } from '@react-three/fiber';
 import { useSelector } from 'react-redux';
-import * as THREE from 'three';
+import { Vector3, Quaternion, Matrix4 } from 'three';
 import { RootState } from 'root-state-types';
 import SearchBoardContainer from '../container/SearchBoardContainer';
 import { useEffect } from 'react';
@@ -20,8 +20,8 @@ const MainScene = () => {
     }),
   );
   const { camera } = useThree(); // Three.js의 핵심 객체 state hook
-  const camPosVec = new THREE.Vector3(camPos.x, camPos.y, camPos.z);
-  const tarPosVec = new THREE.Vector3(camAngle.x, camAngle.y, camAngle.z);
+  const camPosVec = new Vector3(camPos.x, camPos.y, camPos.z);
+  const tarPosVec = new Vector3(camAngle.x, camAngle.y, camAngle.z);
 
   // target 업데이트에 따른 카메라 위치 이동
   useEffect(() => {
@@ -35,9 +35,9 @@ const MainScene = () => {
     });
 
     // 카메라 회전을 위한 quarternion 계산
-    const cameraQuaternion = new THREE.Quaternion();
-    const upDirection = new THREE.Vector3(0, 0, 1); // 카메라 상단 방향
-    const cameraRotationMatrix = new THREE.Matrix4().lookAt(
+    const cameraQuaternion = new Quaternion();
+    const upDirection = new Vector3(0, 0, 1); // 카메라 상단 방향
+    const cameraRotationMatrix = new Matrix4().lookAt(
       camPosVec,
       tarPosVec,
       upDirection,
