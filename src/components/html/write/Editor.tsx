@@ -4,7 +4,7 @@ import 'quill/dist/quill.bubble.css';
 import styled from 'styled-components';
 
 const EditorBlock = styled.div`
-  padding: 5rem 0 5rem 0;
+  padding: 4rem 0 4rem 0;
   background-color: white;
 `;
 
@@ -21,9 +21,9 @@ const TitleInput = styled.input`
 const QuillWrapper = styled.div`
   .ql-editor {
     padding: 0;
-    min-height: 250px;
-    font-size: 1.125rem;
-    line-height: 1.5;
+    min-height: 290px;
+    font-size: 1.1rem;
+    line-height: 1.4;
   }
   .ql-editor .ql-blank::before {
     left: 0px;
@@ -49,8 +49,21 @@ const Editor = ({ title, onChangeField, body }: EditorParams) => {
           toolbar: [
             [{ header: '1' }, { header: '2' }],
             ['bold', 'italic', 'underline', 'strike'],
+            [
+              {
+                background: [
+                  '#bbbbbb',
+                  '#f06666',
+                  '#ffc266',
+                  '#66b966',
+                  '#66a3e0',
+                  '#c285ff',
+                ],
+              },
+            ],
             [{ list: 'ordered' }, { list: 'bullet' }],
             ['blockquote', 'code-block', 'link', 'image'],
+            ['clean'],
           ],
         },
       }) as Quill;

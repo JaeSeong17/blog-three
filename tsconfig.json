@@ -3,7 +3,10 @@
     "target": "es6",
     "module": "CommonJS",
     "baseUrl": ".",
-    "paths": {},
+    "paths": {
+      "prismjs": ["node_modules/prismjs"],
+      "prismjs/*": ["node_modules/prismjs/*"]
+    },
     "moduleResolution": "node",
     "allowSyntheticDefaultImports": true,
     "jsx": "react-jsx",
