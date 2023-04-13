@@ -219,6 +219,27 @@ Canvas 내부 컴포넌트 배치도
 - :heavy_exclamation_mark: : 버그
 - :heavy_check_mark: : 수정된 버그
 
+#### 2023.04.13
+
+- :wrench: DataTower 애니메이션 최적화
+
+  - 로그인 진입 이후에는 재생되는 DataTower 애니메이션을 정지시키도록 변경
+
+- :wrench: 로딩 스피너 추가
+
+  - Canvas 첫 화면 출력 이전 로딩 중에 스피너가 나오도록 추가함
+  - React Suspense 사용
+
+- :wrench: dev-dependency 수정
+
+  - 빌드시에 불필요한 라이브러리들이 dependency에 다수 존재함을 확인
+
+- :heavy_check_mark: 포스트 내 스타일이 적용되도록 수정
+  - 글 작성시 글머리 기호를 포함한 리스트, 이미지, 코드 블럭, 인용구가 적용이 안되는 문제 수정
+    - 백엔드에서 XSS 방지를 위해 html sanitizer 라이브러리를 사용한 부분에서 미설정된 태그를 걸러버리면서 발생한 문제
+    - li, pre, blockquote, img, u, strong 태그가 허용되도록 추가
+  - pre 태그 (코드 블럭) 표현, blockquote 태그 (인용구) 표현 스타일 추가
+
 #### 2023.04.10
 
 - :pencil2: react-three-fiber의 Raycast
