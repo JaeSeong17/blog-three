@@ -58,7 +58,7 @@ const Pagination = forwardRef((_, ref) => {
         color="black"
         fontSize={0.8}
         rotation={[0, Math.PI / 8, Math.PI / 2]}
-        children={currPage}
+        children={currPage + '/' + (lastPage ? lastPage : '1')}
       />
       <mesh
         ref={rightBtnRef}

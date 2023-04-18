@@ -57,7 +57,7 @@ const SearchPagination = forwardRef(({ position }: PaginationParams, ref) => {
         color="black"
         fontSize={0.8}
         rotation={[0, 0, Math.PI * 0.5]}
-        children={currPage}
+        children={currPage + '/' + (lastPage ? lastPage : '1')}
       />
       <mesh
         ref={rightBtnRef}
