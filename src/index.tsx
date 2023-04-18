@@ -5,6 +5,7 @@ import createSagaMiddleware from 'redux-saga';
 import { configureStore } from '@reduxjs/toolkit';
 import App from './App';
 import './index.css';
+import 'react-app-polyfill/stable';
 import camControllerReducer from 'src/modules/camController';
 import screenControllerReducer from 'src/modules/screenController';
 import boardControllerReducer, { postsSaga } from 'src/modules/boardController';
