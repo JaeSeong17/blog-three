@@ -14,9 +14,6 @@ import writeReducer, { writeSaga } from 'src/modules/write';
 import postReducer, { postSaga } from 'src/modules/post';
 import searchReducer, { searchSaga } from './modules/search';
 import './index.css';
-import 'core-js/stable';
-import 'regenerator-runtime/runtime';
-import * as serviceWorker from './serviceWorker';
 
 export function* rootSaga() {
   yield all([
@@ -73,7 +70,6 @@ root.render(
     <App />
   </Provider>,
 );
-serviceWorker.register();
 
 // If you want to start measuring performance in your app, pass a function
 // to log results (for example: reportWebVitals(console.log))

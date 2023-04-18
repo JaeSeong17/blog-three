@@ -64,8 +64,8 @@ const MainScene = () => {
         <BoardContainer />
         <SearchBoardContainer />
         <ConnectBoxes />
+        <Screen />
       </Suspense>
-      <Screen />
     </scene>
   );
 };
