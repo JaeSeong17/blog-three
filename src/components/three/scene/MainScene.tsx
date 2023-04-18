@@ -8,7 +8,7 @@ import { useSelector } from 'react-redux';
 import { Vector3, Quaternion, Matrix4 } from 'three';
 import { RootState } from 'root-state-types';
 import SearchBoardContainer from '../container/SearchBoardContainer';
-import { useEffect } from 'react';
+import { Suspense, useEffect } from 'react';
 import gsap from 'gsap';
 
 const MainScene = () => {
@@ -59,10 +59,12 @@ const MainScene = () => {
   return (
     <scene>
       <FrontContainer />
-      <KeyContainer />
-      <BoardContainer />
-      <SearchBoardContainer />
-      <ConnectBoxes />
+      <Suspense>
+        <KeyContainer />
+        <BoardContainer />
+        <SearchBoardContainer />
+        <ConnectBoxes />
+      </Suspense>
       <Screen />
     </scene>
   );
