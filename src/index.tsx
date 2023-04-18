@@ -4,8 +4,6 @@ import { all } from 'redux-saga/effects';
 import createSagaMiddleware from 'redux-saga';
 import { configureStore } from '@reduxjs/toolkit';
 import App from './App';
-import './index.css';
-import 'react-app-polyfill/stable';
 import camControllerReducer from 'src/modules/camController';
 import screenControllerReducer from 'src/modules/screenController';
 import boardControllerReducer, { postsSaga } from 'src/modules/boardController';
@@ -15,6 +13,10 @@ import authReducer, { authSaga } from 'src/modules/auth';
 import writeReducer, { writeSaga } from 'src/modules/write';
 import postReducer, { postSaga } from 'src/modules/post';
 import searchReducer, { searchSaga } from './modules/search';
+import './index.css';
+import 'core-js/stable';
+import 'regenerator-runtime/runtime';
+import * as serviceWorker from './serviceWorker';
 
 export function* rootSaga() {
   yield all([
@@ -71,6 +73,7 @@ root.render(
     <App />
   </Provider>,
 );
+serviceWorker.register();
 
 // If you want to start measuring performance in your app, pass a function
 // to log results (for example: reportWebVitals(console.log))

@@ -12,6 +12,7 @@
     "jsx": "react-jsx",
     "outDir": "./dist/",
     "strict": true,
-    "allowJs": true
+    "allowJs": true,
+    "lib": ["dom"]
   }
 }
