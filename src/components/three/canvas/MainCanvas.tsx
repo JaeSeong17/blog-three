@@ -16,6 +16,7 @@ const MainCanvas = () => {
   const lightColor = 'rgba(240, 40, 40, 1)';
   const wrapperRef = useRef<HTMLDivElement>(null);
 
+  // 캔버스 인트로 fade-in 애니메이션
   useEffect(() => {
     if (wrapperRef.current) {
       gsap.to(wrapperRef.current, {

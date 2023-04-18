@@ -19,7 +19,6 @@ export const Text3dTemplate = forwardRef(
       <Text3D
         ref={ref}
         position={props.position}
-        // material={material}
         rotation={props.rotation}
         bevelEnabled
         bevelSize={props.bevelSize}
@@ -27,7 +26,7 @@ export const Text3dTemplate = forwardRef(
         height={props.height}
         letterSpacing={props.letterSpacing}
         size={props.size}
-        font="/font/NanumGothic_Regular.json">
+        font="/font/NanumGothic_subset.json">
         <meshStandardMaterial
           color={'#fafafa'}
           roughness={0}
