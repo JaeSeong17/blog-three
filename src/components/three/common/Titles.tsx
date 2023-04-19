@@ -59,7 +59,7 @@ const Titles = () => {
   // Titles 전체 애니메이션 컨트롤
   useEffect(() => {
     if (entireRef.current) {
-      if (target === 'start') {
+      if (target === 'intro') {
         titlesOnAnim(entireRef.current).play();
         if (idle.title) {
           idle.title.play();

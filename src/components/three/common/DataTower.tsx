@@ -8,7 +8,7 @@ const DataTower = () => {
   const target = useSelector((state: RootState) => state.camController.target);
   const ref = useRef<Array<Mesh | null>>([]);
   const [idle, setIdle] = useState<gsap.core.Timeline>();
-  const onTarget = ['start', 'login', 'register'];
+  const onTarget = ['intro', 'login', 'register'];
 
   // 애니메이션 함수 변수에 할당
   useEffect(() => {

@@ -7,7 +7,7 @@ const camController = createSlice({
   name: 'camController',
   initialState: {
     camAngle: { x: 0, y: 0, z: 2 },
-    camPos: { x: 0, y: -30, z: 3 },
+    camPos: { x: 0, y: -35, z: 3 },
     target: 'start',
     history: 'board',
   } as CamControllerState,

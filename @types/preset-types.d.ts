@@ -2,6 +2,7 @@ declare module 'preset-types' {
   export type AuthFormType = 'register' | 'login';
   export type TargetSet =
     | 'start'
+    | 'intro'
     | 'login'
     | 'register'
     | 'loading'

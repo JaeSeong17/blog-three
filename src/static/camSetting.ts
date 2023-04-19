@@ -8,6 +8,10 @@ interface CamSetting {
 const camSetting: CamSetting = {
   start: {
     angle: { x: 0, y: 0, z: 2 },
+    pos: { x: 0, y: -35, z: 3 },
+  },
+  intro: {
+    angle: { x: 0, y: 0, z: 2 },
     pos: { x: 0, y: -30, z: 3 },
   },
   login: {
