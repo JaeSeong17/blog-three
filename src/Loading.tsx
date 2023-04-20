@@ -7,7 +7,7 @@ import { useDispatch } from 'react-redux';
 const BackGround = styled.div`
   width: 100vw;
   height: 100vh;
-  position: relative;
+  position: absolute;
 
   * {
     position: absolute;
