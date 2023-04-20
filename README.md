@@ -219,6 +219,21 @@ Canvas 내부 컴포넌트 배치도
 - :heavy_exclamation_mark: : 버그
 - :heavy_check_mark: : 수정된 버그
 
+#### 2023.04.19
+
+- :wrench: 초기 로딩 페이지 개선
+
+  - MainCanvas의 onCreated속성을 받아 로딩 완료 시점 확인
+  - Suspense fallback 속성으로 지정한 Loading 페이지를 별도 컴포넌트로 분리, 로딩 완료 시점에 '로딩 종료 애니메이션' 재생 후 fade-out 하도록 변경
+  - 로딩 페이지의 fade-out이 완료되고 Loading이 null로 전환되면 MainCanvas가 fade-in 되도록 구현
+  - target에 intro 상태를 추가
+
+- :wrench: 구글 로그인 기능 추가
+
+#### 2023.04.18
+
+- :wrench: 페이지네이션에서 마지막 페이지가 표시되도록 수정
+
 #### 2023.04.13
 
 - :wrench: DataTower 애니메이션 최적화
