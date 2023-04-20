@@ -1,12 +1,12 @@
 import AuthTemplate from './AuthTemplate';
 import { useState, useEffect, ChangeEvent } from 'react';
-import { RegisterReducerCarrier } from 'auth-type';
+import { FormReducerCarrier } from 'reducer-carrier-types';
 
 const RegisterForm = ({
   authReducerCarrier,
   userReducerCarrier,
   setTargetToKey,
-}: RegisterReducerCarrier) => {
+}: FormReducerCarrier) => {
   const { register: form, auth, authError } = authReducerCarrier.authState;
   const { user } = userReducerCarrier.userState;
   const [error, setError] = useState<string | null>(null);
@@ -96,6 +96,7 @@ const RegisterForm = ({
       onChange={onChange}
       onSubmit={onSubmit}
       error={error}
+      google={null}
     />
   );
 };

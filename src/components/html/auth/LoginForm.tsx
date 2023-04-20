@@ -1,12 +1,15 @@
 import AuthTemplate from './AuthTemplate';
 import { useState, ChangeEvent, useEffect } from 'react';
-import { LoginReducerCarrier } from 'auth-type';
+import { FormReducerCarrier } from 'reducer-carrier-types';
+
+// index.html에서 이미 선언된 전역 변수임을 알림
+declare let google: any;
 
 const LoginForm = ({
   authReducerCarrier,
   userReducerCarrier,
   setTargetToKey,
-}: LoginReducerCarrier) => {
+}: FormReducerCarrier) => {
   const { login: form, auth, authError } = authReducerCarrier.authState;
   const { user } = userReducerCarrier.userState;
   const [error, setError] = useState<string | null>(null);
@@ -25,6 +28,11 @@ const LoginForm = ({
   const onSubmit = (e: ChangeEvent<HTMLFormElement>) => {
     e.preventDefault();
     const { username, password } = form;
+    //폼에 빈칸이 존재
+    if ([username, password].includes('')) {
+      setError('빈칸을 모두 입력하세요');
+      return;
+    }
     authReducerCarrier.authLogin({ username, password });
   };
 
@@ -33,7 +41,7 @@ const LoginForm = ({
     authReducerCarrier.authInitializeForm('login');
   }, []);
 
-  // 로그인 시도 후 결과에 따라
+  // 서버로부터 계정 정보 존재 확인 결과
   useEffect(() => {
     if (authError) {
       console.log('오류 발생');
@@ -47,6 +55,7 @@ const LoginForm = ({
     }
   }, [auth, authError]);
 
+  // 유효한 토큰인지 확인한 결과
   useEffect(() => {
     if (user) {
       console.log('계정 토큰 확인 성공');
@@ -59,6 +68,27 @@ const LoginForm = ({
     }
   }, [user]);
 
+  // 구글 로그인
+  // 구글 로그인 api로부터 받은 google token을 서버로 전송
+  const handleCallbackResponse = (response: any) => {
+    authReducerCarrier.authGoogleLogin({ googleToken: response.credential });
+  };
+
+  // 구글 로그인 연동 및 버튼 렌더링
+  useEffect(() => {
+    google.accounts.id.initialize({
+      client_id:
+        '63668534717-5aap4tie83jmm18rgsrep2116m84mkm6.apps.googleusercontent.com',
+      callback: handleCallbackResponse,
+    });
+
+    google.accounts.id.renderButton(document.getElementById('signInDiv'), {
+      theme: 'filled_black',
+      size: 'large',
+      width: '340',
+    });
+  }, []);
+
   return (
     <AuthTemplate
       type="login"
@@ -66,6 +96,7 @@ const LoginForm = ({
       onChange={onChange}
       onSubmit={onSubmit}
       error={error}
+      google={<div id="signInDiv" />}
     />
   );
 };

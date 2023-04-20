@@ -8,11 +8,17 @@ import { RootState } from 'root-state-types';
 import { authBoxOnAnim, authBoxOffAnim } from '../anim/AuthBoxAnim';
 import { Group } from 'three';
 import AuthHtml from 'src/components/html/root/AuthHtml';
-import { changeField, initializeForm, login, register } from 'src/modules/auth';
+import {
+  changeField,
+  googleLogin,
+  initializeForm,
+  login,
+  register,
+} from 'src/modules/auth';
 import { AuthInputParams } from 'root-state-types';
 import { AuthFormType } from 'preset-types';
 import { check, initializeUser } from 'src/modules/user';
-import { LoginParams } from 'auth-type';
+import { GoogleLoginParams, LoginParams } from 'auth-type';
 
 const AuthBox = () => {
   const dispatch = useDispatch();
@@ -28,6 +34,8 @@ const AuthBox = () => {
   const authReducerCarrier = {
     authState: useSelector(({ auth }: RootState) => auth),
     authLogin: (params: LoginParams) => dispatch(login(params)),
+    authGoogleLogin: (params: GoogleLoginParams) =>
+      dispatch(googleLogin(params)),
     authRegister: (params: LoginParams) => dispatch(register(params)),
     authChangeField: (params: AuthInputParams) => dispatch(changeField(params)),
     authInitializeForm: (params: AuthFormType) =>

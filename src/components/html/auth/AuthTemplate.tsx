@@ -5,8 +5,8 @@ import styled from 'styled-components';
 const AuthFormBlock = styled.div`
   background-color: white;
   width: 340px;
-  height: 260px;
-  padding: 1rem;
+  height: 284px;
+  padding: 0.4rem 1rem 0.4rem 1rem;
 `;
 const StyledInput = styled.input`
   font-size: 1rem;
@@ -34,6 +34,9 @@ const Button = styled.button`
   border: none;
   background: gray;
   cursor: pointer;
+  &:active {
+    background: black;
+  }
 `;
 const ErrorMessage = styled.div`
   color: red;
@@ -48,6 +51,7 @@ interface AuthTemplateParams {
   onChange: ChangeEventHandler;
   onSubmit: FormEventHandler;
   error: string | null;
+  google: JSX.Element | null;
 }
 
 const textMap: { [index: string]: string } = {
@@ -61,6 +65,7 @@ const AuthTemplate = ({
   onChange,
   onSubmit,
   error,
+  google,
 }: AuthTemplateParams) => {
   const text = textMap[type];
   return (
@@ -94,6 +99,7 @@ const AuthTemplate = ({
         )}
         {error && <ErrorMessage>{error}</ErrorMessage>}
         <Button>{text}</Button>
+        {google}
       </form>
     </AuthFormBlock>
   );

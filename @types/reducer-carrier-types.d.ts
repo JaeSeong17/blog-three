@@ -8,7 +8,7 @@ declare module 'reducer-carrier-types' {
   import { AuthInputParams } from 'root-state-types';
   import { AuthFormType } from 'preset-types';
   import { UserState } from 'root-state-types';
-  import { LoginParams, User } from 'auth-type';
+  import { GoogleLoginParams, LoginParams, User } from 'auth-type';
   import { LoadingState } from 'loading-state-types';
   import {
     WriteState,
@@ -25,6 +25,7 @@ declare module 'reducer-carrier-types' {
   export interface AuthReducerCarrier {
     authState: AuthState;
     authLogin: (params: LoginParams) => void;
+    authGoogleLogin: (params: GoogleLoginParams) => void;
     authRegister: (params: LoginParams) => void;
     authChangeField: (params: AuthInputParams) => void;
     authInitializeForm: (params: AuthFormType) => void;
@@ -43,10 +44,8 @@ declare module 'reducer-carrier-types' {
     userReducerCarrier: UserReducerCarrier;
   }
 
-  export interface FormReducerCarrier<T extends AuthFormType> {
-    authReducerCarrier: T extends 'login'
-      ? Omit<AuthReducerCarrier, 'authRegister'>
-      : Omit<AuthReducerCarrier, 'authLogin'>;
+  export interface FormReducerCarrier {
+    authReducerCarrier: AuthReducerCarrier;
     userReducerCarrier: UserReducerCarrier;
     setTargetToKey: () => void;
   }

@@ -1,5 +1,5 @@
 import client from './client';
-import { LoginParams } from 'auth-type';
+import { GoogleLoginParams, LoginParams } from 'auth-type';
 
 // 로그인
 export const login = ({ username, password }: LoginParams) =>
@@ -14,3 +14,7 @@ export const check = () => client.get('/api/auth/check');
 
 // 로그아웃
 export const logout = () => client.post('/api/auth/logout');
+
+// 구글 로그인
+export const googleLogin = ({ googleToken }: GoogleLoginParams) =>
+  client.post('/api/auth/google/login', { googleToken });

@@ -3,7 +3,7 @@ import createRequestSaga from '../lib/createRequestSaga';
 import * as authAPI from '../lib/api/auth';
 import { takeLatest } from 'redux-saga/effects';
 import { AxiosError } from 'axios';
-import { LoginParams, User } from 'auth-type';
+import { GoogleLoginParams, LoginParams, User } from 'auth-type';
 import { AuthState, AuthInputParams } from 'root-state-types';
 
 export const login = createAction(
@@ -20,12 +20,24 @@ export const register = createAction(
   }),
 );
 
+export const googleLogin = createAction(
+  'auth/googleLogin',
+  ({ googleToken }: GoogleLoginParams) => ({
+    payload: { googleToken },
+  }),
+);
+
 // 사가 생성
 const loginSaga = createRequestSaga('auth/login', authAPI.login);
 const registerSaga = createRequestSaga('auth/register', authAPI.register);
+const googleLoginSaga = createRequestSaga(
+  'auth/googleLogin',
+  authAPI.googleLogin,
+);
 export function* authSaga() {
   yield takeLatest('auth/login', loginSaga);
   yield takeLatest('auth/register', registerSaga);
+  yield takeLatest('auth/googleLogin', googleLoginSaga);
 }
 
 const initialState: AuthState = {
@@ -81,6 +93,20 @@ const auth = createSlice({
       state.authError = null;
     },
     registerFailure: (state, { payload: error }: PayloadAction<AxiosError>) => {
+      state.authError = error;
+    },
+    googleLoginSuccess: (
+      state,
+      { payload: auth }: PayloadAction<{ data: User }>,
+    ) => {
+      state.auth = auth.data;
+      state.authError = null;
+    },
+    googleLoginFailure: (
+      state,
+      { payload: error }: PayloadAction<AxiosError>,
+    ) => {
+      console.log(error, typeof error);
       state.authError = error;
     },
   },

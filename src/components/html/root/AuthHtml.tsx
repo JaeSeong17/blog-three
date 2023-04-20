@@ -1,6 +1,6 @@
 import LoginForm from '../auth/LoginForm';
 import RegisterForm from '../auth/RegisterForm';
-import { AuthBoxReducerCarrier } from 'auth-type';
+import { AuthBoxReducerCarrier } from 'reducer-carrier-types';
 
 const AuthHtml = ({
   target,
