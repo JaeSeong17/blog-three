@@ -77,8 +77,7 @@ const LoginForm = ({
   // 구글 로그인 연동 및 버튼 렌더링
   useEffect(() => {
     google.accounts.id.initialize({
-      client_id:
-        '63668534717-5aap4tie83jmm18rgsrep2116m84mkm6.apps.googleusercontent.com',
+      client_id: process.env.REACT_APP_GOOGLE_CLIENT_ID,
       callback: handleCallbackResponse,
     });
 
