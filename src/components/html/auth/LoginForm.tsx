@@ -1,6 +1,7 @@
 import AuthTemplate from './AuthTemplate';
 import { useState, ChangeEvent, useEffect } from 'react';
 import { FormReducerCarrier } from 'reducer-carrier-types';
+import inputValidation from './inputValidation';
 
 // index.html에서 이미 선언된 전역 변수임을 알림
 declare let google: any;
@@ -8,11 +9,19 @@ declare let google: any;
 const LoginForm = ({
   authReducerCarrier,
   userReducerCarrier,
-  setTargetToKey,
-}: FormReducerCarrier) => {
-  const { login: form, auth, authError } = authReducerCarrier.authState;
+  loadingReducerCarrier,
+  enterHandler,
+}: Omit<FormReducerCarrier, 'setType'>) => {
+  const {
+    login: form,
+    loginRequested,
+    auth,
+    authError,
+  } = authReducerCarrier.authState;
   const { user } = userReducerCarrier.userState;
-  const [error, setError] = useState<string | null>(null);
+  const { 'auth/login': loadingLogin, 'auth/googleLogin': loadingGoogleLogin } =
+    loadingReducerCarrier.loadingState;
+  const [error, setError] = useState<string>('');
 
   // 인풋 변경 이벤트 핸들러
   const onChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -27,13 +36,15 @@ const LoginForm = ({
   // 폼 등록 이벤트 핸들러
   const onSubmit = (e: ChangeEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const { username, password } = form;
-    //폼에 빈칸이 존재
-    if ([username, password].includes('')) {
-      setError('빈칸을 모두 입력하세요');
+    const { email, password } = form;
+
+    const result = inputValidation({ email, password });
+    if (!result.validation) {
+      setError(result.message);
       return;
     }
-    authReducerCarrier.authLogin({ username, password });
+
+    authReducerCarrier.authLogin({ email, password });
   };
 
   // 컴포넌트 처음 렌더링 시 form 초기화
@@ -44,13 +55,16 @@ const LoginForm = ({
   // 서버로부터 계정 정보 존재 확인 결과
   useEffect(() => {
     if (authError) {
-      console.log('오류 발생');
-      console.log(authError);
-      setError('로그인 실패');
+      if (authError.response) {
+        setError((authError.response.data as { message: string }).message);
+      } else {
+        setError('로그인 실패');
+      }
       return;
     }
-    if (auth) {
-      console.log('로그인 성공');
+    setError('');
+    if (loginRequested && auth) {
+      // console.log('로그인 성공');
       userReducerCarrier.userCheck();
     }
   }, [auth, authError]);
@@ -58,8 +72,8 @@ const LoginForm = ({
   // 유효한 토큰인지 확인한 결과
   useEffect(() => {
     if (user) {
-      console.log('계정 토큰 확인 성공');
-      setTargetToKey();
+      // console.log('계정 토큰 확인 성공');
+      enterHandler(); // 내부로 진입
       try {
         localStorage.setItem('user', JSON.stringify(user));
       } catch (e) {
@@ -94,6 +108,7 @@ const LoginForm = ({
       form={form}
       onChange={onChange}
       onSubmit={onSubmit}
+      loading={loadingLogin || loadingGoogleLogin}
       error={error}
       google={<div id="signInDiv" />}
     />

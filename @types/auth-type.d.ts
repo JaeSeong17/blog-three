@@ -1,8 +1,18 @@
 declare module 'auth-type' {
   export interface LoginParams {
-    username: string;
+    email: string;
     password: string;
   }
+
+  export interface RegisterParams extends LoginParams {
+    username: string;
+  }
+
+  export interface VerifyParams {
+    email: string;
+    code: string;
+  }
+
   export interface GoogleLoginParams {
     googleToken: string;
   }
@@ -10,5 +20,6 @@ declare module 'auth-type' {
   export interface User {
     _id: string;
     username: string;
+    email: string;
   }
 }

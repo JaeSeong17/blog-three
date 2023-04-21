@@ -1,6 +1,6 @@
 declare module 'root-state-types' {
   import { WriteState, PostState, Post } from 'screen-state-types';
-  import { HistorySet, ModeSet, TargetSet } from 'preset-types';
+  import { AuthFormType, HistorySet, ModeSet, TargetSet } from 'preset-types';
   import { AxiosHeaders } from 'axios';
   import { LoadingState } from 'loading-state-types';
   import { User } from 'auth-type';
@@ -59,23 +59,40 @@ declare module 'root-state-types' {
   }
 
   export interface AuthState {
-    [index: string]: FormState | User | AxiosError | null;
-    register: FormState;
-    login: FormState;
+    [index: string]:
+      | LoginFormState
+      | VerifyFormState
+      | User
+      | AxiosError
+      | boolean
+      | null;
+    register: RegisterFormState;
+    login: LoginFormState;
+    verify: VerifyFormState;
+    loginRequested: boolean;
+    verification: boolean;
     auth: User | null;
     authError: AxiosError | null;
   }
 
-  export interface FormState {
+  export interface LoginFormState {
     [index: string]: string | undefined;
-    username: string;
+    email: string;
     password: string;
-    passwordConfirm?: string;
+  }
+
+  export interface RegisterFormState extends LoginFormState {
+    username: string;
+    passwordConfirm: string;
+  }
+
+  export interface VerifyFormState {
+    code: string;
   }
 
   export interface AuthInputParams {
-    form: 'register' | 'login';
-    key: 'username' | 'password' | 'passwordConfirm';
+    form: AuthFormType;
+    key: 'email' | 'username' | 'password' | 'passwordConfirm' | 'code';
     value: string;
   }
 

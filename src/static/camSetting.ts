@@ -14,15 +14,11 @@ const camSetting: CamSetting = {
     angle: { x: 0, y: 0, z: 2 },
     pos: { x: 0, y: -30, z: 3 },
   },
-  login: {
+  auth: {
     angle: { x: 0, y: 0, z: 2 },
     pos: { x: 0, y: -30, z: 3 },
   },
-  register: {
-    angle: { x: 0, y: 0, z: 2 },
-    pos: { x: 0, y: -30, z: 3 },
-  },
-  loading: {
+  entering: {
     angle: { x: 0, y: 0, z: 2 },
     pos: { x: 0, y: -30, z: 3 },
   },

@@ -6,7 +6,7 @@ const GuestButton = () => {
   const dispatch = useDispatch();
   return (
     <group
-      position={[0.5, 0, -1.83]}
+      position={[0.5, -0.05, -2.25]}
       rotation={[-Math.PI / 20, 0, -Math.PI / 20]}
       onClick={e => {
         e.stopPropagation();

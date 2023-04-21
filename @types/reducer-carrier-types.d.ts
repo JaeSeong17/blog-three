@@ -8,7 +8,13 @@ declare module 'reducer-carrier-types' {
   import { AuthInputParams } from 'root-state-types';
   import { AuthFormType } from 'preset-types';
   import { UserState } from 'root-state-types';
-  import { GoogleLoginParams, LoginParams, User } from 'auth-type';
+  import {
+    GoogleLoginParams,
+    LoginParams,
+    RegisterParams,
+    User,
+    VerifyParams,
+  } from 'auth-type';
   import { LoadingState } from 'loading-state-types';
   import {
     WriteState,
@@ -26,9 +32,11 @@ declare module 'reducer-carrier-types' {
     authState: AuthState;
     authLogin: (params: LoginParams) => void;
     authGoogleLogin: (params: GoogleLoginParams) => void;
-    authRegister: (params: LoginParams) => void;
+    authRegister: (params: RegisterParams) => void;
+    authVerify: (params: VerifyParams) => void;
     authChangeField: (params: AuthInputParams) => void;
-    authInitializeForm: (params: AuthFormType) => void;
+    authInitializeForm: (param: AuthFormType) => void;
+    authInitializeAuth: () => void;
   }
 
   export interface UserReducerCarrier {
@@ -38,16 +46,18 @@ declare module 'reducer-carrier-types' {
   }
 
   export interface AuthBoxReducerCarrier {
-    target: TargetSet;
-    setTargetToKey: () => void;
+    enterHandler: () => void;
     authReducerCarrier: AuthReducerCarrier;
     userReducerCarrier: UserReducerCarrier;
+    loadingReducerCarrier: LoadingReducerCarrier;
   }
 
   export interface FormReducerCarrier {
     authReducerCarrier: AuthReducerCarrier;
     userReducerCarrier: UserReducerCarrier;
-    setTargetToKey: () => void;
+    loadingReducerCarrier: LoadingReducerCarrier;
+    enterHandler: () => void;
+    setType: React.Dispatch<React.SetStateAction<AuthFormType>>;
   }
 
   // Screen 내부로 리듀서 전달을 위한 캐리어 타입

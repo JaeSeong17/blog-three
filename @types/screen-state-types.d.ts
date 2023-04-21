@@ -75,10 +75,7 @@ declare module 'screen-state-types' {
     publishedDate: string;
     tags: Array<string>;
     title: string;
-    user: {
-      _id: string; // 계정 고유 넘버링
-      username: string;
-    };
+    user: User;
     __v: number;
     _id: string; // 글 고유 넘버링
   }

@@ -1,52 +1,46 @@
 import AuthTemplate from './AuthTemplate';
 import { useState, useEffect, ChangeEvent } from 'react';
 import { FormReducerCarrier } from 'reducer-carrier-types';
+import inputValidation from './inputValidation';
 
 const RegisterForm = ({
   authReducerCarrier,
-  userReducerCarrier,
-  setTargetToKey,
-}: FormReducerCarrier) => {
+  loadingReducerCarrier,
+  setType,
+}: Omit<FormReducerCarrier, 'userReducerCarrier' | 'enterHandler'>) => {
   const { register: form, auth, authError } = authReducerCarrier.authState;
-  const { user } = userReducerCarrier.userState;
-  const [error, setError] = useState<string | null>(null);
+  const loading = loadingReducerCarrier.loadingState['auth/register'];
+  const [error, setError] = useState<string>('');
 
   // 인풋 변경 이벤트 핸들러
   const onChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { value, name } = e.target;
     authReducerCarrier.authChangeField({
       form: 'register',
-      key: name as 'username' | 'password' | 'passwordConfirm',
+      key: name as 'username' | 'email' | 'password' | 'passwordConfirm',
       value,
     });
   };
 
-  // 폼 등록 이벤트 핸들러
+  // 폼 등록 이벤트 핸들러 (입력값 확인)
   const onSubmit = (e: ChangeEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const { username, password, passwordConfirm } = form;
-    //폼에 빈칸이 존재
-    if ([username, password, passwordConfirm].includes('')) {
-      setError('빈칸을 모두 입력하세요');
+    const { username, email, password, passwordConfirm } = form;
+
+    // 입력값 유효성 검증
+    const result = inputValidation({
+      username,
+      email,
+      password,
+      passwordConfirm,
+    });
+
+    if (!result.validation) {
+      setError(result.message);
       return;
     }
-    // 비밀번호 확인 불일치
-    if (password !== passwordConfirm) {
-      setError('비밀번호가 일치하지 않습니다.');
-      authReducerCarrier.authChangeField({
-        form: 'register',
-        key: 'password',
-        value: '',
-      });
-      authReducerCarrier.authChangeField({
-        form: 'register',
-        key: 'passwordConfirm',
-        value: '',
-      });
-      return;
-    }
-    authReducerCarrier.authRegister({ username, password });
-    // 구현 예정
+
+    authReducerCarrier.authRegister({ username, email, password });
   };
 
   // 컴포넌트 처음 렌더링 시 form 초기화
@@ -54,40 +48,24 @@ const RegisterForm = ({
     authReducerCarrier.authInitializeForm('register');
   }, []);
 
+  // 회원가입 요청에 따른 결과
   useEffect(() => {
     if (authError) {
       // 이미 존재하는 계정명
-      if (
-        authError.response !== undefined &&
-        authError.response.status === 409
-      ) {
-        setError('이미 존재하는 계정명입니다.');
+      if (authError.response) {
+        setError((authError.response.data as { message: string }).message);
         return;
       }
       // 기타 이유
-      setError('회원가입 실패');
+      setError('회원가입 요청 실패');
       return;
     }
+    setError('');
     if (auth) {
-      console.log('회원가입 성공');
-      console.log(auth);
-      userReducerCarrier.userCheck();
+      // console.log('회원가입 요청 성공');
+      setType('verify');
     }
   }, [auth, authError]);
-
-  //user 값이 잘 설정되었는지 확인
-  useEffect(() => {
-    console.log('로그인 상태 확인');
-    if (user) {
-      console.log('로그인 상태 확인 성공');
-      setTargetToKey();
-      try {
-        localStorage.setItem('user', JSON.stringify(user));
-      } catch (e) {
-        console.log('localStroage is not workding');
-      }
-    }
-  }, [user]);
 
   return (
     <AuthTemplate
@@ -95,6 +73,7 @@ const RegisterForm = ({
       form={form}
       onChange={onChange}
       onSubmit={onSubmit}
+      loading={loading}
       error={error}
       google={null}
     />

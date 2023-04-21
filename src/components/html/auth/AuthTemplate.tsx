@@ -1,13 +1,14 @@
-import { FormState } from 'root-state-types';
+import {
+  LoginFormState,
+  RegisterFormState,
+  VerifyFormState,
+} from 'root-state-types';
 import { ChangeEventHandler, FormEventHandler } from 'react';
 import styled from 'styled-components';
+import { AuthFormType } from 'preset-types';
+import LargeButton from '../common/LargeButton';
 
-const AuthFormBlock = styled.div`
-  background-color: white;
-  width: 340px;
-  height: 284px;
-  padding: 0.4rem 1rem 0.4rem 1rem;
-`;
+const AuthFormBlock = styled.div``;
 const StyledInput = styled.input`
   font-size: 1rem;
   border: none;
@@ -23,19 +24,14 @@ const StyledInput = styled.input`
     margin-top: 1rem;
   }
 `;
-const Button = styled.button`
-  margin: 1rem 0 1rem 0;
-  padding: 0.4rem 0 0.4rem 0;
+
+const Header = styled.div`
   width: 100%;
-  font-size: 1.125rem;
-  font-weight: bold;
-  color: white;
-  border-radius: 4px;
-  border: none;
-  background: gray;
-  cursor: pointer;
-  &:active {
-    background: black;
+  display: flex;
+  justify-content: space-between;
+
+  .loading-spinner {
+    opacity: 0;
   }
 `;
 const ErrorMessage = styled.div`
@@ -46,10 +42,11 @@ const ErrorMessage = styled.div`
 `;
 
 interface AuthTemplateParams {
-  type: 'login' | 'register';
-  form: FormState;
+  type: AuthFormType;
+  form: LoginFormState | RegisterFormState | VerifyFormState;
   onChange: ChangeEventHandler;
   onSubmit: FormEventHandler;
+  loading: boolean | null;
   error: string | null;
   google: JSX.Element | null;
 }
@@ -57,6 +54,8 @@ interface AuthTemplateParams {
 const textMap: { [index: string]: string } = {
   login: '로그인',
   register: '회원가입',
+  verify: '메일인증',
+  success: '가입성공',
 };
 
 const AuthTemplate = ({
@@ -64,29 +63,51 @@ const AuthTemplate = ({
   form,
   onChange,
   onSubmit,
+  loading,
   error,
   google,
 }: AuthTemplateParams) => {
   const text = textMap[type];
   return (
     <AuthFormBlock>
-      <h3>{text}</h3>
+      <Header>
+        <h3>{text}</h3>
+        <img
+          className="loading-spinner"
+          src={process.env.PUBLIC_URL + '/loading.gif'}
+          style={{ opacity: loading ? 1 : 0 }}
+        />
+      </Header>
       <form onSubmit={onSubmit}>
-        <StyledInput
-          autoComplete="username"
-          name="username"
-          placeholder="아이디"
-          onChange={onChange}
-          value={form.username}
-        />
-        <StyledInput
-          autoComplete="new-password"
-          name="password"
-          placeholder="비밀번호"
-          type="password"
-          onChange={onChange}
-          value={form.password}
-        />
+        {(type === 'login' || type === 'register') && (
+          <StyledInput
+            autoComplete="email"
+            name="email"
+            placeholder="이메일"
+            type="email"
+            onChange={onChange}
+            value={(form as LoginFormState | RegisterFormState).email}
+          />
+        )}
+        {type === 'register' && (
+          <StyledInput
+            autoComplete="username"
+            name="username"
+            placeholder="닉네임(활동명 3~20자)"
+            onChange={onChange}
+            value={(form as RegisterFormState).username}
+          />
+        )}
+        {(type === 'login' || type === 'register') && (
+          <StyledInput
+            autoComplete="new-password"
+            name="password"
+            placeholder="비밀번호"
+            type="password"
+            onChange={onChange}
+            value={(form as LoginFormState | RegisterFormState).password}
+          />
+        )}
         {type === 'register' && (
           <StyledInput
             autoComplete="new-password"
@@ -94,11 +115,21 @@ const AuthTemplate = ({
             placeholder="비밀번호 확인"
             type="password"
             onChange={onChange}
-            value={form.passwordConfirm}
+            value={(form as RegisterFormState).passwordConfirm}
           />
         )}
+
+        {type === 'verify' && (
+          <StyledInput
+            name="code"
+            placeholder="메일로 발송된 인증번호를 입력해주세요"
+            onChange={onChange}
+            value={(form as VerifyFormState).code}
+          />
+        )}
+
         {error && <ErrorMessage>{error}</ErrorMessage>}
-        <Button>{text}</Button>
+        <LargeButton>{text}</LargeButton>
         {google}
       </form>
     </AuthFormBlock>
