@@ -111,19 +111,6 @@ const auth = createSlice({
       }
       state.authError = null;
     },
-    authRequestSuccess: (
-      state,
-      { payload: auth }: PayloadAction<{ data: User }>,
-    ) => {
-      state.auth = auth.data;
-      state.authError = null;
-    },
-    authRequestFailure: (
-      state,
-      { payload: error }: PayloadAction<AxiosError>,
-    ) => {
-      state.authError = error;
-    },
     loginSuccess: (state, { payload: auth }: PayloadAction<{ data: User }>) => {
       state.loginRequested = true;
       state.auth = auth.data;
@@ -131,6 +118,16 @@ const auth = createSlice({
     },
     loginFailure: (state, { payload: error }: PayloadAction<AxiosError>) => {
       state.loginRequested = false;
+      state.authError = error;
+    },
+    registerSuccess: (
+      state,
+      { payload: auth }: PayloadAction<{ data: User }>,
+    ) => {
+      state.auth = auth.data;
+      state.authError = null;
+    },
+    registerFailure: (state, { payload: error }: PayloadAction<AxiosError>) => {
       state.authError = error;
     },
     verifySuccess: (
@@ -153,8 +150,10 @@ export const {
   changeField,
   initializeForm,
   initializeAuth,
-  authRequestSuccess,
-  authRequestFailure,
+  loginSuccess,
+  loginFailure,
+  registerSuccess,
+  registerFailure,
   verifySuccess,
   verifyFailure,
 } = auth.actions;

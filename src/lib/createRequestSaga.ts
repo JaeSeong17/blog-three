@@ -11,13 +11,10 @@ export default function createRequestSaga(
   type: string,
   request: AxiosCallback,
 ) {
-  const SUCCESS = ['auth/register', 'auth/googleLogin'].includes(type)
-    ? 'auth/authRequestSuccess'
-    : `${type}Success`;
-
-  const FAILURE = ['auth/register', 'auth/googleLogin'].includes(type)
-    ? 'auth/authRequestFailure'
-    : `${type}Failure`;
+  const SUCCESS =
+    type === 'auth/googleLogin' ? 'auth/loginSuccess' : `${type}Success`;
+  const FAILURE =
+    type === 'auth/googleLogin' ? 'auth/loginFailure' : `${type}Failure`;
 
   return function* (action: PayloadAction<any>) {
     yield put(startLoading(type)); // 로딩 시작
