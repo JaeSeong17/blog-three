@@ -97,6 +97,7 @@ const auth = createSlice({
       ['register', 'login', 'verify'].forEach(
         type => (state[type] = initialState[type]),
       );
+      state.loginRequested = false;
       state.verification = false;
       state.auth = null;
       state.authError = null;
